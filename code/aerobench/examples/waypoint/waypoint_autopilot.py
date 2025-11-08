@@ -9,7 +9,6 @@ import numpy as np
 
 from aerobench.highlevel.autopilot import Autopilot
 from aerobench.util import StateIndex
-from aerobench.lowlevel.low_level_controller import LowLevelController
 
 class WaypointAutopilot(Autopilot):
     '''waypoint follower autopilot'''
@@ -52,9 +51,7 @@ class WaypointAutopilot(Autopilot):
 
         self.done_time = 0.0
 
-        llc = LowLevelController(gain_str=gain_str)
-
-        Autopilot.__init__(self, 'Waypoint 1', llc=llc)
+        Autopilot.__init__(self, 'Waypoint 1')
 
     def log(self, s):
         'print to terminal if stdout is true'

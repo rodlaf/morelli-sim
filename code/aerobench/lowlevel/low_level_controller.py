@@ -42,16 +42,16 @@ class LowLevelController(Freezable):
         assert gain_str == 'old'
 
         # Longitudinal Gains
-        K_long = LowLevelController.old_k_long
-        K_lat = LowLevelController.old_k_lat
+        K_long = self.old_k_long
+        K_lat = self.old_k_lat
 
         self.K_lqr = np.zeros((3, 8))
         self.K_lqr[:1, :3] = K_long
         self.K_lqr[1:, 3:] = K_lat
 
         # equilibrium points from BuildLqrControllers.py
-        self.xequil = LowLevelController.old_xequil
-        self.uequil = LowLevelController.old_uequil
+        self.xequil = self.old_xequil
+        self.uequil = self.old_uequil
 
         self.ctrlLimits = CtrlLimits()
 

@@ -6,7 +6,6 @@ run_f16_sim python version
 import time
 
 import numpy as np
-from scipy.integrate import RK45
 
 from aerobench.highlevel.controlled_f16 import controlled_f16
 from aerobench.util import get_state_names, Euler, StateIndex, print_state, Freezable
@@ -23,7 +22,7 @@ class F16SimState(Freezable):
                 integrator_str='euler', v2_integrators=False, print_errors=True, keep_intermediate_states=True,
                  custom_stop_func=None):
 
-        self.model_str = model_str = ap.llc.model_str
+        self.model_str = model_str = 'morelli'
         self.v2_integrators = v2_integrators
         initial_state = np.array(initial_state, dtype=float)
 
@@ -34,9 +33,7 @@ class F16SimState(Freezable):
         self.ap = ap
         self.print_errors = print_errors
 
-        llc = ap.llc
-
-        num_vars = len(get_state_names()) + llc.get_num_integrators()
+        num_vars = len(get_state_names()) + 3 # num integrators
 
         if initial_state.size < num_vars:
             # append integral error states to state vector
@@ -67,14 +64,10 @@ class F16SimState(Freezable):
 
         self.der_func = make_der_func(ap, model_str, v2_integrators)
 
-        if integrator_str == 'rk45':
-            raise NotImplementedError("RK45 integrator not yet implemented for F16SimState")
-            integrator_class = RK45
-            self.integrator_kwargs = {}
-        else:
-            assert integrator_str == 'euler'
-            integrator_class = Euler
-            self.integrator_kwargs = {'step': step}
+
+        assert integrator_str == 'euler'
+        integrator_class = Euler
+        self.integrator_kwargs = {'step': step}
 
         self.integrator_class = integrator_class
         self.integrator = None
@@ -226,7 +219,7 @@ class F16SimState(Freezable):
         np.seterr(**oldsettings)
 
 def run_f16_sim(initial_state, tmax, ap, step=1/30, extended_states=False,
-                integrator_str='rk45', v2_integrators=False, print_errors=True,
+                integrator_str='euler', v2_integrators=False, print_errors=True,
                 custom_stop_func=None):
     '''Simulates and analyzes autonomous F-16 maneuvers
 
@@ -285,7 +278,7 @@ def make_der_func(ap, model_str, v2_integrators):
         u_refs = ap.get_checked_u_ref(t, full_state)
 
         num_aircraft = u_refs.size // 4
-        num_vars = len(get_state_names()) + ap.llc.get_num_integrators()
+        num_vars = len(get_state_names()) + 3 # num integrators
         assert full_state.size // num_vars == num_aircraft
 
         xds = []
@@ -310,7 +303,7 @@ def make_der_func(ap, model_str, v2_integrators):
 
             u_ref = u_refs[4*i:4*(i+1)]
 
-            xd = controlled_f16(t, state, u_ref, ap.llc, model_str, v2_integrators)[0]
+            xd = controlled_f16(t, state, u_ref, model_str, v2_integrators)[0]
             xds.append(xd)
 
         rv = np.hstack(xds)
@@ -325,8 +318,7 @@ def get_extended_states(ap, t, full_state, model_str, v2_integrators):
     returns tuples if more than one aircraft
     '''
 
-    llc = ap.llc
-    num_vars = len(get_state_names()) + llc.get_num_integrators()
+    num_vars = len(get_state_names()) + 3 # num integrators
     num_aircraft = full_state.size // num_vars
 
     xd_tup = []
@@ -341,7 +333,7 @@ def get_extended_states(ap, t, full_state, model_str, v2_integrators):
         state = full_state[num_vars*i:num_vars*(i+1)]
         u_ref = u_refs[4*i:4*(i+1)]
 
-        xd, u, Nz, ps, Ny_r = controlled_f16(t, state, u_ref, llc, model_str, v2_integrators)
+        xd, u, Nz, ps, Ny_r = controlled_f16(t, state, u_ref, model_str, v2_integrators)
 
         xd_tup.append(xd)
         u_tup.append(u)

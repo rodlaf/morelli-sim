@@ -11,11 +11,11 @@ from numpy import deg2rad
 
 from aerobench.lowlevel.subf16_model import subf16_model
 from aerobench.lowlevel.low_level_controller import LowLevelController
-from aerobench.util import StateIndex
 
-def controlled_f16(t, x_f16, u_ref, llc, f16_model='morelli', v2_integrators=False):
+def controlled_f16(t, x_f16, u_ref, f16_model='morelli', v2_integrators=False):
     'returns the LQR-controlled F-16 state derivatives and more'
 
+    llc = LowLevelController()
     assert isinstance(x_f16, np.ndarray)
     assert isinstance(llc, LowLevelController)
     assert u_ref.size == 4

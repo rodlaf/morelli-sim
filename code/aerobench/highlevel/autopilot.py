@@ -7,10 +7,8 @@ and a get_u_ref(f16_state) function, which gets the reference inputs at the curr
 '''
 
 import abc
-from math import pi
 
 import numpy as np
-from numpy import deg2rad
 
 from aerobench.lowlevel.low_level_controller import LowLevelController
 from aerobench.util import Freezable
@@ -22,13 +20,9 @@ class Autopilot(Freezable):
 
         assert isinstance(init_mode, str), 'init_mode should be a string'
 
-        if llc is None:
-            # use default
-            llc = LowLevelController()
-
-        self.llc = llc
-        self.xequil = llc.xequil
-        self.uequil = llc.uequil
+        self.llc = LowLevelController()
+        self.xequil = self.llc.xequil
+        self.uequil = self.llc.uequil
         
         self.mode = init_mode # discrete state, this should be overwritten by subclasses
 
