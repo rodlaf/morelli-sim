@@ -89,21 +89,9 @@ def subf16_model(x, u, model, adjust_cy=True):
     dail = ail/20
     drdr = rdr/30
 
-    # component build up
-
-    if model == 'stevens':
-        # stevens & lewis (look up table version)
-        cxt = cx(alpha, el)
-        cyt = cy(beta, ail, rdr)
-        czt = cz(alpha, beta, el)
-
-        clt = cl(alpha, beta) + dlda(alpha, beta) * dail + dldr(alpha, beta) * drdr
-        cmt = cm(alpha, el)
-        cnt = cn(alpha, beta) + dnda(alpha, beta) * dail + dndr(alpha, beta) * drdr
-    else:
-        # morelli model (polynomial version)
-        cxt, cyt, czt, clt, cmt, cnt = Morellif16(alpha*pi/180, beta*pi/180, el*pi/180, ail*pi/180, rdr*pi/180, \
-                                                  p, q, r, cbar, b, vt, xcg, xcgr)
+    # morelli model (polynomial version)
+    cxt, cyt, czt, clt, cmt, cnt = Morellif16(alpha*pi/180, beta*pi/180, el*pi/180, ail*pi/180, rdr*pi/180, \
+                                            p, q, r, cbar, b, vt, xcg, xcgr)
 
     # add damping derivatives
 
