@@ -12,7 +12,7 @@ from numpy import deg2rad
 import matplotlib.pyplot as plt
 
 from aerobench.run_f16_sim import run_f16_sim
-from aerobench.visualize import anim3d, plot
+from aerobench.visualize import anim3d
 from aerobench.examples.waypoint.waypoint_autopilot import WaypointAutopilot
 
 def simulate(filename):
@@ -115,18 +115,6 @@ def main():
         print("Plotting to the screen. To save a video, pass a command-line argument ending with '.mp4' or '.gif'.")
 
     res, init_extra, update_extra, skip_override, waypoints = simulate(filename)
-
-    plot.plot_single(res, 'alt', title='Altitude (ft)')
-    alt_filename = 'waypoint_altitude.png'
-    plt.savefig(alt_filename)
-    print(f"Made {alt_filename}")
-    plt.close()
-
-    plot.plot_overhead(res, waypoints=waypoints)
-    overhead_filename = 'waypoint_overhead.png'
-    plt.savefig(overhead_filename)
-    print(f"Made {overhead_filename}")
-    plt.close()
         
     anim3d.make_anim(res, filename, f16_scale=70, viewsize=5000, viewsize_z=4000, trail_pts=np.inf,
                      elev=27, azim=-107, skip_frames=skip_override,

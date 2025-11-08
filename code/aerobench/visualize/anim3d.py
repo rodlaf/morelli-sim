@@ -20,7 +20,6 @@ import matplotlib
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 
-from aerobench.visualize import plot
 from aerobench.util import StateIndex, get_script_path
 
 def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail_pts=60,
@@ -32,7 +31,14 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
     see examples/anim3d folder for examples on usage
     '''
 
-    plot.init_plot()
+    # initialize plotting style
+    matplotlib.use('TkAgg') # set backend
+
+    parent = get_script_path(__file__)
+    p = os.path.join(parent, 'bak_matplotlib.mlpstyle')
+
+    plt.style.use(['bmh', p])
+
     start = time.time()
 
     if not isinstance(res, list):
