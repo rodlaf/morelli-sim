@@ -1,4 +1,9 @@
-﻿<p align="center"> <img src="anim3d.gif"/> </p>
+﻿
+Objective: C++ Morelli Sim
+
+---
+
+<p align="center"> <img src="anim3d.gif"/> </p>
 
 Note: This is the v2 branch of the code, which is now a python3 project and includes more modularity and general simulation capabilities. For the original benchmark paper version see the v1 branch.
 
@@ -34,5 +39,5 @@ AttributeError: 'list' object has no attribute 'shape'
 
 ### Release Documentation
 Distribution A: Approved for Public Release (88ABW-2020-2188) (changes in this version)
-    
+
 Distribution A: Approved for Public Release (88ABW-2017-6379) (v1)

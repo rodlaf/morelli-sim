@@ -13,7 +13,7 @@ from aerobench.run_f16_sim import run_f16_sim
 
 from aerobench.visualize import plot
 
-from waypoint_autopilot import WaypointAutopilot
+from .waypoint_autopilot import WaypointAutopilot
 
 def main():
     'main function'
