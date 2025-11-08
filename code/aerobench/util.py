@@ -210,10 +210,10 @@ def sign(ele):
 
     return rv
 
-def extract_single_result(res, index, llc):
+def extract_single_result(res, index):
     'extract a res object for a sinlge aircraft from a multi-aircraft simulation'
 
-    num_vars = len(get_state_names()) + llc.get_num_integrators()
+    num_vars = len(get_state_names()) + 3 # num integrators
     num_aircraft = res['states'][0].size // num_vars
 
     if num_aircraft == 1:
@@ -251,49 +251,6 @@ class SafetyLimits(Freezable):
         self.betaMaxDeg = kwargs['betaMaxDeg'] if 'betaMaxDeg' in kwargs and kwargs['betaMaxDeg'] is not None else None
 
         self.freeze_attrs()
-
-class SafetyLimitsVerifier(Freezable):
-    'given some limits (in a SafetyLimits) and optional low-level controller (in a LowLevelController), verify whether the simulation results are safe.'
-
-    def __init__(self, safety_limits, llc=None):
-        self.safety_limits = safety_limits
-        self.llc = llc
-
-    def verify(self, results):
-        # Determine the number of state variables per tick of the simulation.
-        if self.llc is not None:
-            num_state_vars = len(get_state_names()) + \
-                             self.llc.get_num_integrators()
-        else:
-            num_state_vars = len(get_state_names())
-        # Check whether the results are sane.
-        assert (results['states'].size % num_state_vars) == 0, \
-            "Wrong number of state variables."
-
-        # Go through each tick of the simulation and determine whether
-        # the object(s) was (were) in a safe state.
-        for i in range(results['states'].size // num_state_vars):
-            _vt, alpha, beta, _phi, \
-                _theta, _psi, _p, _q, \
-                _r, _pos_n, _pos_e, alt, \
-                _, _, _, _ = results['states'][i]
-            nz = results['Nz_list'][i]
-            ps = results['ps_list'][i]
-
-            if self.safety_limits.altitude is not None:
-                assert self.safety_limits.altitude[0] <= alt <= self.safety_limits.altitude[1], "Altitude ({}) is not within the specified limits ({}, {}).".format(alt, self.safety_limits.altitude[0], self.safety_limits.altitude[1])
-
-            if self.safety_limits.Nz is not None:
-                assert self.safety_limits.Nz[0] <= nz <= self.safety_limits.Nz[1], "Nz ({}) is not within the specified limits ({}, {}).".format(nz, self.safety_limits.Nz[0], self.safety_limits.Nz[1])
-
-            if self.safety_limits.alpha is not None:
-                assert self.safety_limits.alpha[0] <= alpha <= self.safety_limits.alpha[1], "alpha ({}) is not within the specified limits ({}, {}).".format(nz, self.safety_limits.alpha[0], self.safety_limits.alpha[1])
-
-            if self.safety_limits.psMaxAccelDeg is not None:
-                assert ps <= self.safety_limits.psMaxAccelDeg, "Ps is not less than the specified max."
-
-            if self.safety_limits.betaMaxDeg is not None:
-                assert beta <= self.safety_limits.betaMaxDeg, "Beta is not less than the specified max."
 
 def get_script_path(script_filename):
     '''get the path this script

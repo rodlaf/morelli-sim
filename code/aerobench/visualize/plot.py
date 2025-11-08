@@ -94,7 +94,7 @@ def set_axis_limits(ax, num_vars, states, zoom_factor=1.2):
 
     return xs + ys
 
-def plot_overhead(run_sim_result, waypoints=None, llc=None, figsize=(7, 5), plot_frame=0, plane_size_factor=0.05,
+def plot_overhead(run_sim_result, waypoints=None, figsize=(7, 5), plot_frame=0, plane_size_factor=0.05,
                   zoom_factor=1.2, axis_limits=None, aircraft_red_mask=None):
     '''altitude over time plot from run_f16_sum result object
 
@@ -114,12 +114,10 @@ def plot_overhead(run_sim_result, waypoints=None, llc=None, figsize=(7, 5), plot
 
     full_states = res['states']
 
-    if llc is not None:
-        num_vars = len(get_state_names()) + llc.get_num_integrators()
-        num_aircraft = full_states[0, :].size // num_vars
-    else:
-        num_vars = full_states[0, :].size
-        num_aircraft = 1
+
+    num_vars = len(get_state_names()) + 3 # num integrators
+    num_aircraft = full_states[0, :].size // num_vars
+
 
     if axis_limits is not None:
         ax.set_xlim(axis_limits[:2])

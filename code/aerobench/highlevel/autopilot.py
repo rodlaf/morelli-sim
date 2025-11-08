@@ -10,20 +10,15 @@ import abc
 
 import numpy as np
 
-from aerobench.lowlevel.low_level_controller import LowLevelController
 from aerobench.util import Freezable
 
 class Autopilot(Freezable):
     '''A container object for the hybrid automaton logic for a particular autopilot instance'''
 
-    def __init__(self, init_mode, llc=None):
+    def __init__(self, init_mode):
 
         assert isinstance(init_mode, str), 'init_mode should be a string'
 
-        self.llc = LowLevelController()
-        self.xequil = self.llc.xequil
-        self.uequil = self.llc.uequil
-        
         self.mode = init_mode # discrete state, this should be overwritten by subclasses
 
         self.freeze_attrs()
@@ -64,12 +59,6 @@ class Autopilot(Freezable):
         rv = np.array(self.get_u_ref(t, x_f16), dtype=float)
 
         assert rv.size % 4 == 0, "get_u_ref should return Nz, ps, Ny_r, throttle for each aircraft"
-
-        for i in range(rv.size //4):
-            Nz, _ps, _Ny_r, _throttle = rv[4*i:4*(i+1)]
-
-            l, u = self.llc.ctrlLimits.NzMin, self.llc.ctrlLimits.NzMax
-            assert l <= Nz <= u, f"autopilot commanded invalid Nz ({Nz}). Not in range [{l}, {u}]"
 
         return rv
 
