@@ -34,13 +34,12 @@ from aerobench.lowlevel.dampp import dampp
 
 from aerobench.lowlevel.morellif16 import Morellif16
 
-def subf16_model(x, u, model, adjust_cy=True):
+def subf16_model(x, u, adjust_cy=True):
     '''output aircraft state vector derivative for a given input
 
     The reference for the model is Appendix A of Stevens & Lewis
     '''
 
-    assert model in ['stevens', 'morelli']
     assert len(x) == 13
     assert len(u) == 4
 
@@ -86,8 +85,6 @@ def subf16_model(x, u, model, adjust_cy=True):
     xd[12] = pdot(power, cpow)
 
     t = thrust(power, alt, amach)
-    dail = ail/20
-    drdr = rdr/30
 
     # morelli model (polynomial version)
     cxt, cyt, czt, clt, cmt, cnt = Morellif16(alpha*pi/180, beta*pi/180, el*pi/180, ail*pi/180, rdr*pi/180, \

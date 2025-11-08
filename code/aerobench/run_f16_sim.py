@@ -88,8 +88,7 @@ class F16SimState(Freezable):
         self.modes = [self.ap.mode]
 
         if self.extended_states:
-            xd, u, Nz, ps, Ny_r = get_extended_states(self.ap, self.times[-1], self.states[-1],
-                                                      self.model_str, self.v2_integrators)
+            xd, u, Nz, ps, Ny_r = get_extended_states(self.ap, self.times[-1], self.states[-1])
 
             self.xd_list = [xd]
             self.u_list = [u]
@@ -185,8 +184,7 @@ class F16SimState(Freezable):
 
             # re-run dynamics function at current state to get non-state variables
             if self.extended_states:
-                xd, u, Nz, ps, Ny_r = get_extended_states(ap, self.times[-1], self.states[-1],
-                                                          self.model_str, self.v2_integrators)
+                xd, u, Nz, ps, Ny_r = get_extended_states(ap, self.times[-1], self.states[-1])
 
                 self.xd_list.append(xd)
                 self.u_list.append(u)
@@ -303,7 +301,7 @@ def make_der_func(ap, model_str, v2_integrators):
 
             u_ref = u_refs[4*i:4*(i+1)]
 
-            xd = controlled_f16(t, state, u_ref, model_str, v2_integrators)[0]
+            xd = controlled_f16(state, u_ref)[0]
             xds.append(xd)
 
         rv = np.hstack(xds)
@@ -312,7 +310,7 @@ def make_der_func(ap, model_str, v2_integrators):
 
     return der_func
 
-def get_extended_states(ap, t, full_state, model_str, v2_integrators):
+def get_extended_states(ap, t, full_state):
     '''get xd, u, Nz, ps, Ny_r at the current time / state
 
     returns tuples if more than one aircraft
@@ -333,7 +331,7 @@ def get_extended_states(ap, t, full_state, model_str, v2_integrators):
         state = full_state[num_vars*i:num_vars*(i+1)]
         u_ref = u_refs[4*i:4*(i+1)]
 
-        xd, u, Nz, ps, Ny_r = controlled_f16(t, state, u_ref, model_str, v2_integrators)
+        xd, u, Nz, ps, Ny_r = controlled_f16(state, u_ref)
 
         xd_tup.append(xd)
         u_tup.append(u)
