@@ -13,3 +13,4 @@ TAGS
 __pycache__/
 *.pkl
 .venv/
+build/

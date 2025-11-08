@@ -1,0 +1,10 @@
+.git/
+dist/
+codebase.md
+
+*.gif
+*.mat
+*.onnx
+
+LICENSE
+.pylintrc
