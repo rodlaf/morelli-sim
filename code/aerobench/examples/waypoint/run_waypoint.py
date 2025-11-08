@@ -51,7 +51,7 @@ def main():
 
     step = 1/30
     extended_states = True
-    res = run_f16_sim(init, tmax, ap, step=step, extended_states=extended_states, integrator_str='rk45')
+    res = run_f16_sim(init, tmax, ap, step=step, extended_states=extended_states, integrator_str='euler')
 
     print(f"Simulation Completed in {round(res['runtime'], 2)} seconds (extended_states={extended_states})")
 

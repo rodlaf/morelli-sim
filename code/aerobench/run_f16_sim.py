@@ -20,7 +20,7 @@ class F16SimState(Freezable):
     '''
 
     def __init__(self, initial_state, ap, step=1/30, extended_states=False,
-                integrator_str='rk45', v2_integrators=False, print_errors=True, keep_intermediate_states=True,
+                integrator_str='euler', v2_integrators=False, print_errors=True, keep_intermediate_states=True,
                  custom_stop_func=None):
 
         self.model_str = model_str = ap.llc.model_str
@@ -68,6 +68,7 @@ class F16SimState(Freezable):
         self.der_func = make_der_func(ap, model_str, v2_integrators)
 
         if integrator_str == 'rk45':
+            raise NotImplementedError("RK45 integrator not yet implemented for F16SimState")
             integrator_class = RK45
             self.integrator_kwargs = {}
         else:
@@ -184,8 +185,8 @@ class F16SimState(Freezable):
             self.times.append(next_step_time)
 
             if abs(self.integrator.t - next_step_time) < tol:
-                self.states.append(self.integrator.x)
-            else:
+                # self.states.append(self.integrator.x)
+            # else:
                 dense_output = self.integrator.dense_output()
                 self.states.append(dense_output(next_step_time))
 
