@@ -32,30 +32,18 @@ class CtrlLimits(Enum):
     NzMax = 6
     NzMin = -1
 
-
-old_k_long = np.array([[-156.8801506723475, -31.037008068526642, -38.72983346216317]], dtype=float)
-old_k_lat = np.array([[37.84483, -25.40956, -6.82876, -332.88343, -17.15997],
+# Longitudinal Gains
+K_long = np.array([[-156.8801506723475, -31.037008068526642, -38.72983346216317]], dtype=float)
+K_lat = np.array([[37.84483, -25.40956, -6.82876, -332.88343, -17.15997],
                         [-23.91233, 5.69968, -21.63431, 64.49490, -88.36203]], dtype=float)
 
-old_xequil = np.array([502.0, 0.0389, 0.0, 0.0, 0.0389, 0.0, 0.0, 0.0, \
+xequil = np.array([502.0, 0.0389, 0.0, 0.0, 0.0389, 0.0, 0.0, 0.0, \
                     0.0, 0.0, 0.0, 1000.0, 9.0567], dtype=float).transpose()
-old_uequil = np.array([0.1395, -0.7496, 0.0, 0.0], dtype=float).transpose()
-
-
-# Longitudinal Gains
-K_long = old_k_long
-K_lat = old_k_lat
+uequil = np.array([0.1395, -0.7496, 0.0, 0.0], dtype=float).transpose()
 
 K_lqr = np.zeros((3, 8))
 K_lqr[:1, :3] = K_long
 K_lqr[1:, 3:] = K_lat
-
-# equilibrium points from BuildLqrControllers.py
-xequil = old_xequil
-uequil = old_uequil
-
-model_str = 'morelli'
-
 
 def get_u_deg(u_ref, f16_state):
     'get the reference commands for the control surfaces'

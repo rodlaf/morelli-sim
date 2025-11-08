@@ -256,7 +256,7 @@ static inline void Morellif16(double alpha, double beta, double de, double da, d
 //         u[1] = elevator command in degrees
 //         u[2] = aileron command in degrees
 //         u[3] = rudder command in degrees
-static inline void subf16_model(double x[13], double u[4], int adjust_cy, double xd[13],
+static inline void subf16_model(double x[13], double u[4], double xd[13],
                                  double *Nz, double *Ny, double *az_out, double *ay_out) {
     double xcg = 0.35;
     double thtlc = u[0], el = u[1], ail = u[2], rdr = u[3];
@@ -338,11 +338,7 @@ static inline void subf16_model(double x[13], double u[4], int adjust_cy, double
     // outputs
     double xa = 15.0; // sets distance normal accel is in front of the c.g. (xa = 15.0 at pilot)
     az = az - xa * xd[7]; // moves normal accel in front of c.g.
-
-    // peter additions below
-    if (adjust_cy) {
-        ay = ay + xa * xd[8]; // moves side accel in front of c.g.
-    }
+    ay = ay + xa * xd[8]; // moves side accel in front of c.g.
 
     // For extraction of Nz
     *Nz = (-az / g) - 1; // zeroed at 1 g, positive g = pulling up
@@ -351,186 +347,135 @@ static inline void subf16_model(double x[13], double u[4], int adjust_cy, double
     *ay_out = ay;
 }
 
-/* Stanley Bak
-Low-level flight controller */
+// Stanley Bak
+// Python Version of F-16 GCAS
+//
+// Low-level flight controller
+//
+// and
+//
+// ODE derivative code (controlled F16)
+
+static const double THROTTLE_MAX = 1.0;
+static const double THROTTLE_MIN = 0.0;
+static const double ELEVATOR_MAX_DEG = 25.0;
+static const double ELEVATOR_MIN_DEG = -25.0;
+static const double AILERON_MAX_DEG = 21.5;
+static const double AILERON_MIN_DEG = -21.5;
+static const double RUDDER_MAX_DEG = 30.0;
+static const double RUDDER_MIN_DEG = -30.0;
+static const double RAD_PER_DEG = 0.01745329251994329577;
 
 // Control Limits
-typedef struct {
-    double ThrottleMax;
-    double ThrottleMin;
-    double ElevatorMaxDeg;
-    double ElevatorMinDeg;
-    double AileronMaxDeg;
-    double AileronMinDeg;
-    double RudderMaxDeg;
-    double RudderMinDeg;
-    double NzMax;
-    double NzMin;
-} CtrlLimits;
+static const double K_long[3] = {-156.8801506723475, -31.037008068526642, -38.72983346216317};
+static const double K_lat[2][5] = {
+    {37.84483, -25.40956, -6.82876, -332.88343, -17.15997},
+    {-23.91233, 5.69968, -21.63431, 64.49490, -88.36203}
+};
 
-static inline void CtrlLimits_init(CtrlLimits *limits) {
-    limits->ThrottleMax = 1.0;
-    limits->ThrottleMin = 0.0;
-    limits->ElevatorMaxDeg = 25.0;
-    limits->ElevatorMinDeg = -25.0;
-    limits->AileronMaxDeg = 21.5;
-    limits->AileronMinDeg = -21.5;
-    limits->RudderMaxDeg = 30.0;
-    limits->RudderMinDeg = -30.0;
-    limits->NzMax = 6.0;
-    limits->NzMin = -1.0;
-}
+// Longitudinal Gains
+static const double K_lqr[3][8] = {
+    {-156.8801506723475, -31.037008068526642, -38.72983346216317, 0.0, 0.0, 0.0, 0.0, 0.0},
+    {0.0, 0.0, 0.0, 37.84483, -25.40956, -6.82876, -332.88343, -17.15997},
+    {0.0, 0.0, 0.0, -23.91233, 5.69968, -21.63431, 64.49490, -88.36203}
+};
 
-// low level flight controller
-typedef struct {
-    double K_lqr[3][8];
-    double xequil[13];
-    double uequil[4];
-    CtrlLimits ctrlLimits;
-} LowLevelController;
+static const double xequil[13] = {502.0, 0.0389, 0.0, 0.0, 0.0389, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 1000.0, 9.0567};
+static const double uequil[4] = {0.1395, -0.7496, 0.0, 0.0};
 
-static inline void LowLevelController_init(LowLevelController *ctrl) {
-    static const double old_k_long[3] = {-156.8801506723475, -31.037008068526642, -38.72983346216317};
-    static const double old_k_lat[2][5] = {
-        {37.84483, -25.40956, -6.82876, -332.88343, -17.15997},
-        {-23.91233, 5.69968, -21.63431, 64.49490, -88.36203}
-    };
-    static const double old_xequil[13] = {
-        502.0, 0.0389, 0.0, 0.0, 0.0389, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 1000.0, 9.0567
-    };
-    static const double old_uequil[4] = {0.1395, -0.7496, 0.0, 0.0};
-
-    for (int r = 0; r < 3; ++r)
-        for (int c = 0; c < 8; ++c)
-            ctrl->K_lqr[r][c] = 0.0;
-
-    for (int c = 0; c < 3; ++c)
-        ctrl->K_lqr[0][c] = old_k_long[c];
-
-    for (int r = 0; r < 2; ++r)
-        for (int c = 0; c < 5; ++c)
-            ctrl->K_lqr[1 + r][3 + c] = old_k_lat[r][c];
-
-    for (int i = 0; i < 13; ++i)
-        ctrl->xequil[i] = old_xequil[i];
-
-    for (int i = 0; i < 4; ++i)
-        ctrl->uequil[i] = old_uequil[i];
-
-    CtrlLimits_init(&ctrl->ctrlLimits);
+static inline double clamp(double value, double min_val, double max_val) {
+    if (value < min_val) return min_val;
+    if (value > max_val) return max_val;
+    return value;
 }
 
 // get the reference commands for the control surfaces
-static inline void LowLevelController_get_u_deg(const LowLevelController *ctrl,
-                                                const double u_ref[4],
-                                                const double f16_state[16],
-                                                double x_ctrl[8],
-                                                double u_deg[4]) {
+static inline void get_u_deg(const double u_ref[4], const double f16_state[16],
+                             double x_ctrl[8], double u_deg[4]) {
+    // Calculate perturbation from trim state
     double x_delta[16];
-    for (int i = 0; i < 16; ++i)
-        x_delta[i] = f16_state[i];
+    for (int i = 0; i < 16; ++i) x_delta[i] = f16_state[i];
+    for (int i = 0; i < 13; ++i) x_delta[i] -= xequil[i];
 
-    for (int i = 0; i < 13; ++i)
-        x_delta[i] -= ctrl->xequil[i];
+    // ## Implement LQR Feedback Control
+    // Reorder states to match controller:
+    // [alpha, q, int_e_Nz, beta, p, r, int_e_ps, int_e_Ny_r]
+    static const int idx_map[8] = {1, 7, 13, 2, 6, 8, 14, 15};
+    for (int i = 0; i < 8; ++i) x_ctrl[i] = x_delta[idx_map[i]];
 
-    static const int idx[8] = {1, 7, 13, 2, 6, 8, 14, 15};
-    for (int i = 0; i < 8; ++i)
-        x_ctrl[i] = x_delta[idx[i]];
+    // Initialize control vectors
+    for (int i = 0; i < 4; ++i) u_deg[i] = 0.0;
 
-    u_deg[0] = u_ref[3];
+    // Calculate control using LQR gains
     for (int row = 0; row < 3; ++row) {
-        double accum = 0.0;
-        for (int col = 0; col < 8; ++col)
-            accum += ctrl->K_lqr[row][col] * x_ctrl[col];
-        u_deg[1 + row] = -accum;
+        double sum = 0.0;
+        for (int col = 0; col < 8; ++col) sum += K_lqr[row][col] * x_ctrl[col];
+        u_deg[row + 1] = -sum; // Full Control
     }
 
-    for (int i = 0; i < 4; ++i)
-        u_deg[i] += ctrl->uequil[i];
+    // Set throttle as directed from output of getOuterLoopCtrl(...)
+    u_deg[0] = u_ref[3];
 
-    const CtrlLimits *limits = &ctrl->ctrlLimits;
+    // Add in equilibrium control
+    for (int i = 0; i < 4; ++i) u_deg[i] += uequil[i];
 
-    if (u_deg[0] > limits->ThrottleMax) u_deg[0] = limits->ThrottleMax;
-    if (u_deg[0] < limits->ThrottleMin) u_deg[0] = limits->ThrottleMin;
-
-    if (u_deg[1] > limits->ElevatorMaxDeg) u_deg[1] = limits->ElevatorMaxDeg;
-    if (u_deg[1] < limits->ElevatorMinDeg) u_deg[1] = limits->ElevatorMinDeg;
-
-    if (u_deg[2] > limits->AileronMaxDeg) u_deg[2] = limits->AileronMaxDeg;
-    if (u_deg[2] < limits->AileronMinDeg) u_deg[2] = limits->AileronMinDeg;
-
-    if (u_deg[3] > limits->RudderMaxDeg) u_deg[3] = limits->RudderMaxDeg;
-    if (u_deg[3] < limits->RudderMinDeg) u_deg[3] = limits->RudderMinDeg;
-}
-
-// get the number of integrators in the low-level controller
-static inline int LowLevelController_get_num_integrators(const LowLevelController *ctrl) {
-    (void)ctrl;
-    return 3;
+    // ## Limit controls to saturation limits
+    // Limit throttle from 0 to 1
+    u_deg[0] = clamp(u_deg[0], THROTTLE_MIN, THROTTLE_MAX);
+    // Limit elevator from -25 to 25 deg
+    u_deg[1] = clamp(u_deg[1], ELEVATOR_MIN_DEG, ELEVATOR_MAX_DEG);
+    // Limit aileron from -21.5 to 21.5 deg
+    u_deg[2] = clamp(u_deg[2], AILERON_MIN_DEG, AILERON_MAX_DEG);
+    // Limit rudder from -30 to 30 deg
+    u_deg[3] = clamp(u_deg[3], RUDDER_MIN_DEG, RUDDER_MAX_DEG);
 }
 
 // get the derivatives of the integrators in the low-level controller
-static inline void LowLevelController_get_integrator_derivatives(const LowLevelController *ctrl,
-                                                                 double Nz, double ps, double Ny_r,
-                                                                 const double u_ref[4],
-                                                                 double deriv[3]) {
-    (void)ctrl;
-    deriv[0] = Nz - u_ref[0];
-    deriv[1] = ps - u_ref[1];
-    deriv[2] = Ny_r - u_ref[2];
+static inline void get_integrator_derivatives(const double u_ref[4], double Nz, double ps, double Ny_r,
+                                              double derivatives[3]) {
+    derivatives[0] = Nz - u_ref[0];
+    derivatives[1] = ps - u_ref[1];
+    derivatives[2] = Ny_r - u_ref[2];
 }
 
 // returns the LQR-controlled F-16 state derivatives and more
-static inline void controlled_f16(double t, const double x_f16[], size_t state_len,
-                                  const double u_ref[4], const LowLevelController *llc,
-                                  int v2_integrators, double xd[], double u_rad[7],
+static inline void controlled_f16(const double x_f16[16], const double u_ref[4],
+                                  double xd[16], double u_rad[7],
                                   double *Nz_out, double *ps_out, double *Ny_r_out) {
-    (void)t;
-    const size_t num_states_model = 13;
-    const double deg_to_rad = 0.01745329251994329577;
-
-    for (size_t i = 0; i < state_len; ++i)
-        xd[i] = 0.0;
-
-    double x_model[13];
-    for (size_t i = 0; i < num_states_model; ++i)
-        x_model[i] = x_f16[i];
-
     double x_ctrl[8], u_deg[4];
-    LowLevelController_get_u_deg(llc, u_ref, x_f16, x_ctrl, u_deg);
+    get_u_deg(u_ref, x_f16, x_ctrl, u_deg);
 
+    // Note: Control vector (u) for subF16 is in units of degrees
+    double x_state[13];
+    for (int i = 0; i < 13; ++i) x_state[i] = x_f16[i];
     double xd_model[13], Nz, Ny, az, ay;
-    subf16_model(x_model, u_deg, 1, xd_model, &Nz, &Ny, &az, &ay);
+    subf16_model(x_state, u_deg, xd_model, &Nz, &Ny, &az, &ay);
 
-    double ps;
-    if (v2_integrators) {
-        ps = xd_model[6] * cos(xd_model[1]) + xd_model[8] * sin(xd_model[1]);
-        double Ny_r = Ny + xd_model[8];
-        *Ny_r_out = Ny_r;
-    } else {
-        ps = x_ctrl[4] * cos(x_ctrl[0]) + x_ctrl[5] * sin(x_ctrl[0]);
-        double Ny_r = Ny + x_ctrl[5];
-        *Ny_r_out = Ny_r;
-    }
+    // Nonlinear (Actual): ps = p * cos(alpha) + r * sin(alpha)
+    double ps = x_ctrl[4] * cos(x_ctrl[0]) + x_ctrl[5] * sin(x_ctrl[0]);
 
-    for (size_t i = 0; i < num_states_model && i < state_len; ++i)
-        xd[i] = xd_model[i];
+    // Calculate (side force + yaw rate) term
+    double Ny_r = Ny + x_ctrl[5];
 
+    for (int i = 0; i < 16; ++i) xd[i] = 0.0;
+    for (int i = 0; i < 13; ++i) xd[i] = xd_model[i];
+
+    // integrators from low-level controller
     double int_der[3];
-    LowLevelController_get_integrator_derivatives(llc, Nz, ps, *Ny_r_out, u_ref, int_der);
+    get_integrator_derivatives(u_ref, Nz, ps, Ny_r, int_der);
+    for (int i = 0; i < 3; ++i) xd[13 + i] = int_der[i];
 
-    size_t start = num_states_model;
-    size_t num_int = (size_t)LowLevelController_get_num_integrators(llc);
-    for (size_t i = 0; i < num_int && (start + i) < state_len; ++i)
-        xd[start + i] = int_der[i];
+    // Convert all degree values to radians for output
+    // throt, ele, ail, rud, Nz_ref, ps_ref, Ny_r_ref
+    for (int i = 0; i < 7; ++i) u_rad[i] = 0.0;
+    u_rad[0] = u_deg[0]; // throttle
+    for (int i = 1; i < 4; ++i) u_rad[i] = u_deg[i] * RAD_PER_DEG;
+    u_rad[4] = u_ref[0];
+    u_rad[5] = u_ref[1];
+    u_rad[6] = u_ref[2]; // inner-loop commands are 4-7
 
-    u_rad[0] = u_deg[0];
-    for (int i = 1; i <= 3; ++i)
-        u_rad[i] = u_deg[i] * deg_to_rad;
-    for (int i = 0; i < 3; ++i)
-        u_rad[4 + i] = u_ref[i];
-
-    *Nz_out = Nz;
-    *ps_out = ps;
+    if (Nz_out) *Nz_out = Nz;
+    if (ps_out) *ps_out = ps;
+    if (Ny_r_out) *Ny_r_out = Ny_r;
 }
