@@ -7,11 +7,15 @@ import time
 import pyray as rl
 
 from aerobench.util import StateIndex
-from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState, PLAYBACK_SPEED
+from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState
+
+# Simulation playback speed multiplier, percentage of real-time speed
+PLAYBACK_SPEED = 6.0
+
 
 def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail_pts=60,
               elev=30, azim=45, skip_frames=None, chase=False, fixed_floor=False,
-              init_extra=None, update_extra=None, waypoints=None):
+              init_extra=None, update_extra=None, waypoints=None, chase_distance=1250.0):
     '''
     make a 3d plot of the F-16 maneuver using Raylib.
 
@@ -67,6 +71,7 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
         trail_length=trail_pts if not isinstance(trail_pts, list) else trail_pts[0],
         view_size=viewsize if not isinstance(viewsize, list) else viewsize[0],
         chase_camera=chase if not isinstance(chase, list) else chase[0],
+        chase_distance=chase_distance if not isinstance(chase_distance, list) else chase_distance[0],
         waypoints=waypoints,
     )
 

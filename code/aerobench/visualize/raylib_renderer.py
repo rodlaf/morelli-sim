@@ -11,9 +11,6 @@ from scipy.io import loadmat
 
 RAD2DEG = 180.0 / math.pi
 
-# Simulation playback speed multiplier, percentage of real-time speed
-PLAYBACK_SPEED = 6.0
-
 
 @dataclass
 class RenderState:
