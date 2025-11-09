@@ -9,8 +9,11 @@ import pyray as rl
 from aerobench.util import StateIndex
 from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState
 
-# Simulation playback speed multiplier, percentage of real-time speed
-PLAYBACK_SPEED = 6.0
+# Simulation playback speed multiplier
+# 1.0 = real-time (1 simulation second = 1 real second)
+# 0.5 = half speed (slow motion)
+# 2.0 = double speed (fast forward)
+PLAYBACK_SPEED = 1.0
 
 
 def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail_pts=60,
@@ -20,6 +23,9 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
     make a 3d plot of the F-16 maneuver using Raylib.
 
     see examples/anim3d folder for examples on usage
+    
+    NOTE: skip_frames parameter is ignored - all frames are always rendered for smooth playback.
+    Use smaller step size in run_f16_sim() to control frame rate (e.g., step=1/120 for 120fps).
     '''
 
     start = time.time()
@@ -28,40 +34,28 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
     if not isinstance(res, list):
         res = [res]
 
-    # Apply defaults for skip_frames
-    if skip_frames is None:
-        skip_frames = [None] * len(res)
-    elif not isinstance(skip_frames, list):
-        skip_frames = [skip_frames]
-
-    for i in range(len(skip_frames)):
-        if skip_frames[i] is None:
-            if filename == '':
-                skip_frames[i] = 5
-            elif filename.endswith('.gif'):
-                skip_frames[i] = 2
-            else:
-                skip_frames[i] = 1
-
-    # Extract and subsample trajectories
+    # Extract trajectories - use ALL frames (no skipping)
     all_times = []
     all_states = []
     all_modes = []
     all_ps_list = []
     all_Nz_list = []
 
-    for r, skip in zip(res, skip_frames):
-        t = r['times'][0::skip]
-        s = r['states'][0::skip]
-        m = r['modes'][0::skip]
-        ps = r['ps_list'][0::skip]
-        Nz = r['Nz_list'][0::skip]
-
-        all_times.append(t)
-        all_states.append(s)
-        all_modes.append(m)
-        all_ps_list.append(ps)
-        all_Nz_list.append(Nz)
+    for r in res:
+        print(f"DEBUG: Simulation returned {len(r['times'])} frames")
+        print(f"DEBUG: Time range: {r['times'][0]:.4f}s to {r['times'][-1]:.4f}s")
+        
+        # Use all frames - no skipping
+        all_times.append(r['times'])
+        all_states.append(r['states'])
+        all_modes.append(r['modes'])
+        all_ps_list.append(r['ps_list'])
+        all_Nz_list.append(r['Nz_list'])
+        
+    # Calculate time deltas to see if frames are evenly spaced
+    if len(all_times[0]) > 1:
+        deltas = [all_times[0][i+1] - all_times[0][i] for i in range(min(10, len(all_times[0])-1))]
+        print(f"DEBUG: First 10 time deltas: {[f'{d:.6f}' for d in deltas]}")
 
     # Create renderer
     renderer = RaylibRenderer(
@@ -78,27 +72,24 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
     # Calculate total frames
     total_frames = sum(len(t) for t in all_times)
     current_frame = 0
-    trajectory_index = 0
-    frame_in_trajectory = 0
 
     print(f"Starting Raylib animation with {total_frames} frames")
+    print(f"DEBUG: Simulation duration: {all_times[0][-1] - all_times[0][0]:.2f}s")
+    print(f"DEBUG: Frames per sim second: {total_frames / (all_times[0][-1] - all_times[0][0]):.1f}")
+    print(f"DEBUG: PLAYBACK_SPEED: {PLAYBACK_SPEED}x")
 
-    # Timing for playback speed control
-    last_frame_time = time.time()
-    accumulated_time = 0.0
+    # Simple playback: iterate through frames at controlled speed
+    # PLAYBACK_SPEED controls how many simulation frames to advance per render frame
+    frames_per_render = PLAYBACK_SPEED
+    accumulated_frames = 0.0
 
-    # Main render loop
+    # Main render loop - render at 60fps, advance through sim frames based on playback speed
     while not rl.window_should_close():
-        # Calculate delta time for smooth playback
-        current_time = time.time()
-        delta_time = current_time - last_frame_time
-        last_frame_time = current_time
-        
-        # Accumulate time based on playback speed
-        accumulated_time += delta_time * PLAYBACK_SPEED
-        
-        # Determine which trajectory we're in
+        # Determine which trajectory and frame we're in
         traj_frame_count = 0
+        trajectory_index = 0
+        frame_in_trajectory = 0
+        
         for i, times in enumerate(all_times):
             if current_frame < traj_frame_count + len(times):
                 trajectory_index = i
@@ -113,31 +104,8 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
         Nz_list = all_Nz_list[trajectory_index]
         ps_list = all_ps_list[trajectory_index]
 
-        # Check if we should advance to the next frame
-        should_advance = False
-        if frame_in_trajectory < len(times) - 1:
-            next_frame_time = times[frame_in_trajectory + 1]
-            current_frame_time = times[frame_in_trajectory]
-            frame_duration = next_frame_time - current_frame_time
-            
-            if accumulated_time >= frame_duration:
-                should_advance = True
-                accumulated_time -= frame_duration
-        else:
-            # At end of trajectory
-            if accumulated_time >= 0.033:  # ~30fps fallback
-                should_advance = True
-                accumulated_time = 0.0
-        
-        if current_frame >= total_frames:
-            # Loop back to start
-            current_frame = 0
-            trajectory_index = 0
-            frame_in_trajectory = 0
-            accumulated_time = 0.0
-            renderer.trail.clear()
-            continue
-
+        # Clamp to valid range
+        frame_in_trajectory = min(frame_in_trajectory, len(states) - 1)
         state = states[frame_in_trajectory]
         
         # Build RenderState
@@ -160,14 +128,26 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
         )
 
         renderer.render(render_state)
-
-        # Advance frame only when enough time has accumulated
-        if should_advance:
-            current_frame += 1
+        
+        # Advance frame based on playback speed
+        # At 1.0x speed with step=1/120, we show 120 frames per real second (2 per render frame at 60fps)
+        accumulated_frames += frames_per_render
+        frames_to_advance = int(accumulated_frames)
+        accumulated_frames -= frames_to_advance
+        
+        current_frame += frames_to_advance
+        
+        # Loop back to start when done
+        if current_frame >= total_frames:
+            current_frame = 0
+            renderer.trail.clear()
+            print(f"DEBUG: Animation loop complete, restarting")
         
         # Print progress periodically
-        if current_frame % 30 == 0:
-            print(f"Frame: {current_frame}/{total_frames}")
+        if current_frame % 120 == 0:
+            sim_time = times[frame_in_trajectory]
+            total_sim_time = all_times[-1][-1]
+            print(f"DEBUG: Frame {current_frame}/{total_frames}, Sim time: {sim_time:.2f}s/{total_sim_time:.2f}s")
 
     renderer.close()
 
