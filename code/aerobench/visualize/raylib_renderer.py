@@ -7,7 +7,6 @@ from typing import Deque, Dict, Tuple
 import numpy as np
 from pyray import *
 from pyray import RL_PROJECTION, RL_MODELVIEW, MOUSE_BUTTON_LEFT, CAMERA_PERSPECTIVE
-from scipy.io import loadmat
 
 RAD2DEG = 180.0 / math.pi
 
@@ -61,7 +60,6 @@ class RaylibRenderer:
         self.near_plane = 0.1
         self.far_plane = 50000.0  # Much larger to handle zoomed out views
 
-        self.model = self._load_f16_model(f16_scale)
         # Handle infinite trail length (None means unlimited)
         maxlen = None if (isinstance(trail_length, float) and math.isinf(trail_length)) else trail_length
         self.trail: Deque[Tuple[float, float, float]] = deque(maxlen=maxlen)
@@ -85,50 +83,6 @@ class RaylibRenderer:
 
     def close(self) -> None:
         close_window()
-
-    @staticmethod
-    def _load_f16_model(scale: float):
-        base_dir = os.path.dirname(__file__)
-        mat_path = os.path.join(base_dir, "f-16.mat")
-        data = loadmat(mat_path)
-
-        vertices = np.asarray(data["V"], dtype=np.float32)
-        faces = np.asarray(data["F"], dtype=np.int32) - 1
-
-        scaled = vertices * np.array([-scale, scale, scale], dtype=np.float32)
-
-        normals = np.zeros_like(scaled)
-        for f in faces:
-            v0, v1, v2 = scaled[f[0]], scaled[f[1]], scaled[f[2]]
-            face_normal = np.cross(v1 - v0, v2 - v0)
-            norm = np.linalg.norm(face_normal)
-            if norm > 1e-6:
-                face_normal /= norm
-            normals[f[0]] += face_normal
-            normals[f[1]] += face_normal
-            normals[f[2]] += face_normal
-
-        norms = np.linalg.norm(normals, axis=1)
-        norms[norms < 1e-6] = 1.0
-        normals /= norms[:, None]
-
-        mesh = Mesh()
-        mesh.vertexCount = scaled.shape[0]
-        mesh.triangleCount = faces.shape[0]
-
-        # Convert to ffi arrays
-        flat_vertices = scaled.flatten().tolist()
-        flat_normals = normals.flatten().tolist()
-        flat_indices = faces.astype(np.uint16).flatten().tolist()
-
-        # Pyray mesh expects ffi pointers
-        mesh.vertices = ffi.new(f"float[{len(flat_vertices)}]", flat_vertices)
-        mesh.normals = ffi.new(f"float[{len(flat_normals)}]", flat_normals)
-        mesh.indices = ffi.new(f"unsigned short[{len(flat_indices)}]", flat_indices)
-
-        upload_mesh(mesh, False)
-        model = load_model_from_mesh(mesh)
-        return model
 
     def render(self, state: RenderState) -> None:
         # Handle camera controls
@@ -359,20 +313,10 @@ class RaylibRenderer:
             RAYWHITE,
         )
 
-        mode_color = self.mode_colors.get(state.mode.lower(), (245, 245, 245, 255))
-        draw_text_ex(
-            self.font,
-            f"Mode: {state.mode}",
-            [padding, padding + line_height],
-            20,
-            1,
-            mode_color,
-        )
-
         draw_text_ex(
             self.font,
             f"h = {state.position_ft[2]:.1f} ft",
-            [padding, padding + 2 * line_height],
+            [padding, padding + line_height],
             20,
             1,
             RAYWHITE,
@@ -380,7 +324,7 @@ class RaylibRenderer:
         draw_text_ex(
             self.font,
             f"V = {state.speed_fps:.1f} ft/s",
-            [padding, padding + 3 * line_height],
+            [padding, padding + 2 * line_height],
             20,
             1,
             RAYWHITE,
@@ -389,7 +333,7 @@ class RaylibRenderer:
         draw_text_ex(
             self.font,
             f"alpha = {state.alpha_rad * RAD2DEG:.1f} deg",
-            [padding, padding + 4 * line_height],
+            [padding, padding + 3 * line_height],
             20,
             1,
             RAYWHITE,
@@ -397,7 +341,7 @@ class RaylibRenderer:
         draw_text_ex(
             self.font,
             f"beta = {state.beta_rad * RAD2DEG:.1f} deg",
-            [padding, padding + 5 * line_height],
+            [padding, padding + 4 * line_height],
             20,
             1,
             RAYWHITE,
@@ -406,7 +350,7 @@ class RaylibRenderer:
         draw_text_ex(
             self.font,
             f"Nz = {state.nz_g:.2f} g",
-            [padding, padding + 6 * line_height],
+            [padding, padding + 5 * line_height],
             20,
             1,
             RAYWHITE,
@@ -414,7 +358,7 @@ class RaylibRenderer:
         draw_text_ex(
             self.font,
             f"ps = {state.ps_rad_s * RAD2DEG:.1f} deg/s",
-            [padding, padding + 7 * line_height],
+            [padding, padding + 6 * line_height],
             20,
             1,
             RAYWHITE,
@@ -429,7 +373,7 @@ class RaylibRenderer:
         draw_text_ex(
             self.font,
             angles,
-            [padding, padding + 8 * line_height],
+            [padding, padding + 7 * line_height],
             20,
             1,
             RAYWHITE,
