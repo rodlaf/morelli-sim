@@ -14,16 +14,17 @@ RAD2DEG = 180.0 / math.pi
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 TARGET_FPS = 60
-CHASE_DISTANCE = 1250.0  # default camera distance from aircraft
+CHASE_DISTANCE = 2000.0  # default camera distance from aircraft
 CHASE_ELEVATION = 150.0  # camera height offset above aircraft
-F16_SCALE = 100.0  # visual size of the F-16 model in feet
-ALTITUDE_LINE_SPACING = 300.0  # feet between altitude markers
+F16_SCALE = 150.0  # visual size of the F-16 model in feet
 GRID_SPACING = 1000.0  # feet between ground grid lines
 SKY_COLOR = Color(0, 0, 0, 255)  # Black sky
 GRID_COLOR = Color(40, 120, 40, 180)  # Brighter semi-transparent green
-TRAIL_COLOR = YELLOW  # Trail and altitude marker color
+TRAIL_COLOR = YELLOW  # Trail ribbon color
+ALTITUDE_LINE_SPACING = 1500.0  # feet between altitude markers
+ALTITUDE_MARKER_COLOR = Color(255, 255, 0, 128)  # Dimmer yellow for altitude markers
 RIBBON_WIDTH = 100.0  # Width of the trail ribbon in feet
-TRAIL_MIN_DISTANCE = 25.0  # Minimum distance between trail points in feet
+TRAIL_MIN_DISTANCE = 50.0  # Minimum distance between trail points in feet
 
 
 @dataclass
@@ -132,8 +133,8 @@ class RaylibRenderer:
         
         # Draw altitude markers
         for marker_pos in self.altitude_markers:
-            draw_line_3d([marker_pos[0], 0.0, marker_pos[2]], marker_pos, TRAIL_COLOR)
-        draw_line_3d([position[0], 0.0, position[2]], position, TRAIL_COLOR)
+            draw_line_3d([marker_pos[0], 0.0, marker_pos[2]], marker_pos, ALTITUDE_MARKER_COLOR)
+        draw_line_3d([position[0], 0.0, position[2]], position, ALTITUDE_MARKER_COLOR)
 
         # Draw waypoints
         for wp in self.waypoints:
