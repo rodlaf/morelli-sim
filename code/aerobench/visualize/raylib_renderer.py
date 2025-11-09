@@ -14,17 +14,17 @@ RAD2DEG = 180.0 / math.pi
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 TARGET_FPS = 60
-CHASE_DISTANCE = 2000.0  # default camera distance from aircraft
+CHASE_DISTANCE = 3000.0  # default camera distance from aircraft
 CHASE_ELEVATION = 150.0  # camera height offset above aircraft
 F16_SCALE = 150.0  # visual size of the F-16 model in feet
 GRID_SPACING = 1000.0  # feet between ground grid lines
 SKY_COLOR = Color(0, 0, 0, 255)  # Black sky
 GRID_COLOR = Color(40, 120, 40, 180)  # Brighter semi-transparent green
 TRAIL_COLOR = YELLOW  # Trail ribbon color
-ALTITUDE_LINE_SPACING = 1500.0  # feet between altitude markers
+ALTITUDE_LINE_SPACING = 200.0  # feet between altitude markers
 ALTITUDE_MARKER_COLOR = Color(255, 255, 0, 128)  # Dimmer yellow for altitude markers
 RIBBON_WIDTH = 100.0  # Width of the trail ribbon in feet
-TRAIL_MIN_DISTANCE = 50.0  # Minimum distance between trail points in feet
+TRAIL_MIN_DISTANCE = 100.0  # Minimum distance between trail points in feet
 
 
 @dataclass
@@ -62,7 +62,7 @@ class RaylibRenderer:
         self.far_plane = 50000.0
         self.trail: list = []
         self.altitude_markers: list = []
-        self.distance_since_last_marker = 0.0
+        self.last_marker_pos = None
         self.chase_distance = CHASE_DISTANCE
         self.chase_elevation = CHASE_ELEVATION
         self.font = get_font_default()
@@ -94,14 +94,15 @@ class RaylibRenderer:
                 'yaw': state.psi_rad
             })
         
-        # Add altitude marker every ALTITUDE_LINE_SPACING feet
-        if len(self.trail) > 1:
-            segment_dist = np.linalg.norm(np.array(position) - np.array(self.trail[-2]['pos']))
-            self.distance_since_last_marker += segment_dist
-            
-            if self.distance_since_last_marker >= ALTITUDE_LINE_SPACING:
+        # Add altitude marker based on actual aircraft position (independent of trail)
+        if self.last_marker_pos is None:
+            self.altitude_markers.append(tuple(position))
+            self.last_marker_pos = np.array(position)
+        else:
+            dist_from_last_marker = np.linalg.norm(np.array(position) - self.last_marker_pos)
+            if dist_from_last_marker >= ALTITUDE_LINE_SPACING:
                 self.altitude_markers.append(tuple(position))
-                self.distance_since_last_marker = 0.0
+                self.last_marker_pos = np.array(position)
         
         self._update_camera(position)
 

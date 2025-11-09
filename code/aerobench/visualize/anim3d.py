@@ -136,7 +136,7 @@ def make_anim(res, filename='', waypoints=None):
             current_frame = 0
             renderer.trail.clear()
             renderer.altitude_markers.clear()
-            renderer.distance_since_last_marker = 0.0
+            renderer.last_marker_pos = None
             print(f"Animation loop complete, restarting")
         
         # Print progress periodically
