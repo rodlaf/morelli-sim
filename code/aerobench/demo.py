@@ -233,21 +233,23 @@ class AutopilotAgent:
         return rv
 
 
-def run_simulation(env: F16Waypoint, agent: AutopilotAgent, waypoints: list):
+def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
     """
     Run F-16 simulation with live rendering (PufferLib-style)
     
     Args:
         env: F16Waypoint environment
         agent: AutopilotAgent instance
-        waypoints: List of waypoint 3-tuples (east, north, altitude)
         
     Runs infinite loop with real-time rendering until window closed.
     """
     state, info = env.reset()
     
     print("Starting live F-16 simulation...")
-    print("Press ESC or close window to exit")
+    print(f"Waypoints: {len(env.waypoints)}")
+    for i, wp in enumerate(env.waypoints):
+        print(f"  WP{i+1}: E={wp[0]:7.1f} N={wp[1]:7.1f} Alt={wp[2]:7.1f}")
+    print("Press ESC or close window to exit\n")
     
     frame_count = 0
     
@@ -270,12 +272,20 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent, waypoints: list):
         if terminated or truncated or agent.is_done(state, env.time):
             print(f"\nSimulation complete at {env.time:.2f}s after {frame_count} frames")
             print(f"Final altitude: {state[12]:.1f} ft")
-            print("Resetting...\n")
+            print("Resetting with new waypoints...\n")
             
-            # Reset environment and rendering
+            # Reset environment (generates new waypoints)
             state, info = env.reset()
             env.reset_rendering()
-            agent.__init__(waypoints, stdout=agent.stdout)
+            
+            # Reinitialize agent with new waypoints
+            agent.__init__(env.waypoints, stdout=agent.stdout)
+            
+            print(f"New waypoints: {len(env.waypoints)}")
+            for i, wp in enumerate(env.waypoints):
+                print(f"  WP{i+1}: E={wp[0]:7.1f} N={wp[1]:7.1f} Alt={wp[2]:7.1f}")
+            print()
+            
             frame_count = 0
     
     # Cleanup
@@ -286,38 +296,22 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent, waypoints: list):
 def main():
     """Main demo function"""
     
-    # Waypoints for U-turn scenario (east, north, altitude) - DEFINED ONCE
-    waypoints = [
-        [-5000, -7500, 1500],
-        [-15000, -7500, 1000],
-        [-15000, 6000, 3500]
-    ]
-    
-    # Initial conditions
-    power = 9
-    alpha = deg2rad(2.1215)
-    beta = 0
-    alt = 1500
-    vt = 540
-    phi = 0
-    theta = 0
-    psi = 0
-    init = [vt, alpha, beta, phi, theta, psi, 0, 0, 0, 0, 0, alt, power]
-    
-    # Create environment
+    # Create environment with random waypoint generation
     env = F16Waypoint(
-        waypoints=waypoints,
-        initial_state=np.array(init, dtype=float),
+        num_waypoints=3,
         step_size=1/30,
         time_limit=150.0,
-        extended_states=True
+        extended_states=True,
+        waypoint_radius=15000.0,
+        altitude_range=(1000.0, 4000.0),
+        random_seed=None  # Set to int for reproducibility
     )
     
-    # Create autopilot agent
-    agent = AutopilotAgent(waypoints, stdout=True)
+    # Create autopilot agent with environment's generated waypoints
+    agent = AutopilotAgent(env.waypoints, stdout=True)
     
     # Run live simulation loop
-    run_simulation(env, agent, waypoints)
+    run_simulation(env, agent)
 
 
 if __name__ == '__main__':
