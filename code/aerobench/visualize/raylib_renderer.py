@@ -149,24 +149,20 @@ class RaylibRenderer:
 
         begin_mode_3d(self.camera)
         
-        # IMPORTANT: Override projection AFTER begin_mode_3d to extend far clipping plane
-        # begin_mode_3d sets its own projection, so we must override it
+        # Override projection to extend far clipping plane (must be after begin_mode_3d)
         aspect = get_screen_width() / get_screen_height()
-        fovy = self.camera.fovy
-        
-        top = self.near_plane * math.tan(fovy * 0.5 * math.pi / 180.0)
-        right = top * aspect
+        top = self.near_plane * math.tan(self.camera.fovy * 0.5 * math.pi / 180.0)
         
         rl_matrix_mode(RL_PROJECTION)
         rl_load_identity()
-        rl_frustum(-right, right, -top, top, self.near_plane, self.far_plane)
+        rl_frustum(-top * aspect, top * aspect, -top, top, self.near_plane, self.far_plane)
         rl_matrix_mode(RL_MODELVIEW)
         
-        ground_size = self.view_size
-        draw_plane([position[0], 0.0, position[2]], [ground_size, ground_size], DARKGRAY)
-        draw_grid(40, int(ground_size / 20))
+        # Draw ground and grid
+        draw_plane([position[0], 0.0, position[2]], [self.view_size, self.view_size], DARKGRAY)
+        draw_grid(40, int(self.view_size / 20))
 
-        # Draw simple plane representation using axes
+        # Draw plane
         self._draw_simple_plane(position, basis, 500.0)
 
         # Draw waypoints
@@ -189,17 +185,10 @@ class RaylibRenderer:
         """Draw a simple plane using oriented axes and shapes."""
         pos = np.array(position)
         
-        # Ensure basis vectors are normalized (they should be from rotation matrix)
-        # basis[:, 0] is forward (nose direction)
-        # basis[:, 1] is right wing
-        # basis[:, 2] is up
-        forward_unit = basis[:, 0] / np.linalg.norm(basis[:, 0])
-        right_unit = basis[:, 1] / np.linalg.norm(basis[:, 1])
-        up_unit = basis[:, 2] / np.linalg.norm(basis[:, 2])
-        
-        forward = forward_unit * size
-        right = right_unit * size * 0.6
-        up = up_unit * size * 0.3
+        # basis vectors from rotation matrix (already normalized)
+        forward = basis[:, 0] * size
+        right = basis[:, 1] * size * 0.6
+        up = basis[:, 2] * size * 0.3
         
         # Nose (forward direction) - RED
         nose = pos + forward
@@ -251,39 +240,29 @@ class RaylibRenderer:
 
     def _update_camera(self, position: list, basis: np.ndarray) -> None:
         self.camera.target = position
-        # Keep camera up vector pointing to world up (Y-axis)
         self.camera.up = [0.0, 1.0, 0.0]
 
         if self.chase_camera:
-            forward = basis[:, 0]
+            # Calculate distance from zoom
+            distance = max(100.0, min(10000.0, self.chase_distance - self.manual_zoom))
             
-            # Calculate base camera position
-            distance = self.chase_distance - self.manual_zoom
-            # Clamp distance to prevent going beyond far plane (causing objects to disappear)
-            distance = max(100.0, min(10000.0, distance))
+            # Calculate spherical coordinates around target
+            azimuth = self.manual_camera_offset[0]
+            elevation = self.manual_camera_offset[1]
             
-            # Apply manual rotation offsets
-            # Start with plane's forward direction
-            direction = -forward  # Behind the plane
-            
-            # Apply azimuth rotation (around Y axis)
-            cos_az = math.cos(self.manual_camera_offset[0])
-            sin_az = math.sin(self.manual_camera_offset[0])
-            rotated_dir = np.array([
-                direction[0] * cos_az - direction[2] * sin_az,
-                direction[1],
-                direction[0] * sin_az + direction[2] * cos_az
+            # Convert spherical to cartesian offset from target
+            # Default: behind the plane at base elevation
+            offset = np.array([
+                distance * math.cos(elevation) * math.sin(azimuth),
+                distance * math.sin(elevation) + self.chase_elevation,
+                distance * math.cos(elevation) * math.cos(azimuth)
             ])
             
-            # Calculate camera position
-            eye = np.array(position)
-            eye += rotated_dir * distance
-            
-            # Apply elevation offset
-            eye[1] += self.chase_elevation
-            eye[1] += distance * math.sin(self.manual_camera_offset[1])
-            
-            self.camera.position = [float(eye[0]), float(eye[1]), float(eye[2])]
+            self.camera.position = [
+                float(position[0] + offset[0]),
+                float(position[1] + offset[1]),
+                float(position[2] + offset[2])
+            ]
 
     @staticmethod
     def _build_rotation(theta: float, psi: float, phi: float):
