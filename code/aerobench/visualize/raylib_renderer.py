@@ -10,6 +10,15 @@ from pyray import RL_PROJECTION, RL_MODELVIEW, MOUSE_BUTTON_LEFT, CAMERA_PERSPEC
 
 RAD2DEG = 180.0 / math.pi
 
+# Rendering constants
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
+TARGET_FPS = 60
+CHASE_DISTANCE = 1250.0  # default camera distance from aircraft
+CHASE_ELEVATION = 150.0  # camera height offset above aircraft
+F16_SCALE = 100.0  # visual size of the F-16 model in feet
+ALTITUDE_LINE_SPACING = 500.0  # feet between altitude markers
+
 
 @dataclass
 class RenderState:
@@ -31,24 +40,12 @@ class RenderState:
 class RaylibRenderer:
     """Immediate-mode renderer that draws a single frame per call to render()."""
 
-    def __init__(
-        self,
-        width: int = 1280,
-        height: int = 720,
-        title: str = "Aerobench 3D",
-        f16_scale: float = 25.0,
-        trail_length: int = 200,
-        view_size: float = 1000.0,
-        chase_camera: bool = True,
-        chase_distance: float = 400.0,
-        chase_elevation: float = 150.0,
-        waypoints=None,
-    ) -> None:
-        init_window(width, height, title)
-        set_target_fps(60)
+    def __init__(self, waypoints=None) -> None:
+        init_window(WINDOW_WIDTH, WINDOW_HEIGHT, "Aerobench 3D")
+        set_target_fps(TARGET_FPS)
 
         self.camera = Camera3D(
-            [0.0, chase_elevation, -chase_distance],
+            [0.0, CHASE_ELEVATION, -CHASE_DISTANCE],
             [0.0, 0.0, 0.0],
             [0.0, 1.0, 0.0],
             60.0,
@@ -56,17 +53,16 @@ class RaylibRenderer:
         )
         
         # Set camera near/far planes for large viewing distances
-        # Note: We'll manually handle this in begin_mode_3d by using rlgl functions if needed
         self.near_plane = 0.1
-        self.far_plane = 50000.0  # Much larger to handle zoomed out views
+        self.far_plane = 50000.0
 
-        # Handle infinite trail length (None means unlimited)
-        maxlen = None if (isinstance(trail_length, float) and math.isinf(trail_length)) else trail_length
-        self.trail: Deque[Tuple[float, float, float]] = deque(maxlen=maxlen)
-        self.view_size = view_size
-        self.chase_camera = chase_camera
-        self.chase_distance = chase_distance
-        self.chase_elevation = chase_elevation
+        # Store full trail and altitude marker positions
+        self.trail: list = []  # Unlimited trail - stores all positions
+        self.altitude_markers: list = []  # Fixed altitude line positions
+        self.distance_since_last_marker = 0.0
+        
+        self.chase_distance = CHASE_DISTANCE
+        self.chase_elevation = CHASE_ELEVATION
         self.font = get_font_default()
         self.waypoints = waypoints if waypoints is not None else []
 
@@ -84,7 +80,21 @@ class RaylibRenderer:
         
         pos_e, pos_n, altitude = state.position_ft
         position = [float(pos_e), float(altitude), float(pos_n)]
+        
+        # Add to trail
         self.trail.append(tuple(position))
+        
+        # Check if we need to add an altitude marker
+        if len(self.trail) > 1:
+            prev_pos = np.array(self.trail[-2])
+            curr_pos = np.array(position)
+            segment_dist = np.linalg.norm(curr_pos - prev_pos)
+            self.distance_since_last_marker += segment_dist
+            
+            if self.distance_since_last_marker >= ALTITUDE_LINE_SPACING:
+                # Add altitude marker at current position
+                self.altitude_markers.append(tuple(position))
+                self.distance_since_last_marker = 0.0
         
         self._update_camera(position)
 
@@ -134,38 +144,23 @@ class RaylibRenderer:
                 grid_color
             )
         
-        # TUNABLE: Altitude line spacing (draw vertical line every N feet of flight path)
-        altitude_line_spacing = 500.0
-        
-        # Draw vertical lines from ground to trail points at regular intervals
-        trail_pts = list(self.trail)
-        if len(trail_pts) > 1:
-            distance_accumulated = 0.0
-            
-            for i in range(len(trail_pts) - 1):
-                p1 = np.array(trail_pts[i])
-                p2 = np.array(trail_pts[i + 1])
-                segment_dist = np.linalg.norm(p2 - p1)
-                distance_accumulated += segment_dist
-                
-                # Draw line every altitude_line_spacing feet
-                if distance_accumulated >= altitude_line_spacing:
-                    draw_line_3d(
-                        [p2[0], 0.0, p2[2]],  # Ground point
-                        trail_pts[i + 1],      # Trail point
-                        YELLOW  # Match trail color
-                    )
-                    distance_accumulated = 0.0
+        # Draw fixed altitude markers (vertical lines from ground to marker position)
+        for marker_pos in self.altitude_markers:
+            draw_line_3d(
+                [marker_pos[0], 0.0, marker_pos[2]],  # Ground point
+                marker_pos,  # Marker position in air
+                YELLOW
+            )
         
         # Draw current altitude line (always show current position)
         draw_line_3d(
             [position[0], 0.0, position[2]],
             position,
-            YELLOW  # Match trail color
+            YELLOW
         )
 
         # Draw plane - pass roll, pitch, yaw directly
-        self._draw_simple_plane(position, state.phi_rad, state.theta_rad, state.psi_rad, 100.0)
+        self._draw_simple_plane(position, state.phi_rad, state.theta_rad, state.psi_rad, F16_SCALE)
 
         # Draw waypoints
         for i, wp in enumerate(self.waypoints):
@@ -174,9 +169,8 @@ class RaylibRenderer:
             draw_sphere_wires(wp_pos, 50.0, 8, 8, SKYBLUE)
 
         # Draw trail
-        trail_pts = list(self.trail)
-        for i in range(len(trail_pts) - 1):
-            draw_line_3d(trail_pts[i], trail_pts[i + 1], YELLOW)
+        for i in range(len(self.trail) - 1):
+            draw_line_3d(self.trail[i], self.trail[i + 1], YELLOW)
 
         end_mode_3d()
 
@@ -298,29 +292,28 @@ class RaylibRenderer:
         self.camera.target = position
         self.camera.up = [0.0, 1.0, 0.0]
 
-        if self.chase_camera:
-            # TUNABLE: Camera distance limits (min, max in world units)
-            min_distance = 50.0
-            max_distance = 20000.0
-            distance = max(min_distance, min(max_distance, self.chase_distance - self.manual_zoom))
-            
-            # Calculate spherical coordinates around target
-            azimuth = self.manual_camera_offset[0]
-            elevation = self.manual_camera_offset[1]
-            
-            # Convert spherical to cartesian offset from target
-            # Default: behind the plane at base elevation
-            offset = np.array([
-                distance * math.cos(elevation) * math.sin(azimuth),
-                distance * math.sin(elevation) + self.chase_elevation,
-                distance * math.cos(elevation) * math.cos(azimuth)
-            ])
-            
-            self.camera.position = [
-                float(position[0] + offset[0]),
-                float(position[1] + offset[1]),
-                float(position[2] + offset[2])
-            ]
+        # TUNABLE: Camera distance limits (min, max in world units)
+        min_distance = 50.0
+        max_distance = 20000.0
+        distance = max(min_distance, min(max_distance, self.chase_distance - self.manual_zoom))
+        
+        # Calculate spherical coordinates around target
+        azimuth = self.manual_camera_offset[0]
+        elevation = self.manual_camera_offset[1]
+        
+        # Convert spherical to cartesian offset from target
+        # Default: behind the plane at base elevation
+        offset = np.array([
+            distance * math.cos(elevation) * math.sin(azimuth),
+            distance * math.sin(elevation) + self.chase_elevation,
+            distance * math.cos(elevation) * math.cos(azimuth)
+        ])
+        
+        self.camera.position = [
+            float(position[0] + offset[0]),
+            float(position[1] + offset[1]),
+            float(position[2] + offset[2])
+        ]
 
     def _draw_hud(self, state: RenderState) -> None:
         padding = 12

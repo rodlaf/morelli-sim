@@ -16,16 +16,17 @@ from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState
 PLAYBACK_SPEED = 3.0
 
 
-def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail_pts=60,
-              elev=30, azim=45, skip_frames=None, chase=False, fixed_floor=False,
-              init_extra=None, update_extra=None, waypoints=None, chase_distance=1250.0):
+def make_anim(res, filename='', waypoints=None):
     '''
-    make a 3d plot of the F-16 maneuver using Raylib.
+    Make a 3d animation of the F-16 maneuver using Raylib.
 
-    see examples/anim3d folder for examples on usage
+    Args:
+        res: Simulation result dict (or list of dicts) from run_f16_sim
+        filename: Not used (kept for compatibility). Video export not yet implemented.
+        waypoints: Optional list of waypoints to visualize as [east, north, altitude]
     
-    NOTE: skip_frames parameter is ignored - all frames are always rendered for smooth playback.
-    Use smaller step size in run_f16_sim() to control frame rate (e.g., step=1/120 for 120fps).
+    Note: All rendering parameters (window size, colors, camera settings, etc.) 
+    are configured in raylib_renderer.py using uppercase constants.
     '''
 
     start = time.time()
@@ -42,8 +43,8 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
     all_Nz_list = []
 
     for r in res:
-        print(f"DEBUG: Simulation returned {len(r['times'])} frames")
-        print(f"DEBUG: Time range: {r['times'][0]:.4f}s to {r['times'][-1]:.4f}s")
+        print(f"Simulation returned {len(r['times'])} frames")
+        print(f"Time range: {r['times'][0]:.4f}s to {r['times'][-1]:.4f}s")
         
         # Use all frames - no skipping
         all_times.append(r['times'])
@@ -51,23 +52,9 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
         all_modes.append(r['modes'])
         all_ps_list.append(r['ps_list'])
         all_Nz_list.append(r['Nz_list'])
-        
-    # Calculate time deltas to see if frames are evenly spaced
-    if len(all_times[0]) > 1:
-        deltas = [all_times[0][i+1] - all_times[0][i] for i in range(min(10, len(all_times[0])-1))]
-        print(f"DEBUG: First 10 time deltas: {[f'{d:.6f}' for d in deltas]}")
 
     # Create renderer
-    renderer = RaylibRenderer(
-        width=1280,
-        height=720,
-        f16_scale=f16_scale if not isinstance(f16_scale, list) else f16_scale[0],
-        trail_length=trail_pts if not isinstance(trail_pts, list) else trail_pts[0],
-        view_size=viewsize if not isinstance(viewsize, list) else viewsize[0],
-        chase_camera=chase if not isinstance(chase, list) else chase[0],
-        chase_distance=chase_distance if not isinstance(chase_distance, list) else chase_distance[0],
-        waypoints=waypoints,
-    )
+    renderer = RaylibRenderer(waypoints=waypoints)
 
     # Calculate total frames
     total_frames = sum(len(t) for t in all_times)
@@ -78,9 +65,9 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
     sim_fps = total_frames / sim_duration  # frames per simulation second
 
     print(f"Starting Raylib animation with {total_frames} frames")
-    print(f"DEBUG: Simulation duration: {sim_duration:.2f}s")
-    print(f"DEBUG: Simulation FPS: {sim_fps:.1f} frames/sim-second")
-    print(f"DEBUG: PLAYBACK_SPEED: {PLAYBACK_SPEED}x (1.0 = real-time)")
+    print(f"Simulation duration: {sim_duration:.2f}s")
+    print(f"Simulation FPS: {sim_fps:.1f} frames/sim-second")
+    print(f"Playback speed: {PLAYBACK_SPEED}x (1.0 = real-time)")
 
     # Calculate how many simulation frames to advance per render frame (60fps)
     # PLAYBACK_SPEED = 1.0 means 1 sim second per real second
@@ -88,7 +75,7 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
     frames_per_render = (sim_fps * PLAYBACK_SPEED) / 60.0
     accumulated_frames = 0.0
     
-    print(f"DEBUG: Advancing {frames_per_render:.2f} sim frames per render frame")
+    print(f"Advancing {frames_per_render:.2f} sim frames per render frame")
 
     # Main render loop - render at 60fps, advance through sim frames based on playback speed
     while not rl.window_should_close():
@@ -148,13 +135,15 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
         if current_frame >= total_frames:
             current_frame = 0
             renderer.trail.clear()
-            print(f"DEBUG: Animation loop complete, restarting")
+            renderer.altitude_markers.clear()
+            renderer.distance_since_last_marker = 0.0
+            print(f"Animation loop complete, restarting")
         
         # Print progress periodically
-        if current_frame % 120 == 0:
+        if current_frame % 300 == 0 and current_frame > 0:
             sim_time = times[frame_in_trajectory]
             total_sim_time = all_times[-1][-1]
-            print(f"DEBUG: Frame {current_frame}/{total_frames}, Sim time: {sim_time:.2f}s/{total_sim_time:.2f}s")
+            print(f"Frame {current_frame}/{total_frames}, Sim time: {sim_time:.2f}s/{total_sim_time:.2f}s")
 
     renderer.close()
 
