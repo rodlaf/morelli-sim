@@ -6,6 +6,7 @@ from typing import Deque, Dict, Tuple
 
 import numpy as np
 from pyray import *
+from pyray import RL_PROJECTION, RL_MODELVIEW, MOUSE_BUTTON_LEFT, CAMERA_PERSPECTIVE
 from scipy.io import loadmat
 
 RAD2DEG = 180.0 / math.pi
@@ -218,7 +219,8 @@ class RaylibRenderer:
         # Zoom with mouse wheel
         wheel = get_mouse_wheel_move()
         if wheel != 0:
-            self.manual_zoom += wheel * 50.0
+            # TUNABLE: Zoom sensitivity (units per wheel tick)
+            self.manual_zoom += wheel * 200.0
         
         # Rotate camera with left mouse drag
         if is_mouse_button_down(MOUSE_BUTTON_LEFT):
@@ -227,11 +229,14 @@ class RaylibRenderer:
                 delta_x = mouse_pos.x - self.last_mouse_pos.x
                 delta_y = mouse_pos.y - self.last_mouse_pos.y
                 
-                # Adjust azimuth (horizontal rotation) and elevation (vertical rotation)
-                self.manual_camera_offset[0] += delta_x * 0.005  # azimuth
-                self.manual_camera_offset[1] -= delta_y * 0.005  # elevation
+                # TUNABLE: Rotation sensitivity (radians per pixel)
+                rotation_sensitivity = 0.01
                 
-                # Clamp elevation to prevent flipping
+                # Flip both axes: negative signs reverse rotation direction
+                self.manual_camera_offset[0] -= delta_x * rotation_sensitivity  # azimuth (horizontal)
+                self.manual_camera_offset[1] += delta_y * rotation_sensitivity  # elevation (vertical)
+                
+                # Clamp elevation to prevent camera flipping upside down
                 self.manual_camera_offset[1] = max(-math.pi/2 + 0.1, min(math.pi/2 - 0.1, self.manual_camera_offset[1]))
             
             self.last_mouse_pos = mouse_pos
@@ -243,8 +248,10 @@ class RaylibRenderer:
         self.camera.up = [0.0, 1.0, 0.0]
 
         if self.chase_camera:
-            # Calculate distance from zoom
-            distance = max(100.0, min(10000.0, self.chase_distance - self.manual_zoom))
+            # TUNABLE: Camera distance limits (min, max in world units)
+            min_distance = 50.0
+            max_distance = 20000.0
+            distance = max(min_distance, min(max_distance, self.chase_distance - self.manual_zoom))
             
             # Calculate spherical coordinates around target
             azimuth = self.manual_camera_offset[0]
