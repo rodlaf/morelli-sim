@@ -21,6 +21,7 @@ ALTITUDE_LINE_SPACING = 300.0  # feet between altitude markers
 GRID_SPACING = 1000.0  # feet between ground grid lines
 SKY_COLOR = Color(0, 0, 0, 255)  # Black sky
 GRID_COLOR = Color(40, 120, 40, 180)  # Brighter semi-transparent green
+TRAIL_COLOR = YELLOW  # Trail and altitude marker color
 
 
 @dataclass
@@ -117,8 +118,8 @@ class RaylibRenderer:
         
         # Draw altitude markers
         for marker_pos in self.altitude_markers:
-            draw_line_3d([marker_pos[0], 0.0, marker_pos[2]], marker_pos, YELLOW)
-        draw_line_3d([position[0], 0.0, position[2]], position, YELLOW)
+            draw_line_3d([marker_pos[0], 0.0, marker_pos[2]], marker_pos, TRAIL_COLOR)
+        draw_line_3d([position[0], 0.0, position[2]], position, TRAIL_COLOR)
 
         # Draw waypoints
         for wp in self.waypoints:
@@ -129,7 +130,7 @@ class RaylibRenderer:
         # Draw plane and trail
         self._draw_simple_plane(position, state.phi_rad, state.theta_rad, state.psi_rad, F16_SCALE)
         for i in range(len(self.trail) - 1):
-            draw_line_3d(self.trail[i], self.trail[i + 1], YELLOW)
+            draw_line_3d(self.trail[i], self.trail[i + 1], TRAIL_COLOR)
 
         end_mode_3d()
 
