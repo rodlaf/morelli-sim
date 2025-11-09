@@ -208,10 +208,10 @@ class RaylibRenderer:
         elevation = self.manual_camera_offset[1]
         
         # Convert spherical to cartesian offset from target
-        # Default: behind the plane at base elevation
+        # Pure spherical coordinates - maintains constant distance
         offset = np.array([
             distance * math.cos(elevation) * math.sin(azimuth),
-            distance * math.sin(elevation) + self.chase_elevation,
+            distance * math.sin(elevation),
             distance * math.cos(elevation) * math.cos(azimuth)
         ])
         
