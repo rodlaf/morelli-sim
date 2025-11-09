@@ -265,7 +265,15 @@ class RaylibRenderer:
         wheel = get_mouse_wheel_move()
         if wheel != 0:
             # TUNABLE: Zoom sensitivity (units per wheel tick)
-            self.manual_zoom += wheel * 200.0
+            zoom_delta = wheel * 200.0
+            self.manual_zoom += zoom_delta
+            
+            # Clamp manual_zoom to prevent it from going beyond useful range
+            # This prevents the "stuck" feeling when hitting zoom limits
+            # min_distance = 50, max_distance = 20000, base = CHASE_DISTANCE
+            min_zoom = -(20000.0 - CHASE_DISTANCE)  # Most zoomed out
+            max_zoom = CHASE_DISTANCE - 50.0         # Most zoomed in
+            self.manual_zoom = max(min_zoom, min(max_zoom, self.manual_zoom))
         
         # Rotate camera with left mouse drag
         if is_mouse_button_down(MOUSE_BUTTON_LEFT):
