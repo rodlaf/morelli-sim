@@ -1,7 +1,8 @@
 """
-Gymnasium-style environment for F-16 simulation
+F-16 Simulation Environment (Gymnasium-style API)
 
-Decouples the autopilot/agent from the simulator
+Decoupled environment/agent architecture for F-16 flight dynamics.
+Combines environment, agent wrapper, and runner utilities in a single module.
 """
 
 import time
@@ -43,7 +44,6 @@ class F16Env:
         # State management
         num_vars = len(get_state_names()) + 3  # num integrators
         if initial_state.size < num_vars:
-            # Append integral error states to state vector
             self.initial_state = np.zeros(num_vars)
             self.initial_state[:initial_state.shape[0]] = initial_state
         else:
@@ -57,7 +57,6 @@ class F16Env:
         self.times = []
         self.states = []
         
-        # Extended state tracking
         if self.extended_states:
             self.xd_list = []
             self.u_list = []
@@ -65,28 +64,15 @@ class F16Env:
             self.ps_list = []
             self.Ny_r_list = []
         
-        # Integration setup
         assert integrator == 'euler', "Only euler integrator currently supported"
         self.integrator_class = Euler
         
-        # Timing
         self.wall_time_start = None
-        self.wall_time_total = 0.0
         
     def reset(self, 
               initial_state: Optional[np.ndarray] = None,
               initial_time: float = 0.0) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """
-        Reset the environment to initial state
-        
-        Args:
-            initial_state: Optional new initial state (uses default if None)
-            initial_time: Initial time value
-            
-        Returns:
-            state: Initial state observation
-            info: Dictionary with extended states if enabled
-        """
+        """Reset to initial state"""
         if initial_state is not None:
             num_vars = len(get_state_names()) + 3
             if initial_state.size < num_vars:
@@ -98,7 +84,6 @@ class F16Env:
         self.state = self.initial_state.copy()
         self.time = initial_time
         
-        # Reset history
         self.times = [self.time]
         self.states = [self.state.copy()]
         
@@ -109,92 +94,48 @@ class F16Env:
             self.ps_list = []
             self.Ny_r_list = []
         
-        # Initialize integrator
         self.integrator = self.integrator_class(
-            self._dynamics,
-            self.time,
-            self.state,
-            np.inf,
-            step=self.step_size
-        )
+            self._dynamics, self.time, self.state, np.inf, step=self.step_size)
         
         self.wall_time_start = time.perf_counter()
-        self.wall_time_total = 0.0
         
-        # Build info dict
-        info = self._get_info()
-        
-        return self.state.copy(), info
+        return self.state.copy(), self._get_info()
     
-    def step(self, 
-             u_ref: np.ndarray) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
-        """
-        Execute one simulation step with the given control input
-        
-        Args:
-            u_ref: Control reference vector [Nz_ref, ps_ref, Ny_r_ref, throttle]
-            
-        Returns:
-            state: New state observation
-            reward: Reward (0.0 for base environment, override in subclasses)
-            terminated: Whether episode is done due to terminal condition
-            truncated: Whether episode is done due to time limit
-            info: Dictionary with extended states and status
-        """
-        # Store u_ref for dynamics function
+    def step(self, u_ref: np.ndarray) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
+        """Execute one simulation step"""
         self._current_u_ref = u_ref
         
-        # Advance integrator
         next_time = self.time + self.step_size
         
         while self.integrator.t < next_time - 1e-7 and self.integrator.status == 'running':
             self.integrator.step()
         
         if self.integrator.status != 'running':
-            # Integration failed
-            terminated = True
-            truncated = False
             info = self._get_info()
             info['status'] = self.integrator.status
-            return self.state.copy(), 0.0, terminated, truncated, info
+            return self.state.copy(), 0.0, True, False, info
         
-        # Update state and time
         self.time = next_time
-        dense_output = self.integrator.dense_output()
-        self.state = dense_output(self.time)
+        self.state = self.integrator.dense_output()(self.time)
         
-        # Record history
         self.times.append(self.time)
         self.states.append(self.state.copy())
         
-        # Compute extended states if needed
         if self.extended_states:
-            xd, u, Nz, ps, Ny_r = self._compute_extended_states(u_ref)
+            xd, u, Nz, ps, Ny_r = controlled_f16(self.state, u_ref)
             self.xd_list.append(xd)
             self.u_list.append(u)
             self.Nz_list.append(Nz)
             self.ps_list.append(ps)
             self.Ny_r_list.append(Ny_r)
         
-        # Check termination conditions
         terminated = self._check_terminated()
         truncated = self.time >= self.time_limit
         
-        # Build info dict
-        info = self._get_info()
-        
-        # Compute reward (default 0, override in subclasses)
-        reward = 0.0
-        
-        return self.state.copy(), reward, terminated, truncated, info
+        return self.state.copy(), 0.0, terminated, truncated, self._get_info()
     
     def _dynamics(self, t: float, state: np.ndarray) -> np.ndarray:
-        """
-        Dynamics function for integration
-        
-        Uses self._current_u_ref which should be set before integration
-        """
-        # Validate state bounds
+        """Dynamics function for integration"""
         alpha = state[StateIndex.ALPHA]
         if not -2 < alpha < 2:
             raise RuntimeError(f"alpha ({alpha}) out of bounds")
@@ -207,22 +148,10 @@ class F16Env:
         if not -10000 < alt < 100000:
             raise RuntimeError(f"altitude ({alt}) out of bounds")
         
-        # Compute derivative
-        xd = controlled_f16(state, self._current_u_ref)[0]
-        return xd
-    
-    def _compute_extended_states(self, u_ref: np.ndarray) -> Tuple:
-        """Compute extended states (xd, u, Nz, ps, Ny_r) at current state"""
-        xd, u, Nz, ps, Ny_r = controlled_f16(self.state, u_ref)
-        return xd, u, Nz, ps, Ny_r
+        return controlled_f16(state, self._current_u_ref)[0]
     
     def _check_terminated(self) -> bool:
-        """
-        Check if episode should terminate due to failure conditions
-        
-        Override in subclasses for custom termination logic
-        """
-        # Check for state bounds violations
+        """Check termination conditions"""
         try:
             alpha = self.state[StateIndex.ALPHA]
             if not -2 < alpha < 2:
@@ -241,7 +170,7 @@ class F16Env:
         return False
     
     def _get_info(self) -> Dict[str, Any]:
-        """Build info dictionary with current state information"""
+        """Build info dictionary"""
         info = {
             'time': self.time,
             'wall_time': time.perf_counter() - self.wall_time_start if self.wall_time_start else 0.0,
@@ -257,12 +186,7 @@ class F16Env:
         return info
     
     def get_history(self) -> Dict[str, Any]:
-        """
-        Get complete history of simulation
-        
-        Returns:
-            Dictionary with times, states, and extended states if enabled
-        """
+        """Get complete simulation history"""
         history = {
             'times': self.times.copy(),
             'states': np.array(self.states, dtype=float),
@@ -277,8 +201,87 @@ class F16Env:
             history['Ny_r_list'] = self.Ny_r_list.copy()
         
         return history
+
+
+class AutopilotAgent:
+    """Wrapper for existing Autopilot classes"""
     
-    @property
-    def observation(self) -> np.ndarray:
-        """Current state observation"""
-        return self.state.copy() if self.state is not None else None
+    def __init__(self, autopilot):
+        self.autopilot = autopilot
+        self.mode = autopilot.mode
+    
+    def get_action(self, state: np.ndarray, time: float) -> np.ndarray:
+        """Get control action from autopilot"""
+        self.autopilot.advance_discrete_mode(time, state)
+        self.mode = self.autopilot.mode
+        u_ref = self.autopilot.get_u_ref(time, state)
+        return np.array(u_ref, dtype=float)
+    
+    def is_done(self, state: np.ndarray, time: float) -> bool:
+        """Check if autopilot task is complete"""
+        return self.autopilot.is_finished(time, state)
+    
+    def reset(self):
+        """Reset autopilot to initial state"""
+        if hasattr(self.autopilot, 'waypoint_index'):
+            self.autopilot.waypoint_index = 0
+        if hasattr(self.autopilot, 'done_time'):
+            self.autopilot.done_time = 0.0
+        initial_mode = 'Waypoint 1' if hasattr(self.autopilot, 'waypoints') else self.autopilot.mode
+        self.autopilot.mode = initial_mode
+        self.mode = initial_mode
+
+
+def run_f16_env(env: F16Env, agent, tmax: float, print_mode_changes: bool = False) -> Dict[str, Any]:
+    """
+    Run F-16 simulation using environment and agent
+    
+    Args:
+        env: F16Env instance
+        agent: Agent with get_action(state, time) -> u_ref
+        tmax: Maximum simulation time
+        print_mode_changes: Whether to print mode transitions
+        
+    Returns:
+        Dictionary with simulation results
+    """
+    state, info = env.reset()
+    
+    modes = [getattr(agent, 'mode', 'Unknown')]
+    last_mode = modes[0]
+    
+    while env.time < tmax:
+        u_ref = agent.get_action(state, env.time)
+        state, reward, terminated, truncated, info = env.step(u_ref)
+        
+        current_mode = getattr(agent, 'mode', 'Unknown')
+        modes.append(current_mode)
+        
+        if print_mode_changes and current_mode != last_mode:
+            print(f"Mode transition {last_mode} -> {current_mode} at time {env.time}")
+        last_mode = current_mode
+        
+        if terminated or truncated:
+            break
+        
+        if hasattr(agent, 'is_done') and agent.is_done(state, env.time):
+            break
+    
+    history = env.get_history()
+    
+    result = {
+        'times': history['times'],
+        'states': history['states'],
+        'modes': modes,
+        'runtime': history['wall_time'],
+        'status': 'finished' if not terminated else 'terminated',
+    }
+    
+    if env.extended_states:
+        result['xd_list'] = history['xd_list']
+        result['u_list'] = history['u_list']
+        result['Nz_list'] = history['Nz_list']
+        result['ps_list'] = history['ps_list']
+        result['Ny_r_list'] = history['Ny_r_list']
+    
+    return result

@@ -9,9 +9,7 @@ import sys
 import numpy as np
 from numpy import deg2rad
 
-from aerobench.envs.f16_env import F16Env
-from aerobench.envs.agents import AutopilotAgent
-from aerobench.envs.runner import run_f16_env
+from aerobench.f16_env import F16Env, AutopilotAgent, run_f16_env
 from aerobench.visualize import anim3d
 from aerobench.examples.waypoint.waypoint_autopilot import WaypointAutopilot
 

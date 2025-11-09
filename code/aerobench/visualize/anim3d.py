@@ -6,13 +6,8 @@ import time
 
 from aerobench.util import StateIndex
 
-try:
-    # Try to import the compiled Cython wrapper
-    from aerobench.visualize import raylib_renderer_cy as raylib_renderer
-except ImportError:
-    # Fallback to pure Python implementation
-    print("Warning: Cython raylib_renderer not available, falling back to Python implementation")
-    from aerobench.visualize import raylib_renderer
+# import the compiled Cython wrapper
+from aerobench.visualize import raylib_renderer_cy as raylib_renderer
 
 # Simulation playback speed multiplier
 # 1.0 = real-time (1 simulation second = 1 real second)
