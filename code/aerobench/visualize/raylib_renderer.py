@@ -75,12 +75,6 @@ class RaylibRenderer:
         self.manual_zoom = 0.0  # zoom offset
         self.last_mouse_pos = None
 
-        self.mode_colors: Dict[str, Tuple[int, int, int, int]] = {
-            "gcas": (230, 41, 55, 255),  # RED
-            "recovery": (0, 228, 48, 255),  # GREEN
-            "normal": (102, 191, 255, 255),  # SKYBLUE
-        }
-
     def close(self) -> None:
         close_window()
 
