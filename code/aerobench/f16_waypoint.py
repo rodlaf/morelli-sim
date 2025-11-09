@@ -9,7 +9,7 @@ import time
 import numpy as np
 from typing import Tuple, Dict, Any
 
-from aerobench.highlevel.controlled_f16 import controlled_f16
+from aerobench.highlevel import f16_model
 from aerobench.util import get_state_names, Euler, StateIndex
 from aerobench.visualize import raylib_renderer_cy as raylib_renderer
 
@@ -158,7 +158,7 @@ class F16Waypoint:
         self.states.append(self.state.copy())
         
         if self.extended_states:
-            xd, u, Nz, ps, Ny_r = controlled_f16(self.state, u_ref)
+            xd, u, Nz, ps, Ny_r = f16_model.controlled_f16_wrapper(self.state, u_ref)
             self.xd_list.append(xd)
             self.u_list.append(u)
             self.Nz_list.append(Nz)
@@ -184,7 +184,7 @@ class F16Waypoint:
         if not -10000 < alt < 100000:
             raise RuntimeError(f"altitude ({alt}) out of bounds")
         
-        return controlled_f16(state, self._current_u_ref)[0]
+        return f16_model.controlled_f16_wrapper(state, self._current_u_ref)[0]
     
     def _check_terminated(self) -> bool:
         """Check termination conditions"""
