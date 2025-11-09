@@ -7,13 +7,14 @@ import time
 import pyray as rl
 
 from aerobench.util import StateIndex
-from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState
+from aerobench.visualize import raylib_renderer
+from aerobench.visualize.raylib_renderer import RenderState
 
 # Simulation playback speed multiplier
 # 1.0 = real-time (1 simulation second = 1 real second)
 # 0.5 = half speed (slow motion)
 # 2.0 = double speed (fast forward)
-PLAYBACK_SPEED = 2.0
+PLAYBACK_SPEED = 3.0
 
 
 def make_anim(res, filename='', waypoints=None):
@@ -23,9 +24,9 @@ def make_anim(res, filename='', waypoints=None):
     Args:
         res: Simulation result dict (or list of dicts) from run_f16_sim
         filename: Not used (kept for compatibility). Video export not yet implemented.
-        waypoints: Optional list of waypoints to visualize as [east, north, altitude]
+        waypoints: Ignored - waypoints are configured in raylib_renderer.py as WAYPOINTS constant
     
-    Note: All rendering parameters (window size, colors, camera settings, etc.) 
+    Note: All rendering parameters (window size, colors, camera settings, waypoints, etc.) 
     are configured in raylib_renderer.py using uppercase constants.
     '''
 
@@ -53,9 +54,6 @@ def make_anim(res, filename='', waypoints=None):
         all_ps_list.append(r['ps_list'])
         all_Nz_list.append(r['Nz_list'])
 
-    # Create renderer
-    renderer = RaylibRenderer(waypoints=waypoints)
-
     # Calculate total frames
     total_frames = sum(len(t) for t in all_times)
     current_frame = 0
@@ -77,6 +75,9 @@ def make_anim(res, filename='', waypoints=None):
     
     print(f"Advancing {frames_per_render:.2f} sim frames per render frame")
 
+    # Initialize the window before checking window_should_close
+    raylib_renderer._initialize()
+    
     # Main render loop - render at 60fps, advance through sim frames based on playback speed
     while not rl.window_should_close():
         # Determine which trajectory and frame we're in
@@ -121,7 +122,7 @@ def make_anim(res, filename='', waypoints=None):
             mode=modes[frame_in_trajectory]
         )
 
-        renderer.render(render_state)
+        raylib_renderer.render(render_state)
         
         # Advance frame based on playback speed
         # At 1.0x speed with step=1/120, we show 120 frames per real second (2 per render frame at 60fps)
@@ -134,9 +135,7 @@ def make_anim(res, filename='', waypoints=None):
         # Loop back to start when done
         if current_frame >= total_frames:
             current_frame = 0
-            renderer.trail.clear()
-            renderer.altitude_markers.clear()
-            renderer.last_marker_pos = None
+            raylib_renderer.reset()
             print(f"Animation loop complete, restarting")
         
         # Print progress periodically
@@ -145,7 +144,7 @@ def make_anim(res, filename='', waypoints=None):
             total_sim_time = all_times[-1][-1]
             print(f"Frame {current_frame}/{total_frames}, Sim time: {sim_time:.2f}s/{total_sim_time:.2f}s")
 
-    renderer.close()
+    raylib_renderer.close()
 
     elapsed = time.time() - start
     print(f"Visualization completed in {elapsed:.1f} seconds")
