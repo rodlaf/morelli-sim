@@ -18,6 +18,9 @@ CHASE_DISTANCE = 1250.0  # default camera distance from aircraft
 CHASE_ELEVATION = 150.0  # camera height offset above aircraft
 F16_SCALE = 100.0  # visual size of the F-16 model in feet
 ALTITUDE_LINE_SPACING = 500.0  # feet between altitude markers
+GRID_SPACING = 1000.0  # feet between ground grid lines
+SKY_COLOR = Color(0, 0, 0, 255)  # Black sky
+GRID_COLOR = Color(40, 120, 40, 180)  # Brighter semi-transparent green
 
 
 @dataclass
@@ -99,7 +102,7 @@ class RaylibRenderer:
         self._update_camera(position)
 
         begin_drawing()
-        clear_background(Color(34, 90, 133, 255))  # Sky: #225a85
+        clear_background(SKY_COLOR)
 
         begin_mode_3d(self.camera)
         
@@ -113,35 +116,32 @@ class RaylibRenderer:
         rl_matrix_mode(RL_MODELVIEW)
         
         # Draw grid on ground instead of solid plane to avoid Z-fighting at distance
-        # TUNABLE: Grid spacing and extent
-        grid_spacing = 1000.0  # feet between grid lines
         grid_extent = 50000.0   # how far grid extends from aircraft
-        grid_color = Color(24, 77, 19, 180)  # Semi-transparent green
         
         # Draw grid lines parallel to North (Z-axis)
         x_start = position[0] - grid_extent
         x_end = position[0] + grid_extent
         z_pos = position[2]
-        for x in range(int(x_start // grid_spacing) * int(grid_spacing), 
-                       int(x_end // grid_spacing) * int(grid_spacing) + 1, 
-                       int(grid_spacing)):
+        for x in range(int(x_start // GRID_SPACING) * int(GRID_SPACING), 
+                       int(x_end // GRID_SPACING) * int(GRID_SPACING) + 1, 
+                       int(GRID_SPACING)):
             draw_line_3d(
                 [float(x), 0.0, z_pos - grid_extent],
                 [float(x), 0.0, z_pos + grid_extent],
-                grid_color
+                GRID_COLOR
             )
         
         # Draw grid lines parallel to East (X-axis)
         z_start = position[2] - grid_extent
         z_end = position[2] + grid_extent
         x_pos = position[0]
-        for z in range(int(z_start // grid_spacing) * int(grid_spacing),
-                       int(z_end // grid_spacing) * int(grid_spacing) + 1,
-                       int(grid_spacing)):
+        for z in range(int(z_start // GRID_SPACING) * int(GRID_SPACING),
+                       int(z_end // GRID_SPACING) * int(GRID_SPACING) + 1,
+                       int(GRID_SPACING)):
             draw_line_3d(
                 [x_pos - grid_extent, 0.0, float(z)],
                 [x_pos + grid_extent, 0.0, float(z)],
-                grid_color
+                GRID_COLOR
             )
         
         # Draw fixed altitude markers (vertical lines from ground to marker position)
