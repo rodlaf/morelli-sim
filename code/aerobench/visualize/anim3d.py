@@ -7,11 +7,11 @@ import time
 import pyray as rl
 
 from aerobench.util import StateIndex
-from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState
+from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState, PLAYBACK_SPEED
 
 def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail_pts=60,
               elev=30, azim=45, skip_frames=None, chase=False, fixed_floor=False,
-              init_extra=None, update_extra=None):
+              init_extra=None, update_extra=None, waypoints=None):
     '''
     make a 3d plot of the F-16 maneuver using Raylib.
 
@@ -67,6 +67,7 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
         trail_length=trail_pts if not isinstance(trail_pts, list) else trail_pts[0],
         view_size=viewsize if not isinstance(viewsize, list) else viewsize[0],
         chase_camera=chase if not isinstance(chase, list) else chase[0],
+        waypoints=waypoints,
     )
 
     # Calculate total frames
@@ -77,16 +78,20 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
 
     print(f"Starting Raylib animation with {total_frames} frames")
 
+    # Timing for playback speed control
+    last_frame_time = time.time()
+    accumulated_time = 0.0
 
     # Main render loop
     while not rl.window_should_close():
-        if current_frame >= total_frames:
-            # Loop back to start
-            current_frame = 0
-            trajectory_index = 0
-            frame_in_trajectory = 0
-            renderer.trail.clear()
-
+        # Calculate delta time for smooth playback
+        current_time = time.time()
+        delta_time = current_time - last_frame_time
+        last_frame_time = current_time
+        
+        # Accumulate time based on playback speed
+        accumulated_time += delta_time * PLAYBACK_SPEED
+        
         # Determine which trajectory we're in
         traj_frame_count = 0
         for i, times in enumerate(all_times):
@@ -102,6 +107,31 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
         modes = all_modes[trajectory_index]
         Nz_list = all_Nz_list[trajectory_index]
         ps_list = all_ps_list[trajectory_index]
+
+        # Check if we should advance to the next frame
+        should_advance = False
+        if frame_in_trajectory < len(times) - 1:
+            next_frame_time = times[frame_in_trajectory + 1]
+            current_frame_time = times[frame_in_trajectory]
+            frame_duration = next_frame_time - current_frame_time
+            
+            if accumulated_time >= frame_duration:
+                should_advance = True
+                accumulated_time -= frame_duration
+        else:
+            # At end of trajectory
+            if accumulated_time >= 0.033:  # ~30fps fallback
+                should_advance = True
+                accumulated_time = 0.0
+        
+        if current_frame >= total_frames:
+            # Loop back to start
+            current_frame = 0
+            trajectory_index = 0
+            frame_in_trajectory = 0
+            accumulated_time = 0.0
+            renderer.trail.clear()
+            continue
 
         state = states[frame_in_trajectory]
         
@@ -126,7 +156,9 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
 
         renderer.render(render_state)
 
-        current_frame += 1
+        # Advance frame only when enough time has accumulated
+        if should_advance:
+            current_frame += 1
         
         # Print progress periodically
         if current_frame % 30 == 0:

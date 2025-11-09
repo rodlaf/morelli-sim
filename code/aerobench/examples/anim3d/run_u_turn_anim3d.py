@@ -118,7 +118,8 @@ def main():
         
     anim3d.make_anim(res, filename, f16_scale=70, viewsize=5000, viewsize_z=4000, trail_pts=np.inf,
                      elev=27, azim=-107, skip_frames=skip_override,
-                     chase=True, fixed_floor=True, init_extra=init_extra, update_extra=update_extra)
+                     chase=True, fixed_floor=True, init_extra=init_extra, update_extra=update_extra,
+                     waypoints=waypoints)
 
 if __name__ == '__main__':
     main()

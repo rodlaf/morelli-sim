@@ -10,6 +10,9 @@ from scipy.io import loadmat
 
 RAD2DEG = 180.0 / math.pi
 
+# Simulation playback speed multiplier, percentage of real-time speed
+PLAYBACK_SPEED = 20.0
+
 
 @dataclass
 class RenderState:
@@ -42,6 +45,7 @@ class RaylibRenderer:
         chase_camera: bool = True,
         chase_distance: float = 400.0,
         chase_elevation: float = 150.0,
+        waypoints=None,
     ) -> None:
         init_window(width, height, title)
         set_target_fps(60)
@@ -63,6 +67,12 @@ class RaylibRenderer:
         self.chase_distance = chase_distance
         self.chase_elevation = chase_elevation
         self.font = get_font_default()
+        self.waypoints = waypoints if waypoints is not None else []
+
+        # Camera control state
+        self.manual_camera_offset = [0.0, 0.0]  # azimuth, elevation offsets in radians
+        self.manual_zoom = 0.0  # zoom offset
+        self.last_mouse_pos = None
 
         self.mode_colors: Dict[str, Tuple[int, int, int, int]] = {
             "gcas": (230, 41, 55, 255),  # RED
@@ -118,13 +128,15 @@ class RaylibRenderer:
         return model
 
     def render(self, state: RenderState) -> None:
+        # Handle camera controls
+        self._handle_camera_input()
+        
         pos_e, pos_n, altitude = state.position_ft
         position = [float(pos_e), float(altitude), float(pos_n)]
-        self.trail.append(position)
+        self.trail.append(tuple(position))
 
         rotation_matrix, basis = self._build_rotation(state.theta_rad, state.psi_rad, state.phi_rad)
-        self.model.transform = rotation_matrix
-
+        
         self._update_camera(position, basis)
 
         begin_drawing()
@@ -135,28 +147,118 @@ class RaylibRenderer:
         draw_plane([position[0], 0.0, position[2]], [ground_size, ground_size], DARKGRAY)
         draw_grid(40, int(ground_size / 20))
 
-        draw_model(self.model, position, 1.0, LIGHTGRAY)
+        # Draw simple plane representation using axes
+        self._draw_simple_plane(position, basis, 100.0)
+
+        # Draw waypoints
+        for i, wp in enumerate(self.waypoints):
+            wp_pos = [float(wp[0]), float(wp[2]), float(wp[1])]  # (east, altitude, north)
+            draw_sphere(wp_pos, 50.0, BLUE)
+            draw_sphere_wires(wp_pos, 50.0, 8, 8, SKYBLUE)
 
         # Draw trail
         trail_pts = list(self.trail)
         for i in range(len(trail_pts) - 1):
-            draw_line_3d(trail_pts[i], trail_pts[i + 1], RED)
+            draw_line_3d(trail_pts[i], trail_pts[i + 1], YELLOW)
 
         end_mode_3d()
 
         self._draw_hud(state)
         end_drawing()
 
+    def _draw_simple_plane(self, position: list, basis: np.ndarray, size: float) -> None:
+        """Draw a simple plane using oriented axes and shapes."""
+        pos = np.array(position)
+        
+        # basis[:, 0] is forward (nose direction)
+        # basis[:, 1] is right wing
+        # basis[:, 2] is up
+        
+        forward = basis[:, 0] * size
+        right = basis[:, 1] * size * 0.6
+        up = basis[:, 2] * size * 0.3
+        
+        # Nose (forward direction) - RED
+        nose = pos + forward
+        draw_line_3d(position, nose.tolist(), RED)
+        draw_sphere(nose.tolist(), size * 0.15, RED)
+        
+        # Wings - GREEN
+        left_wing = pos - right
+        right_wing = pos + right
+        draw_line_3d(left_wing.tolist(), right_wing.tolist(), GREEN)
+        draw_sphere(left_wing.tolist(), size * 0.08, GREEN)
+        draw_sphere(right_wing.tolist(), size * 0.08, GREEN)
+        
+        # Tail (backward) - BLUE  
+        tail = pos - forward * 0.4
+        draw_line_3d(position, tail.tolist(), BLUE)
+        
+        # Vertical stabilizer (up) - SKYBLUE
+        tail_up = tail + up
+        draw_line_3d(tail.tolist(), tail_up.tolist(), SKYBLUE)
+        
+        # Body sphere
+        draw_sphere(position, size * 0.12, LIGHTGRAY)
+
+    def _handle_camera_input(self) -> None:
+        """Handle mouse input for camera control."""
+        # Zoom with mouse wheel
+        wheel = get_mouse_wheel_move()
+        if wheel != 0:
+            self.manual_zoom += wheel * 50.0
+        
+        # Rotate camera with left mouse drag
+        if is_mouse_button_down(MOUSE_BUTTON_LEFT):
+            mouse_pos = get_mouse_position()
+            if self.last_mouse_pos is not None:
+                delta_x = mouse_pos.x - self.last_mouse_pos.x
+                delta_y = mouse_pos.y - self.last_mouse_pos.y
+                
+                # Adjust azimuth (horizontal rotation) and elevation (vertical rotation)
+                self.manual_camera_offset[0] += delta_x * 0.005  # azimuth
+                self.manual_camera_offset[1] -= delta_y * 0.005  # elevation
+                
+                # Clamp elevation to prevent flipping
+                self.manual_camera_offset[1] = max(-math.pi/2 + 0.1, min(math.pi/2 - 0.1, self.manual_camera_offset[1]))
+            
+            self.last_mouse_pos = mouse_pos
+        else:
+            self.last_mouse_pos = None
+
     def _update_camera(self, position: list, basis: np.ndarray) -> None:
         self.camera.target = position
-        up = basis[:, 2]
-        self.camera.up = [float(up[0]), float(up[1]), float(up[2])]
+        # Keep camera up vector pointing to world up (Y-axis)
+        self.camera.up = [0.0, 1.0, 0.0]
 
         if self.chase_camera:
             forward = basis[:, 0]
+            
+            # Calculate base camera position
+            distance = self.chase_distance - self.manual_zoom
+            distance = max(100.0, distance)  # Minimum distance
+            
+            # Apply manual rotation offsets
+            # Start with plane's forward direction
+            direction = -forward  # Behind the plane
+            
+            # Apply azimuth rotation (around Y axis)
+            cos_az = math.cos(self.manual_camera_offset[0])
+            sin_az = math.sin(self.manual_camera_offset[0])
+            rotated_dir = np.array([
+                direction[0] * cos_az - direction[2] * sin_az,
+                direction[1],
+                direction[0] * sin_az + direction[2] * cos_az
+            ])
+            
+            # Calculate camera position
             eye = np.array(position)
-            eye -= forward * self.chase_distance
-            eye += up * self.chase_elevation
+            eye += rotated_dir * distance
+            
+            # Apply elevation offset
+            eye[1] += self.chase_elevation
+            eye[1] += distance * math.sin(self.manual_camera_offset[1])
+            
             self.camera.position = [float(eye[0]), float(eye[1]), float(eye[2])]
 
     @staticmethod
