@@ -378,3 +378,23 @@ class RaylibRenderer:
             1,
             RAYWHITE,
         )
+
+        draw_text_ex(
+            self.font,
+            f"Left click + drag: rotate camera",
+            [padding, padding + 8 * line_height],
+            20,
+            1,
+            RAYWHITE,
+        )
+
+        draw_text_ex(
+            self.font,
+            f"Mouse wheel: zoom in/out",
+            [padding, padding + 9 * line_height],
+            20,
+            1,
+            RAYWHITE,
+        )
+
+

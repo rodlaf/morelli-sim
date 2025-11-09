@@ -40,7 +40,7 @@ def simulate(filename):
     # make waypoint list
     waypoints = [[-5000, -7500, alt],
                  [-15000, -7500, alt-500],
-                 [-15000, 5000, alt+2000]]
+                 [-15000, 6000, alt+2000]]
 
     ap = WaypointAutopilot(waypoints, stdout=True)
 
