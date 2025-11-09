@@ -18,17 +18,11 @@ class F16Waypoint:
     """
     F-16 waypoint following environment
     
-    Fixed waypoints for U-turn maneuver demonstration.
+    Waypoints are passed in during initialization.
     """
     
-    # Waypoints for U-turn scenario (east, north, altitude)
-    WAYPOINTS = [
-        [-5000, -7500, 1500],
-        [-15000, -7500, 1000],
-        [-15000, 6000, 3500]
-    ]
-    
     def __init__(self, 
+                 waypoints: list,
                  initial_state: np.ndarray,
                  step_size: float = 1/30,
                  time_limit: float = 150.0,
@@ -37,11 +31,13 @@ class F16Waypoint:
         Initialize F-16 waypoint environment
         
         Args:
+            waypoints: List of 3-tuples (east, north, altitude)
             initial_state: Initial state vector (13+ elements)
             step_size: Simulation time step in seconds
             time_limit: Maximum simulation time
             extended_states: Whether to compute extended states
         """
+        self.waypoints = waypoints
         self.step_size = step_size
         self.time_limit = time_limit
         self.extended_states = extended_states
@@ -72,16 +68,8 @@ class F16Waypoint:
         self.integrator_class = Euler
         self.wall_time_start = None
         
-        # Rendering state
-        self.current_mode = "Waypoint 1"
-        
-    def render(self, mode: str = "Waypoint 1"):
-        """
-        Render current state using Raylib
-        
-        Args:
-            mode: Current autopilot mode string
-        """
+    def render(self):
+        """Render current state using Raylib"""
         if self.state is None or self.time is None:
             return
         
@@ -110,7 +98,7 @@ class F16Waypoint:
             ),
             'nz_g': nz_g,
             'ps_rad_s': ps_rad_s,
-            'mode': mode
+            'waypoints': self.waypoints
         }
         
         raylib_renderer.render(render_state)

@@ -109,8 +109,9 @@ class AutopilotAgent:
         else:
             self.mode = f'Waypoint {self.waypoint_index + 1}'
         
-        if self.stdout and old_mode != self.mode:
-            print(f"Waypoint transition {old_mode} -> {self.mode} at time {time}")
+        # Print mode transitions
+        if old_mode != self.mode:
+            print(f"(AutopilotAgent) Mode transition {old_mode} -> {self.mode} at time {time:.2f}s")
     
     def _get_waypoint_heading(self, state: np.ndarray) -> float:
         """Get heading to current waypoint"""
@@ -232,13 +233,14 @@ class AutopilotAgent:
         return rv
 
 
-def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
+def run_simulation(env: F16Waypoint, agent: AutopilotAgent, waypoints: list):
     """
     Run F-16 simulation with live rendering (PufferLib-style)
     
     Args:
         env: F16Waypoint environment
         agent: AutopilotAgent instance
+        waypoints: List of waypoint 3-tuples (east, north, altitude)
         
     Runs infinite loop with real-time rendering until window closed.
     """
@@ -246,13 +248,11 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
     
     print("Starting live F-16 simulation...")
     print("Press ESC or close window to exit")
-    print(f"Initial mode: {agent.mode}")
     
-    last_mode = agent.mode
     frame_count = 0
     
     # Main loop - similar to PufferLib squared.h example
-    env.render(agent.mode)
+    env.render()
     
     while not env.should_close_window():
         # Get action from agent
@@ -262,12 +262,7 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
         state, reward, terminated, truncated, info = env.step(u_ref)
         
         # Render current state
-        env.render(agent.mode)
-        
-        # Print mode changes
-        if agent.mode != last_mode:
-            print(f"Mode transition {last_mode} -> {agent.mode} at time {env.time:.2f}s")
-            last_mode = agent.mode
+        env.render()
         
         frame_count += 1
         
@@ -275,15 +270,13 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
         if terminated or truncated or agent.is_done(state, env.time):
             print(f"\nSimulation complete at {env.time:.2f}s after {frame_count} frames")
             print(f"Final altitude: {state[12]:.1f} ft")
-            print(f"Final mode: {agent.mode}")
             print("Resetting...\n")
             
             # Reset environment and rendering
             state, info = env.reset()
             env.reset_rendering()
-            agent.__init__(F16Waypoint.WAYPOINTS, stdout=agent.stdout)
+            agent.__init__(waypoints, stdout=agent.stdout)
             frame_count = 0
-            last_mode = agent.mode
     
     # Cleanup
     env.close_window()
@@ -292,6 +285,13 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
 
 def main():
     """Main demo function"""
+    
+    # Waypoints for U-turn scenario (east, north, altitude) - DEFINED ONCE
+    waypoints = [
+        [-5000, -7500, 1500],
+        [-15000, -7500, 1000],
+        [-15000, 6000, 3500]
+    ]
     
     # Initial conditions
     power = 9
@@ -304,8 +304,9 @@ def main():
     psi = 0
     init = [vt, alpha, beta, phi, theta, psi, 0, 0, 0, 0, 0, alt, power]
     
-    # Create environment (waypoints are fixed in F16Waypoint.WAYPOINTS)
+    # Create environment
     env = F16Waypoint(
+        waypoints=waypoints,
         initial_state=np.array(init, dtype=float),
         step_size=1/30,
         time_limit=150.0,
@@ -313,10 +314,10 @@ def main():
     )
     
     # Create autopilot agent
-    agent = AutopilotAgent(F16Waypoint.WAYPOINTS, stdout=True)
+    agent = AutopilotAgent(waypoints, stdout=True)
     
     # Run live simulation loop
-    run_simulation(env, agent)
+    run_simulation(env, agent, waypoints)
 
 
 if __name__ == '__main__':

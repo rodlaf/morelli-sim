@@ -35,13 +35,8 @@ static const Color GRID_COLOR = {40, 120, 40, 180};
 static const Color TRAIL_COLOR = {253, 249, 0, 255};  /* YELLOW */
 static const Color ALTITUDE_MARKER_COLOR = {255, 255, 0, 128};
 
-/* Waypoints (matching run_u_turn_anim3d.py) */
-#define NUM_WAYPOINTS 3
-static const float WAYPOINTS[NUM_WAYPOINTS][3] = {
-    {-5000.0f, -7500.0f, 1500.0f},
-    {-15000.0f, -7500.0f, 1000.0f},
-    {-15000.0f, 6000.0f, 3500.0f}
-};
+/* Maximum waypoints supported */
+#define MAX_WAYPOINTS 10
 
 /* Render state structure */
 typedef struct {
@@ -57,7 +52,8 @@ typedef struct {
     float altitude;
     float nz_g;
     float ps_rad_s;
-    const char* mode;
+    int num_waypoints;
+    float waypoints[MAX_WAYPOINTS][3];  /* [east, north, altitude] */
 } RenderState;
 
 /* Trail marker structure */
@@ -372,9 +368,9 @@ void raylib_renderer_render(RenderState* state) {
     /* Current position marker */
     DrawLine3D((Vector3){position.x, 0.0f, position.z}, position, ALTITUDE_MARKER_COLOR);
     
-    /* Draw waypoints */
-    for (int i = 0; i < NUM_WAYPOINTS; i++) {
-        Vector3 wp_pos = {WAYPOINTS[i][0], WAYPOINTS[i][2], WAYPOINTS[i][1]};  /* [east, altitude, north] */
+    /* Draw waypoints from render state */
+    for (int i = 0; i < state->num_waypoints; i++) {
+        Vector3 wp_pos = {state->waypoints[i][0], state->waypoints[i][2], state->waypoints[i][1]};  /* [east, altitude, north] */
         DrawSphere(wp_pos, 50.0f, PURPLE);
         DrawLine3D((Vector3){wp_pos.x, 0.0f, wp_pos.z}, wp_pos, PURPLE);
     }
