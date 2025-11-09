@@ -22,6 +22,8 @@ GRID_SPACING = 1000.0  # feet between ground grid lines
 SKY_COLOR = Color(0, 0, 0, 255)  # Black sky
 GRID_COLOR = Color(40, 120, 40, 180)  # Brighter semi-transparent green
 TRAIL_COLOR = YELLOW  # Trail and altitude marker color
+RIBBON_WIDTH = 100.0  # Width of the trail ribbon in feet
+TRAIL_MIN_DISTANCE = 25.0  # Minimum distance between trail points in feet
 
 
 @dataclass
@@ -77,11 +79,23 @@ class RaylibRenderer:
         pos_e, pos_n, altitude = state.position_ft
         position = [float(pos_e), float(altitude), float(pos_n)]
         
-        self.trail.append(tuple(position))
+        # Only add trail point if we've moved far enough from the last point
+        should_add = len(self.trail) == 0
+        if len(self.trail) > 0:
+            dist = np.linalg.norm(np.array(position) - np.array(self.trail[-1]['pos']))
+            should_add = dist >= TRAIL_MIN_DISTANCE
+        
+        if should_add:
+            self.trail.append({
+                'pos': tuple(position),
+                'roll': state.phi_rad,
+                'pitch': state.theta_rad,
+                'yaw': state.psi_rad
+            })
         
         # Add altitude marker every ALTITUDE_LINE_SPACING feet
         if len(self.trail) > 1:
-            segment_dist = np.linalg.norm(np.array(position) - np.array(self.trail[-2]))
+            segment_dist = np.linalg.norm(np.array(position) - np.array(self.trail[-2]['pos']))
             self.distance_since_last_marker += segment_dist
             
             if self.distance_since_last_marker >= ALTITUDE_LINE_SPACING:
@@ -127,10 +141,9 @@ class RaylibRenderer:
             draw_sphere(wp_pos, 50.0, PURPLE)
             draw_line_3d([wp_pos[0], 0.0, wp_pos[2]], wp_pos, PURPLE)
 
-        # Draw plane and trail
+        # Draw plane and ribbon trail
         self._draw_simple_plane(position, state.phi_rad, state.theta_rad, state.psi_rad, F16_SCALE)
-        for i in range(len(self.trail) - 1):
-            draw_line_3d(self.trail[i], self.trail[i + 1], TRAIL_COLOR)
+        self._draw_ribbon_trail()
 
         end_mode_3d()
 
@@ -138,30 +151,18 @@ class RaylibRenderer:
         end_drawing()
 
     def _draw_simple_plane(self, position: list, roll: float, pitch: float, yaw: float, size: float) -> None:
-        """Draw simple F-16 representation using Euler angles and F16 navigation equations."""
+        """Draw F-16 using navigation equations."""
         pos = np.array(position)
+        sp, cp, st, ct, sy, cy = math.sin(roll), math.cos(roll), math.sin(pitch), math.cos(pitch), math.sin(yaw), math.cos(yaw)
         
-        # Compute trig values
-        sphi, cphi = math.sin(roll), math.cos(roll)
-        stheta, ctheta = math.sin(pitch), math.cos(pitch)
-        spsi, cpsi = math.sin(yaw), math.cos(yaw)
-        
-        # F16 navigation equations: body axes -> world (north, east, up)
-        forward_north, forward_east, forward_up = ctheta * cpsi, ctheta * spsi, stheta
-        right_north = sphi * cpsi * stheta - cphi * spsi
-        right_east = sphi * spsi * stheta + cphi * cpsi
-        right_up = sphi * ctheta
-        
-        # Convert to visualization frame: (East, Up, North)
-        nose_dir = np.array([forward_east, forward_up, forward_north])
-        right_dir = np.array([right_east, -right_up, right_north])
+        # F16 navigation: body -> world (north, east, up) -> viz (East, Up, North)
+        nose_dir = np.array([ct * sy, st, ct * cy])
+        right_dir = np.array([sp * sy * st + cp * cy, -sp * ct, sp * cy * st - cp * sy])
         up_dir = np.cross(nose_dir, right_dir)
         up_dir /= np.linalg.norm(up_dir)
         
-        # Scale and draw components
-        forward, right, up = nose_dir * size, right_dir * size * 0.6, up_dir * size * 0.3
-        nose, tail = pos + forward, pos - forward * 0.4
-        right_wing, left_wing = pos + right, pos - right
+        nose, tail = pos + nose_dir * size, pos - nose_dir * size * 0.4
+        left_wing, right_wing = pos - right_dir * size * 0.6, pos + right_dir * size * 0.6
         
         draw_line_3d(position, nose.tolist(), RED)
         draw_sphere(nose.tolist(), size * 0.08, RED)
@@ -170,9 +171,30 @@ class RaylibRenderer:
         draw_sphere(right_wing.tolist(), size * 0.08, GREEN)
         draw_line_3d(position, tail.tolist(), BLUE)
         draw_sphere(tail.tolist(), size * 0.08, BLUE)
-        draw_line_3d(tail.tolist(), (tail + up).tolist(), SKYBLUE)
-        draw_sphere((tail + up).tolist(), size * 0.08, SKYBLUE)
+        draw_line_3d(tail.tolist(), (tail + up_dir * size * 0.3).tolist(), SKYBLUE)
+        draw_sphere((tail + up_dir * size * 0.3).tolist(), size * 0.08, SKYBLUE)
         draw_sphere(position, size * 0.12, LIGHTGRAY)
+
+    def _draw_ribbon_trail(self) -> None:
+        """Draw trail as three lines (left, center, right) showing aircraft orientation."""
+        if len(self.trail) < 2:
+            return
+        
+        half_width = RIBBON_WIDTH / 2.0
+        left_edges, right_edges = [], []
+        
+        for pt in self.trail:
+            pos = np.array(pt['pos'])
+            sp, cp, st, ct, sy, cy = math.sin(pt['roll']), math.cos(pt['roll']), math.sin(pt['pitch']), math.cos(pt['pitch']), math.sin(pt['yaw']), math.cos(pt['yaw'])
+            r = np.array([sp * sy * st + cp * cy, -sp * ct, sp * cy * st - cp * sy]) / (np.linalg.norm(np.array([sp * sy * st + cp * cy, -sp * ct, sp * cy * st - cp * sy])) + 1e-10)
+            left_edges.append(pos - r * half_width)
+            right_edges.append(pos + r * half_width)
+        
+        # Draw three continuous lines: left edge, center, right edge
+        for i in range(len(self.trail) - 1):
+            draw_line_3d(left_edges[i].tolist(), left_edges[i + 1].tolist(), TRAIL_COLOR)
+            draw_line_3d(right_edges[i].tolist(), right_edges[i + 1].tolist(), TRAIL_COLOR)
+            draw_line_3d(self.trail[i]['pos'], self.trail[i + 1]['pos'], TRAIL_COLOR)
 
     def _handle_camera_input(self) -> None:
         """Handle mouse input for camera control."""
@@ -198,125 +220,33 @@ class RaylibRenderer:
     def _update_camera(self, position: list) -> None:
         self.camera.target = position
         self.camera.up = [0.0, 1.0, 0.0]
-
-        # TUNABLE: Camera distance limits (min, max in world units)
-        min_distance = 50.0
-        max_distance = 20000.0
-        distance = max(min_distance, min(max_distance, self.chase_distance - self.manual_zoom))
         
-        # Calculate spherical coordinates around target
-        azimuth = self.manual_camera_offset[0]
-        elevation = self.manual_camera_offset[1]
+        distance = max(50.0, min(20000.0, self.chase_distance - self.manual_zoom))
+        az, el = self.manual_camera_offset
         
-        # Convert spherical to cartesian offset from target
-        # Pure spherical coordinates - maintains constant distance
         offset = np.array([
-            distance * math.cos(elevation) * math.sin(azimuth),
-            distance * math.sin(elevation),
-            distance * math.cos(elevation) * math.cos(azimuth)
+            distance * math.cos(el) * math.sin(az),
+            distance * math.sin(el),
+            distance * math.cos(el) * math.cos(az)
         ])
         
-        self.camera.position = [
-            float(position[0] + offset[0]),
-            float(position[1] + offset[1]),
-            float(position[2] + offset[2])
-        ]
+        self.camera.position = [float(position[0] + offset[0]), float(position[1] + offset[1]), float(position[2] + offset[2])]
 
     def _draw_hud(self, state: RenderState) -> None:
-        padding = 12
-        line_height = 22
-
-        draw_text_ex(
-            self.font,
+        p, lh = 12, 22
+        texts = [
             f"t = {state.time_sec:.2f} s",
-            [padding, padding],
-            20,
-            1,
-            RAYWHITE,
-        )
-
-        draw_text_ex(
-            self.font,
             f"h = {state.position_ft[2]:.1f} ft",
-            [padding, padding + line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
-        draw_text_ex(
-            self.font,
             f"V = {state.speed_fps:.1f} ft/s",
-            [padding, padding + 2 * line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
-
-        draw_text_ex(
-            self.font,
             f"alpha = {state.alpha_rad * RAD2DEG:.1f} deg",
-            [padding, padding + 3 * line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
-        draw_text_ex(
-            self.font,
             f"beta = {state.beta_rad * RAD2DEG:.1f} deg",
-            [padding, padding + 4 * line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
-
-        draw_text_ex(
-            self.font,
             f"Nz = {state.nz_g:.2f} g",
-            [padding, padding + 5 * line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
-        draw_text_ex(
-            self.font,
             f"ps = {state.ps_rad_s * RAD2DEG:.1f} deg/s",
-            [padding, padding + 6 * line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
-
-        angles = (
-            f"phi/theta/psi = "
-            f"{state.phi_rad * RAD2DEG:.1f}/"
-            f"{state.theta_rad * RAD2DEG:.1f}/"
-            f"{state.psi_rad * RAD2DEG:.1f} deg"
-        )
-        draw_text_ex(
-            self.font,
-            angles,
-            [padding, padding + 7 * line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
-
-        draw_text_ex(
-            self.font,
-            f"Left click + drag: rotate camera",
-            [padding, padding + 8 * line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
-
-        draw_text_ex(
-            self.font,
-            f"Mouse wheel: zoom in/out",
-            [padding, padding + 9 * line_height],
-            20,
-            1,
-            RAYWHITE,
-        )
+            f"phi/theta/psi = {state.phi_rad * RAD2DEG:.1f}/{state.theta_rad * RAD2DEG:.1f}/{state.psi_rad * RAD2DEG:.1f} deg",
+            "Left click + drag: rotate camera",
+            "Mouse wheel: zoom in/out"
+        ]
+        for i, text in enumerate(texts):
+            draw_text_ex(self.font, text, [p, p + i * lh], 20, 1, RAYWHITE)
 
 
