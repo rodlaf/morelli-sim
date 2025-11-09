@@ -140,10 +140,8 @@ class RaylibRenderer:
         pos_e, pos_n, altitude = state.position_ft
         position = [float(pos_e), float(altitude), float(pos_n)]
         self.trail.append(tuple(position))
-
-        rotation_matrix, basis = self._build_rotation(state.theta_rad, state.psi_rad, state.phi_rad)
         
-        self._update_camera(position, basis)
+        self._update_camera(position)
 
         begin_drawing()
         clear_background(Color(34, 90, 133, 255))  # Sky: #225a85
@@ -164,13 +162,12 @@ class RaylibRenderer:
         draw_plane([position[0], 0.0, position[2]], [ground_size, ground_size], Color(24, 77, 19, 255))  # Ground: #184d13
         
         # TUNABLE: Altitude line spacing (draw vertical line every N feet of flight path)
-        altitude_line_spacing = 700.0
+        altitude_line_spacing = 500.0
         
         # Draw vertical lines from ground to trail points at regular intervals
         trail_pts = list(self.trail)
         if len(trail_pts) > 1:
             distance_accumulated = 0.0
-            last_line_pos = None
             
             for i in range(len(trail_pts) - 1):
                 p1 = np.array(trail_pts[i])
@@ -194,8 +191,8 @@ class RaylibRenderer:
             YELLOW  # Match trail color
         )
 
-        # Draw plane
-        self._draw_simple_plane(position, basis, 500.0)
+        # Draw plane - pass roll, pitch, yaw directly
+        self._draw_simple_plane(position, state.phi_rad, state.theta_rad, state.psi_rad, 100.0)
 
         # Draw waypoints
         for i, wp in enumerate(self.waypoints):
@@ -213,25 +210,74 @@ class RaylibRenderer:
         self._draw_hud(state)
         end_drawing()
 
-    def _draw_simple_plane(self, position: list, basis: np.ndarray, size: float) -> None:
-        """Draw a simple plane using oriented axes and shapes."""
+    def _draw_simple_plane(self, position: list, roll: float, pitch: float, yaw: float, size: float) -> None:
+        """Draw a simple plane using roll, pitch, yaw angles.
+        
+        From f16_model.h navigation equations, the body-to-world rotation matrix is:
+        Body frame: [u_vel, v, w] where u_vel=forward, v=right, w=down
+        World frame: [north, east, altitude]
+        
+        The transformation coefficients tell us how body axes map to world:
+        - phi (roll), theta (pitch), psi (yaw) are standard Euler angles
+        - Body X (forward): contributes to world motion via cth*cpsi, cth*spsi, sth
+        - Body Y (right): contributes to world motion via the 's3', 's4', 's5' terms  
+        - Body Z (down): contributes to world motion via the 's6', 's7', 's8' terms
+        
+        Our world frame is: X=East, Y=Up, Z=North (different from model's north/east/alt)
+        """
         pos = np.array(position)
         
-        # Basis vectors from rotation matrix
-        # Try swapping: basis[:, 1] was right, basis[:, 2] was up
-        # Let's try: forward, up, right order
-        forward = basis[:, 0] * size
-        up = basis[:, 1] * size * 0.3       # Swap up and right
-        right = basis[:, 2] * size * 0.6
+        # Compute trig values
+        sphi = math.sin(roll)
+        cphi = math.cos(roll)
+        stheta = math.sin(pitch)
+        ctheta = math.cos(pitch)
+        spsi = math.sin(yaw)
+        cpsi = math.cos(yaw)
+        
+        # From f16_model.h navigation equations, extract rotation matrix
+        # Body axes -> World (north, east, up)
+        # Forward (u_vel) contributions:
+        forward_north = ctheta * cpsi
+        forward_east = ctheta * spsi
+        forward_up = stheta
+        
+        # Right (v) contributions:
+        t1 = sphi * cpsi
+        t3 = sphi * spsi
+        t2 = cphi * stheta
+        right_north = t1 * stheta - cphi * spsi  # s3
+        right_east = t3 * stheta + cphi * cpsi   # s4
+        right_up = sphi * ctheta                 # s5 (negated in model)
+        
+        # Down (w) contributions:
+        down_north = t2 * cpsi + t3              # s6
+        down_east = t2 * spsi - t1               # s7
+        down_up = cphi * ctheta                  # s8 (negated in model)
+        
+        # Convert to our visualization frame: (East, Up, North)
+        # Forward direction in our coords
+        nose_dir = np.array([forward_east, forward_up, forward_north])
+        
+        # Right direction in our coords
+        right_dir = np.array([right_east, -right_up, right_north])  # negate because model uses -v*s5
+        
+        # Up direction in our coords (negate down)
+        up_dir = np.array([-down_east, -down_up, -down_north])  # negate because model uses -w*s8
+        
+        # Scale to visualization size
+        forward = nose_dir * size
+        right = right_dir * size * 0.6
+        up = up_dir * size * 0.3
         
         # Nose (forward direction) - RED
         nose = pos + forward
         draw_line_3d(position, nose.tolist(), RED)
         draw_sphere(nose.tolist(), size * 0.12, RED)
         
-        # Wings - GREEN
-        left_wing = pos - right
+        # Wings (right/left directions) - GREEN
         right_wing = pos + right
+        left_wing = pos - right
         draw_line_3d(left_wing.tolist(), right_wing.tolist(), GREEN)
         draw_sphere(left_wing.tolist(), size * 0.08, GREEN)
         draw_sphere(right_wing.tolist(), size * 0.08, GREEN)
@@ -276,7 +322,7 @@ class RaylibRenderer:
         else:
             self.last_mouse_pos = None
 
-    def _update_camera(self, position: list, basis: np.ndarray) -> None:
+    def _update_camera(self, position: list) -> None:
         self.camera.target = position
         self.camera.up = [0.0, 1.0, 0.0]
 
@@ -303,40 +349,6 @@ class RaylibRenderer:
                 float(position[1] + offset[1]),
                 float(position[2] + offset[2])
             ]
-
-    @staticmethod
-    def _build_rotation(theta: float, psi: float, phi: float):
-        psi_adj = psi - math.pi / 2.0
-        phi_adj = -phi
-
-        sin_theta = math.sin(theta)
-        cos_theta = math.cos(theta)
-        sin_psi = math.sin(psi_adj)
-        cos_psi = math.cos(psi_adj)
-        sin_phi = math.sin(phi_adj)
-        cos_phi = math.cos(phi_adj)
-
-        transform = np.array(
-            [
-                [cos_psi * cos_theta, -sin_psi * cos_theta, sin_theta],
-                [cos_psi * sin_theta * sin_phi + sin_psi * cos_phi,
-                 -sin_psi * sin_theta * sin_phi + cos_psi * cos_phi,
-                 -cos_theta * sin_phi],
-                [-cos_psi * sin_theta * cos_phi + sin_psi * sin_phi,
-                 sin_psi * sin_theta * cos_phi + cos_psi * sin_phi,
-                 cos_theta * cos_phi],
-            ],
-            dtype=np.float32,
-        )
-
-        matrix = Matrix(
-            transform[0, 0], transform[1, 0], transform[2, 0], 0.0,
-            transform[0, 1], transform[1, 1], transform[2, 1], 0.0,
-            transform[0, 2], transform[1, 2], transform[2, 2], 0.0,
-            0.0, 0.0, 0.0, 1.0
-        )
-
-        return matrix, transform
 
     def _draw_hud(self, state: RenderState) -> None:
         padding = 12
