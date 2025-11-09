@@ -11,7 +11,6 @@ import numpy as np
 from numpy import deg2rad
 
 from aerobench.f16_waypoint import F16Waypoint
-from aerobench.visualize import anim3d
 from aerobench.util import StateIndex
 
 
@@ -233,59 +232,62 @@ class AutopilotAgent:
         return rv
 
 
-def run_simulation(env: F16Waypoint, agent: AutopilotAgent, 
-                   tmax: float, print_mode_changes: bool = True):
+def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
     """
-    Run F-16 simulation with environment and agent
+    Run F-16 simulation with live rendering (PufferLib-style)
     
     Args:
         env: F16Waypoint environment
         agent: AutopilotAgent instance
-        tmax: Maximum simulation time
-        print_mode_changes: Whether to print mode transitions
         
-    Returns:
-        Dictionary with simulation results
+    Runs infinite loop with real-time rendering until window closed.
     """
     state, info = env.reset()
     
-    modes = [agent.mode]
-    last_mode = modes[0]
+    print("Starting live F-16 simulation...")
+    print("Press ESC or close window to exit")
+    print(f"Initial mode: {agent.mode}")
     
-    while env.time < tmax:
+    last_mode = agent.mode
+    frame_count = 0
+    
+    # Main loop - similar to PufferLib squared.h example
+    env.render(agent.mode)
+    
+    while not env.should_close_window():
+        # Get action from agent
         u_ref = agent.get_action(state, env.time)
+        
+        # Step environment
         state, reward, terminated, truncated, info = env.step(u_ref)
         
-        modes.append(agent.mode)
+        # Render current state
+        env.render(agent.mode)
         
-        if print_mode_changes and agent.mode != last_mode:
-            print(f"Mode transition {last_mode} -> {agent.mode} at time {env.time}")
-        last_mode = agent.mode
+        # Print mode changes
+        if agent.mode != last_mode:
+            print(f"Mode transition {last_mode} -> {agent.mode} at time {env.time:.2f}s")
+            last_mode = agent.mode
         
-        if terminated or truncated:
-            break
+        frame_count += 1
         
-        if agent.is_done(state, env.time):
-            break
+        # Reset on termination or completion
+        if terminated or truncated or agent.is_done(state, env.time):
+            print(f"\nSimulation complete at {env.time:.2f}s after {frame_count} frames")
+            print(f"Final altitude: {state[12]:.1f} ft")
+            print(f"Final mode: {agent.mode}")
+            print("Resetting...\n")
+            
+            # Reset environment and rendering
+            state, info = env.reset()
+            env.reset_rendering()
+            agent.__init__(F16Waypoint.WAYPOINTS, stdout=agent.stdout)
+            frame_count = 0
+            last_mode = agent.mode
     
-    history = env.get_history()
-    
-    result = {
-        'times': history['times'],
-        'states': history['states'],
-        'modes': modes,
-        'runtime': history['wall_time'],
-        'status': 'finished' if not terminated else 'terminated',
-    }
-    
-    if env.extended_states:
-        result['xd_list'] = history['xd_list']
-        result['u_list'] = history['u_list']
-        result['Nz_list'] = history['Nz_list']
-        result['ps_list'] = history['ps_list']
-        result['Ny_r_list'] = history['Ny_r_list']
-    
-    return result
+    # Cleanup
+    env.close_window()
+    print("\nSimulation window closed")
 
 
 def main():
@@ -313,19 +315,8 @@ def main():
     # Create autopilot agent
     agent = AutopilotAgent(F16Waypoint.WAYPOINTS, stdout=True)
     
-    # Run simulation
-    print("Starting F-16 waypoint simulation...")
-    result = run_simulation(env, agent, tmax=150.0, print_mode_changes=True)
-    
-    print(f"\nSimulation completed in {result['runtime']:.2f} seconds")
-    print(f"Total frames: {len(result['times'])}")
-    print(f"Time range: {result['times'][0]:.2f}s to {result['times'][-1]:.2f}s")
-    print(f"Final altitude: {result['states'][-1][12]:.1f} ft")
-    print(f"Status: {result['status']}")
-    
-    # Visualize with Raylib
-    print("\nStarting 3D visualization...")
-    anim3d.make_anim(result, '', F16Waypoint.WAYPOINTS)
+    # Run live simulation loop
+    run_simulation(env, agent)
 
 
 if __name__ == '__main__':

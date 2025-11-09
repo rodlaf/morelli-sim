@@ -11,6 +11,7 @@ from typing import Tuple, Dict, Any
 
 from aerobench.highlevel.controlled_f16 import controlled_f16
 from aerobench.util import get_state_names, Euler, StateIndex
+from aerobench.visualize import raylib_renderer_cy as raylib_renderer
 
 
 class F16Waypoint:
@@ -70,6 +71,61 @@ class F16Waypoint:
         
         self.integrator_class = Euler
         self.wall_time_start = None
+        
+        # Rendering state
+        self.current_mode = "Waypoint 1"
+        
+    def render(self, mode: str = "Waypoint 1"):
+        """
+        Render current state using Raylib
+        
+        Args:
+            mode: Current autopilot mode string
+        """
+        if self.state is None or self.time is None:
+            return
+        
+        # Get current extended states (Nz, ps) - use most recent or compute
+        if self.extended_states and len(self.Nz_list) > 0:
+            nz_g = float(self.Nz_list[-1])
+            ps_rad_s = float(self.ps_list[-1])
+        else:
+            # Compute on the fly if not tracking
+            nz_g = 0.0
+            ps_rad_s = 0.0
+        
+        # Build render state dict for C renderer
+        render_state = {
+            'time_sec': float(self.time),
+            'speed_fps': float(self.state[StateIndex.VT]),
+            'alpha_rad': float(self.state[StateIndex.ALPHA]),
+            'beta_rad': float(self.state[StateIndex.BETA]),
+            'phi_rad': float(self.state[StateIndex.PHI]),
+            'theta_rad': float(self.state[StateIndex.THETA]),
+            'psi_rad': float(self.state[StateIndex.PSI]),
+            'position_ft': (
+                float(self.state[StateIndex.POSE]),
+                float(self.state[StateIndex.POSN]),
+                float(self.state[StateIndex.ALT])
+            ),
+            'nz_g': nz_g,
+            'ps_rad_s': ps_rad_s,
+            'mode': mode
+        }
+        
+        raylib_renderer.render(render_state)
+    
+    def should_close_window(self) -> bool:
+        """Check if render window should close"""
+        return raylib_renderer.window_should_close()
+    
+    def close_window(self):
+        """Close render window"""
+        raylib_renderer.close()
+    
+    def reset_rendering(self):
+        """Reset rendering state (trail, etc.)"""
+        raylib_renderer.reset()
         
     def reset(self, initial_time: float = 0.0) -> Tuple[np.ndarray, Dict[str, Any]]:
         """Reset to initial state"""
