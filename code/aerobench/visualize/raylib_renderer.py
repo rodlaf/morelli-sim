@@ -11,7 +11,7 @@ from scipy.io import loadmat
 RAD2DEG = 180.0 / math.pi
 
 # Simulation playback speed multiplier, percentage of real-time speed
-PLAYBACK_SPEED = 20.0
+PLAYBACK_SPEED = 10.0
 
 
 @dataclass
@@ -57,6 +57,11 @@ class RaylibRenderer:
             60.0,
             CAMERA_PERSPECTIVE,
         )
+        
+        # Set camera near/far planes for large viewing distances
+        # Note: We'll manually handle this in begin_mode_3d by using rlgl functions if needed
+        self.near_plane = 0.1
+        self.far_plane = 50000.0  # Much larger to handle zoomed out views
 
         self.model = self._load_f16_model(f16_scale)
         # Handle infinite trail length (None means unlimited)
@@ -143,12 +148,26 @@ class RaylibRenderer:
         clear_background(BLACK)
 
         begin_mode_3d(self.camera)
+        
+        # IMPORTANT: Override projection AFTER begin_mode_3d to extend far clipping plane
+        # begin_mode_3d sets its own projection, so we must override it
+        aspect = get_screen_width() / get_screen_height()
+        fovy = self.camera.fovy
+        
+        top = self.near_plane * math.tan(fovy * 0.5 * math.pi / 180.0)
+        right = top * aspect
+        
+        rl_matrix_mode(RL_PROJECTION)
+        rl_load_identity()
+        rl_frustum(-right, right, -top, top, self.near_plane, self.far_plane)
+        rl_matrix_mode(RL_MODELVIEW)
+        
         ground_size = self.view_size
         draw_plane([position[0], 0.0, position[2]], [ground_size, ground_size], DARKGRAY)
         draw_grid(40, int(ground_size / 20))
 
         # Draw simple plane representation using axes
-        self._draw_simple_plane(position, basis, 100.0)
+        self._draw_simple_plane(position, basis, 500.0)
 
         # Draw waypoints
         for i, wp in enumerate(self.waypoints):
@@ -170,18 +189,22 @@ class RaylibRenderer:
         """Draw a simple plane using oriented axes and shapes."""
         pos = np.array(position)
         
+        # Ensure basis vectors are normalized (they should be from rotation matrix)
         # basis[:, 0] is forward (nose direction)
         # basis[:, 1] is right wing
         # basis[:, 2] is up
+        forward_unit = basis[:, 0] / np.linalg.norm(basis[:, 0])
+        right_unit = basis[:, 1] / np.linalg.norm(basis[:, 1])
+        up_unit = basis[:, 2] / np.linalg.norm(basis[:, 2])
         
-        forward = basis[:, 0] * size
-        right = basis[:, 1] * size * 0.6
-        up = basis[:, 2] * size * 0.3
+        forward = forward_unit * size
+        right = right_unit * size * 0.6
+        up = up_unit * size * 0.3
         
         # Nose (forward direction) - RED
         nose = pos + forward
         draw_line_3d(position, nose.tolist(), RED)
-        draw_sphere(nose.tolist(), size * 0.15, RED)
+        draw_sphere(nose.tolist(), size * 0.12, RED)
         
         # Wings - GREEN
         left_wing = pos - right
@@ -236,7 +259,8 @@ class RaylibRenderer:
             
             # Calculate base camera position
             distance = self.chase_distance - self.manual_zoom
-            distance = max(100.0, distance)  # Minimum distance
+            # Clamp distance to prevent going beyond far plane (causing objects to disappear)
+            distance = max(100.0, min(10000.0, distance))
             
             # Apply manual rotation offsets
             # Start with plane's forward direction
