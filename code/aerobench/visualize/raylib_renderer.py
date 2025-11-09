@@ -102,9 +102,37 @@ class RaylibRenderer:
         rl_frustum(-top * aspect, top * aspect, -top, top, self.near_plane, self.far_plane)
         rl_matrix_mode(RL_MODELVIEW)
         
-        # Draw infinite ground plane at altitude 0
-        ground_size = 100000.0
-        draw_plane([position[0], 0.0, position[2]], [ground_size, ground_size], Color(24, 77, 19, 255))  # Ground: #184d13
+        # Draw grid on ground instead of solid plane to avoid Z-fighting at distance
+        # TUNABLE: Grid spacing and extent
+        grid_spacing = 1000.0  # feet between grid lines
+        grid_extent = 50000.0   # how far grid extends from aircraft
+        grid_color = Color(24, 77, 19, 180)  # Semi-transparent green
+        
+        # Draw grid lines parallel to North (Z-axis)
+        x_start = position[0] - grid_extent
+        x_end = position[0] + grid_extent
+        z_pos = position[2]
+        for x in range(int(x_start // grid_spacing) * int(grid_spacing), 
+                       int(x_end // grid_spacing) * int(grid_spacing) + 1, 
+                       int(grid_spacing)):
+            draw_line_3d(
+                [float(x), 0.0, z_pos - grid_extent],
+                [float(x), 0.0, z_pos + grid_extent],
+                grid_color
+            )
+        
+        # Draw grid lines parallel to East (X-axis)
+        z_start = position[2] - grid_extent
+        z_end = position[2] + grid_extent
+        x_pos = position[0]
+        for z in range(int(z_start // grid_spacing) * int(grid_spacing),
+                       int(z_end // grid_spacing) * int(grid_spacing) + 1,
+                       int(grid_spacing)):
+            draw_line_3d(
+                [x_pos - grid_extent, 0.0, float(z)],
+                [x_pos + grid_extent, 0.0, float(z)],
+                grid_color
+            )
         
         # TUNABLE: Altitude line spacing (draw vertical line every N feet of flight path)
         altitude_line_spacing = 500.0
