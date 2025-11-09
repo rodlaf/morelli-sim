@@ -13,7 +13,7 @@ from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState
 # 1.0 = real-time (1 simulation second = 1 real second)
 # 0.5 = half speed (slow motion)
 # 2.0 = double speed (fast forward)
-PLAYBACK_SPEED = 1.0
+PLAYBACK_SPEED = 3.0
 
 
 def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail_pts=60,
@@ -72,16 +72,23 @@ def make_anim(res, filename, viewsize=1000, viewsize_z=1000, f16_scale=30, trail
     # Calculate total frames
     total_frames = sum(len(t) for t in all_times)
     current_frame = 0
+    
+    # Calculate actual simulation step size from the data
+    sim_duration = all_times[0][-1] - all_times[0][0]
+    sim_fps = total_frames / sim_duration  # frames per simulation second
 
     print(f"Starting Raylib animation with {total_frames} frames")
-    print(f"DEBUG: Simulation duration: {all_times[0][-1] - all_times[0][0]:.2f}s")
-    print(f"DEBUG: Frames per sim second: {total_frames / (all_times[0][-1] - all_times[0][0]):.1f}")
-    print(f"DEBUG: PLAYBACK_SPEED: {PLAYBACK_SPEED}x")
+    print(f"DEBUG: Simulation duration: {sim_duration:.2f}s")
+    print(f"DEBUG: Simulation FPS: {sim_fps:.1f} frames/sim-second")
+    print(f"DEBUG: PLAYBACK_SPEED: {PLAYBACK_SPEED}x (1.0 = real-time)")
 
-    # Simple playback: iterate through frames at controlled speed
-    # PLAYBACK_SPEED controls how many simulation frames to advance per render frame
-    frames_per_render = PLAYBACK_SPEED
+    # Calculate how many simulation frames to advance per render frame (60fps)
+    # PLAYBACK_SPEED = 1.0 means 1 sim second per real second
+    # At 60 render fps, we need to advance (sim_fps * PLAYBACK_SPEED / 60) frames per render
+    frames_per_render = (sim_fps * PLAYBACK_SPEED) / 60.0
     accumulated_frames = 0.0
+    
+    print(f"DEBUG: Advancing {frames_per_render:.2f} sim frames per render frame")
 
     # Main render loop - render at 60fps, advance through sim frames based on playback speed
     while not rl.window_should_close():

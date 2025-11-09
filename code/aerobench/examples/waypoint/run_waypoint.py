@@ -49,7 +49,7 @@ def main():
 
     ap = WaypointAutopilot(waypoints, stdout=True)
 
-    step = 1/120
+    step = 1/60
     extended_states = True
     res = run_f16_sim(init, tmax, ap, step=step, extended_states=extended_states, integrator_str='euler')
 
