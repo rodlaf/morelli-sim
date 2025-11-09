@@ -7,7 +7,7 @@ Combines environment, agent, and simulation in Gymnasium-style API.
 
 import time
 import numpy as np
-from typing import Tuple, Dict, Any, Optional
+from typing import Tuple, Dict, Any
 
 from aerobench.highlevel.controlled_f16 import controlled_f16
 from aerobench.util import get_state_names, Euler, StateIndex
