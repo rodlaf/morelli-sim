@@ -262,10 +262,6 @@ class RaylibRenderer:
         up_dir = np.cross(nose_dir, right_dir)
         up_dir = up_dir / np.linalg.norm(up_dir)  # normalize
         
-        # Note: The nose_dir already contains pitch (via forward_up = stheta)
-        # and the right_dir contains roll (via right_up = sphi * ctheta)
-        # so the cross product properly combines all three Euler angles
-        
         # Scale to visualization size
         forward = nose_dir * size
         right = right_dir * size * 0.6
@@ -274,7 +270,7 @@ class RaylibRenderer:
         # Nose (forward direction) - RED
         nose = pos + forward
         draw_line_3d(position, nose.tolist(), RED)
-        draw_sphere(nose.tolist(), size * 0.12, RED)
+        draw_sphere(nose.tolist(), size * 0.08, RED)
         
         # Wings (right/left directions) - GREEN
         right_wing = pos + right
@@ -286,10 +282,12 @@ class RaylibRenderer:
         # Tail (backward) - BLUE  
         tail = pos - forward * 0.4
         draw_line_3d(position, tail.tolist(), BLUE)
+        draw_sphere(tail.tolist(), size * 0.08, BLUE)
         
         # Vertical stabilizer (up) - SKYBLUE
         tail_up = tail + up
         draw_line_3d(tail.tolist(), tail_up.tolist(), SKYBLUE)
+        draw_sphere(tail_up.tolist(), size * 0.08, SKYBLUE)
         
         # Body sphere
         draw_sphere(position, size * 0.12, LIGHTGRAY)
