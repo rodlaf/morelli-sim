@@ -17,7 +17,7 @@ TARGET_FPS = 60
 CHASE_DISTANCE = 1250.0  # default camera distance from aircraft
 CHASE_ELEVATION = 150.0  # camera height offset above aircraft
 F16_SCALE = 100.0  # visual size of the F-16 model in feet
-ALTITUDE_LINE_SPACING = 500.0  # feet between altitude markers
+ALTITUDE_LINE_SPACING = 300.0  # feet between altitude markers
 GRID_SPACING = 1000.0  # feet between ground grid lines
 SKY_COLOR = Color(0, 0, 0, 255)  # Black sky
 GRID_COLOR = Color(40, 120, 40, 180)  # Brighter semi-transparent green
@@ -26,7 +26,6 @@ GRID_COLOR = Color(40, 120, 40, 180)  # Brighter semi-transparent green
 @dataclass
 class RenderState:
     """Container for the simulation state needed by the renderer."""
-
     time_sec: float
     speed_fps: float
     alpha_rad: float
@@ -55,47 +54,36 @@ class RaylibRenderer:
             CAMERA_PERSPECTIVE,
         )
         
-        # Set camera near/far planes for large viewing distances
         self.near_plane = 0.1
         self.far_plane = 50000.0
-
-        # Store full trail and altitude marker positions
-        self.trail: list = []  # Unlimited trail - stores all positions
-        self.altitude_markers: list = []  # Fixed altitude line positions
+        self.trail: list = []
+        self.altitude_markers: list = []
         self.distance_since_last_marker = 0.0
-        
         self.chase_distance = CHASE_DISTANCE
         self.chase_elevation = CHASE_ELEVATION
         self.font = get_font_default()
-        self.waypoints = waypoints if waypoints is not None else []
-
-        # Camera control state
-        self.manual_camera_offset = [0.0, 0.0]  # azimuth, elevation offsets in radians
-        self.manual_zoom = 0.0  # zoom offset
+        self.waypoints = waypoints or []
+        self.manual_camera_offset = [0.0, 0.0]  # azimuth, elevation
+        self.manual_zoom = 0.0
         self.last_mouse_pos = None
 
     def close(self) -> None:
         close_window()
 
     def render(self, state: RenderState) -> None:
-        # Handle camera controls
         self._handle_camera_input()
         
         pos_e, pos_n, altitude = state.position_ft
         position = [float(pos_e), float(altitude), float(pos_n)]
         
-        # Add to trail
         self.trail.append(tuple(position))
         
-        # Check if we need to add an altitude marker
+        # Add altitude marker every ALTITUDE_LINE_SPACING feet
         if len(self.trail) > 1:
-            prev_pos = np.array(self.trail[-2])
-            curr_pos = np.array(position)
-            segment_dist = np.linalg.norm(curr_pos - prev_pos)
+            segment_dist = np.linalg.norm(np.array(position) - np.array(self.trail[-2]))
             self.distance_since_last_marker += segment_dist
             
             if self.distance_since_last_marker >= ALTITUDE_LINE_SPACING:
-                # Add altitude marker at current position
                 self.altitude_markers.append(tuple(position))
                 self.distance_since_last_marker = 0.0
         
@@ -103,72 +91,43 @@ class RaylibRenderer:
 
         begin_drawing()
         clear_background(SKY_COLOR)
-
         begin_mode_3d(self.camera)
         
-        # Override projection to extend far clipping plane (must be after begin_mode_3d)
+        # Override projection for extended far clipping plane
         aspect = get_screen_width() / get_screen_height()
         top = self.near_plane * math.tan(self.camera.fovy * 0.5 * math.pi / 180.0)
-        
         rl_matrix_mode(RL_PROJECTION)
         rl_load_identity()
         rl_frustum(-top * aspect, top * aspect, -top, top, self.near_plane, self.far_plane)
         rl_matrix_mode(RL_MODELVIEW)
         
-        # Draw grid on ground instead of solid plane to avoid Z-fighting at distance
-        grid_extent = 50000.0   # how far grid extends from aircraft
-        
-        # Draw grid lines parallel to North (Z-axis)
-        x_start = position[0] - grid_extent
-        x_end = position[0] + grid_extent
-        z_pos = position[2]
-        for x in range(int(x_start // GRID_SPACING) * int(GRID_SPACING), 
-                       int(x_end // GRID_SPACING) * int(GRID_SPACING) + 1, 
+        # Draw ground grid
+        grid_extent = 50000.0
+        for x in range(int((position[0] - grid_extent) // GRID_SPACING) * int(GRID_SPACING), 
+                       int((position[0] + grid_extent) // GRID_SPACING) * int(GRID_SPACING) + 1, 
                        int(GRID_SPACING)):
-            draw_line_3d(
-                [float(x), 0.0, z_pos - grid_extent],
-                [float(x), 0.0, z_pos + grid_extent],
-                GRID_COLOR
-            )
+            draw_line_3d([float(x), 0.0, position[2] - grid_extent],
+                        [float(x), 0.0, position[2] + grid_extent], GRID_COLOR)
         
-        # Draw grid lines parallel to East (X-axis)
-        z_start = position[2] - grid_extent
-        z_end = position[2] + grid_extent
-        x_pos = position[0]
-        for z in range(int(z_start // GRID_SPACING) * int(GRID_SPACING),
-                       int(z_end // GRID_SPACING) * int(GRID_SPACING) + 1,
+        for z in range(int((position[2] - grid_extent) // GRID_SPACING) * int(GRID_SPACING),
+                       int((position[2] + grid_extent) // GRID_SPACING) * int(GRID_SPACING) + 1,
                        int(GRID_SPACING)):
-            draw_line_3d(
-                [x_pos - grid_extent, 0.0, float(z)],
-                [x_pos + grid_extent, 0.0, float(z)],
-                GRID_COLOR
-            )
+            draw_line_3d([position[0] - grid_extent, 0.0, float(z)],
+                        [position[0] + grid_extent, 0.0, float(z)], GRID_COLOR)
         
-        # Draw fixed altitude markers (vertical lines from ground to marker position)
+        # Draw altitude markers
         for marker_pos in self.altitude_markers:
-            draw_line_3d(
-                [marker_pos[0], 0.0, marker_pos[2]],  # Ground point
-                marker_pos,  # Marker position in air
-                YELLOW
-            )
-        
-        # Draw current altitude line (always show current position)
-        draw_line_3d(
-            [position[0], 0.0, position[2]],
-            position,
-            YELLOW
-        )
-
-        # Draw plane - pass roll, pitch, yaw directly
-        self._draw_simple_plane(position, state.phi_rad, state.theta_rad, state.psi_rad, F16_SCALE)
+            draw_line_3d([marker_pos[0], 0.0, marker_pos[2]], marker_pos, YELLOW)
+        draw_line_3d([position[0], 0.0, position[2]], position, YELLOW)
 
         # Draw waypoints
-        for i, wp in enumerate(self.waypoints):
-            wp_pos = [float(wp[0]), float(wp[2]), float(wp[1])]  # (east, altitude, north)
-            draw_sphere(wp_pos, 50.0, BLUE)
-            draw_sphere_wires(wp_pos, 50.0, 8, 8, SKYBLUE)
+        for wp in self.waypoints:
+            wp_pos = [float(wp[0]), float(wp[2]), float(wp[1])]  # [east, altitude, north]
+            draw_sphere(wp_pos, 50.0, PURPLE)
+            draw_line_3d([wp_pos[0], 0.0, wp_pos[2]], wp_pos, PURPLE)
 
-        # Draw trail
+        # Draw plane and trail
+        self._draw_simple_plane(position, state.phi_rad, state.theta_rad, state.psi_rad, F16_SCALE)
         for i in range(len(self.trail) - 1):
             draw_line_3d(self.trail[i], self.trail[i + 1], YELLOW)
 
@@ -178,120 +137,59 @@ class RaylibRenderer:
         end_drawing()
 
     def _draw_simple_plane(self, position: list, roll: float, pitch: float, yaw: float, size: float) -> None:
-        """Draw a simple plane using roll, pitch, yaw angles.
-        
-        From f16_model.h navigation equations, the body-to-world rotation matrix is:
-        Body frame: [u_vel, v, w] where u_vel=forward, v=right, w=down
-        World frame: [north, east, altitude]
-        
-        The transformation coefficients tell us how body axes map to world:
-        - phi (roll), theta (pitch), psi (yaw) are standard Euler angles
-        - Body X (forward): contributes to world motion via cth*cpsi, cth*spsi, sth
-        - Body Y (right): contributes to world motion via the 's3', 's4', 's5' terms  
-        - Body Z (down): contributes to world motion via the 's6', 's7', 's8' terms
-        
-        Our world frame is: X=East, Y=Up, Z=North (different from model's north/east/alt)
-        """
+        """Draw simple F-16 representation using Euler angles and F16 navigation equations."""
         pos = np.array(position)
         
         # Compute trig values
-        sphi = math.sin(roll)
-        cphi = math.cos(roll)
-        stheta = math.sin(pitch)
-        ctheta = math.cos(pitch)
-        spsi = math.sin(yaw)
-        cpsi = math.cos(yaw)
+        sphi, cphi = math.sin(roll), math.cos(roll)
+        stheta, ctheta = math.sin(pitch), math.cos(pitch)
+        spsi, cpsi = math.sin(yaw), math.cos(yaw)
         
-        # From f16_model.h navigation equations, extract rotation matrix
-        # Body axes -> World (north, east, up)
-        # Forward (u_vel) contributions:
-        forward_north = ctheta * cpsi
-        forward_east = ctheta * spsi
-        forward_up = stheta
+        # F16 navigation equations: body axes -> world (north, east, up)
+        forward_north, forward_east, forward_up = ctheta * cpsi, ctheta * spsi, stheta
+        right_north = sphi * cpsi * stheta - cphi * spsi
+        right_east = sphi * spsi * stheta + cphi * cpsi
+        right_up = sphi * ctheta
         
-        # Right (v) contributions:
-        t1 = sphi * cpsi
-        t3 = sphi * spsi
-        right_north = t1 * stheta - cphi * spsi  # s3
-        right_east = t3 * stheta + cphi * cpsi   # s4
-        right_up = sphi * ctheta                 # s5 (negated in model)
-        
-        # Convert to our visualization frame: (East, Up, North)
-        # Forward direction in our coords (includes pitch via stheta)
+        # Convert to visualization frame: (East, Up, North)
         nose_dir = np.array([forward_east, forward_up, forward_north])
-        
-        # Right direction in our coords (includes roll via sphi)
-        right_dir = np.array([right_east, -right_up, right_north])  # negate because model uses -v*s5
-        
-        # Up direction: use cross product of forward × right to ensure orthogonal frame
-        # This guarantees the up vector is perpendicular to both forward and right
-        # and follows the right-hand rule
+        right_dir = np.array([right_east, -right_up, right_north])
         up_dir = np.cross(nose_dir, right_dir)
-        up_dir = up_dir / np.linalg.norm(up_dir)  # normalize
+        up_dir /= np.linalg.norm(up_dir)
         
-        # Scale to visualization size
-        forward = nose_dir * size
-        right = right_dir * size * 0.6
-        up = up_dir * size * 0.3
+        # Scale and draw components
+        forward, right, up = nose_dir * size, right_dir * size * 0.6, up_dir * size * 0.3
+        nose, tail = pos + forward, pos - forward * 0.4
+        right_wing, left_wing = pos + right, pos - right
         
-        # Nose (forward direction) - RED
-        nose = pos + forward
         draw_line_3d(position, nose.tolist(), RED)
         draw_sphere(nose.tolist(), size * 0.08, RED)
-        
-        # Wings (right/left directions) - GREEN
-        right_wing = pos + right
-        left_wing = pos - right
         draw_line_3d(left_wing.tolist(), right_wing.tolist(), GREEN)
         draw_sphere(left_wing.tolist(), size * 0.08, GREEN)
         draw_sphere(right_wing.tolist(), size * 0.08, GREEN)
-        
-        # Tail (backward) - BLUE  
-        tail = pos - forward * 0.4
         draw_line_3d(position, tail.tolist(), BLUE)
         draw_sphere(tail.tolist(), size * 0.08, BLUE)
-        
-        # Vertical stabilizer (up) - SKYBLUE
-        tail_up = tail + up
-        draw_line_3d(tail.tolist(), tail_up.tolist(), SKYBLUE)
-        draw_sphere(tail_up.tolist(), size * 0.08, SKYBLUE)
-        
-        # Body sphere
+        draw_line_3d(tail.tolist(), (tail + up).tolist(), SKYBLUE)
+        draw_sphere((tail + up).tolist(), size * 0.08, SKYBLUE)
         draw_sphere(position, size * 0.12, LIGHTGRAY)
 
     def _handle_camera_input(self) -> None:
         """Handle mouse input for camera control."""
-        # Zoom with mouse wheel
         wheel = get_mouse_wheel_move()
         if wheel != 0:
-            # TUNABLE: Zoom sensitivity (units per wheel tick)
-            zoom_delta = wheel * 200.0
-            self.manual_zoom += zoom_delta
-            
-            # Clamp manual_zoom to prevent it from going beyond useful range
-            # This prevents the "stuck" feeling when hitting zoom limits
-            # min_distance = 50, max_distance = 20000, base = CHASE_DISTANCE
-            min_zoom = -(20000.0 - CHASE_DISTANCE)  # Most zoomed out
-            max_zoom = CHASE_DISTANCE - 50.0         # Most zoomed in
+            self.manual_zoom += wheel * 200.0
+            # Clamp to prevent "stuck" feeling at zoom limits
+            min_zoom = -(20000.0 - CHASE_DISTANCE)
+            max_zoom = CHASE_DISTANCE - 50.0
             self.manual_zoom = max(min_zoom, min(max_zoom, self.manual_zoom))
         
-        # Rotate camera with left mouse drag
         if is_mouse_button_down(MOUSE_BUTTON_LEFT):
             mouse_pos = get_mouse_position()
             if self.last_mouse_pos is not None:
-                delta_x = mouse_pos.x - self.last_mouse_pos.x
-                delta_y = mouse_pos.y - self.last_mouse_pos.y
-                
-                # TUNABLE: Rotation sensitivity (radians per pixel)
-                rotation_sensitivity = 0.01
-                
-                # Flip both axes: negative signs reverse rotation direction
-                self.manual_camera_offset[0] -= delta_x * rotation_sensitivity  # azimuth (horizontal)
-                self.manual_camera_offset[1] += delta_y * rotation_sensitivity  # elevation (vertical)
-                
-                # Clamp elevation to prevent camera flipping upside down
+                delta_x, delta_y = mouse_pos.x - self.last_mouse_pos.x, mouse_pos.y - self.last_mouse_pos.y
+                self.manual_camera_offset[0] -= delta_x * 0.01
+                self.manual_camera_offset[1] += delta_y * 0.01
                 self.manual_camera_offset[1] = max(-math.pi/2 + 0.1, min(math.pi/2 - 0.1, self.manual_camera_offset[1]))
-            
             self.last_mouse_pos = mouse_pos
         else:
             self.last_mouse_pos = None

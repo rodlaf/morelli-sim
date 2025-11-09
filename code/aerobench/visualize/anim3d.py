@@ -13,7 +13,7 @@ from aerobench.visualize.raylib_renderer import RaylibRenderer, RenderState
 # 1.0 = real-time (1 simulation second = 1 real second)
 # 0.5 = half speed (slow motion)
 # 2.0 = double speed (fast forward)
-PLAYBACK_SPEED = 3.0
+PLAYBACK_SPEED = 2.0
 
 
 def make_anim(res, filename='', waypoints=None):
