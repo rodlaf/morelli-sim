@@ -12,7 +12,7 @@ from scipy.io import loadmat
 RAD2DEG = 180.0 / math.pi
 
 # Simulation playback speed multiplier, percentage of real-time speed
-PLAYBACK_SPEED = 10.0
+PLAYBACK_SPEED = 6.0
 
 
 @dataclass
@@ -146,7 +146,7 @@ class RaylibRenderer:
         self._update_camera(position, basis)
 
         begin_drawing()
-        clear_background(BLACK)
+        clear_background(Color(34, 90, 133, 255))  # Sky: #225a85
 
         begin_mode_3d(self.camera)
         
@@ -159,9 +159,40 @@ class RaylibRenderer:
         rl_frustum(-top * aspect, top * aspect, -top, top, self.near_plane, self.far_plane)
         rl_matrix_mode(RL_MODELVIEW)
         
-        # Draw ground and grid
-        draw_plane([position[0], 0.0, position[2]], [self.view_size, self.view_size], DARKGRAY)
-        draw_grid(40, int(self.view_size / 20))
+        # Draw infinite ground plane at altitude 0
+        ground_size = 100000.0
+        draw_plane([position[0], 0.0, position[2]], [ground_size, ground_size], Color(24, 77, 19, 255))  # Ground: #184d13
+        
+        # TUNABLE: Altitude line spacing (draw vertical line every N feet of flight path)
+        altitude_line_spacing = 700.0
+        
+        # Draw vertical lines from ground to trail points at regular intervals
+        trail_pts = list(self.trail)
+        if len(trail_pts) > 1:
+            distance_accumulated = 0.0
+            last_line_pos = None
+            
+            for i in range(len(trail_pts) - 1):
+                p1 = np.array(trail_pts[i])
+                p2 = np.array(trail_pts[i + 1])
+                segment_dist = np.linalg.norm(p2 - p1)
+                distance_accumulated += segment_dist
+                
+                # Draw line every altitude_line_spacing feet
+                if distance_accumulated >= altitude_line_spacing:
+                    draw_line_3d(
+                        [p2[0], 0.0, p2[2]],  # Ground point
+                        trail_pts[i + 1],      # Trail point
+                        YELLOW  # Match trail color
+                    )
+                    distance_accumulated = 0.0
+        
+        # Draw current altitude line (always show current position)
+        draw_line_3d(
+            [position[0], 0.0, position[2]],
+            position,
+            YELLOW  # Match trail color
+        )
 
         # Draw plane
         self._draw_simple_plane(position, basis, 500.0)
@@ -186,10 +217,12 @@ class RaylibRenderer:
         """Draw a simple plane using oriented axes and shapes."""
         pos = np.array(position)
         
-        # basis vectors from rotation matrix (already normalized)
+        # Basis vectors from rotation matrix
+        # Try swapping: basis[:, 1] was right, basis[:, 2] was up
+        # Let's try: forward, up, right order
         forward = basis[:, 0] * size
-        right = basis[:, 1] * size * 0.6
-        up = basis[:, 2] * size * 0.3
+        up = basis[:, 1] * size * 0.3       # Swap up and right
+        right = basis[:, 2] * size * 0.6
         
         # Nose (forward direction) - RED
         nose = pos + forward
