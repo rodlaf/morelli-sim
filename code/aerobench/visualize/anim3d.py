@@ -1,14 +1,18 @@
 '''
-3d plotting utilities for aerobench using Raylib
+3d plotting utilities for aerobench using Raylib (C implementation via Cython)
 '''
 
 import time
 
-import pyray as rl
-
 from aerobench.util import StateIndex
-from aerobench.visualize import raylib_renderer
-from aerobench.visualize.raylib_renderer import RenderState
+
+try:
+    # Try to import the compiled Cython wrapper
+    from aerobench.visualize import raylib_renderer_cy as raylib_renderer
+except ImportError:
+    # Fallback to pure Python implementation
+    print("Warning: Cython raylib_renderer not available, falling back to Python implementation")
+    from aerobench.visualize import raylib_renderer
 
 # Simulation playback speed multiplier
 # 1.0 = real-time (1 simulation second = 1 real second)
@@ -75,11 +79,8 @@ def make_anim(res, filename='', waypoints=None):
     
     print(f"Advancing {frames_per_render:.2f} sim frames per render frame")
 
-    # Initialize the window before checking window_should_close
-    raylib_renderer._initialize()
-    
     # Main render loop - render at 60fps, advance through sim frames based on playback speed
-    while not rl.window_should_close():
+    while not raylib_renderer.window_should_close():
         # Determine which trajectory and frame we're in
         traj_frame_count = 0
         trajectory_index = 0
@@ -103,24 +104,24 @@ def make_anim(res, filename='', waypoints=None):
         frame_in_trajectory = min(frame_in_trajectory, len(states) - 1)
         state = states[frame_in_trajectory]
         
-        # Build RenderState
-        render_state = RenderState(
-            time_sec=float(times[frame_in_trajectory]),
-            speed_fps=float(state[StateIndex.VT]),
-            alpha_rad=float(state[StateIndex.ALPHA]),
-            beta_rad=float(state[StateIndex.BETA]),
-            phi_rad=float(state[StateIndex.PHI]),
-            theta_rad=float(state[StateIndex.THETA]),
-            psi_rad=float(state[StateIndex.PSI]),
-            position_ft=(
+        # Build render state as dict for C renderer
+        render_state = {
+            'time_sec': float(times[frame_in_trajectory]),
+            'speed_fps': float(state[StateIndex.VT]),
+            'alpha_rad': float(state[StateIndex.ALPHA]),
+            'beta_rad': float(state[StateIndex.BETA]),
+            'phi_rad': float(state[StateIndex.PHI]),
+            'theta_rad': float(state[StateIndex.THETA]),
+            'psi_rad': float(state[StateIndex.PSI]),
+            'position_ft': (
                 float(state[StateIndex.POS_E]),
                 float(state[StateIndex.POS_N]),
                 float(state[StateIndex.ALT])
             ),
-            nz_g=float(Nz_list[frame_in_trajectory]),
-            ps_rad_s=float(ps_list[frame_in_trajectory]),
-            mode=modes[frame_in_trajectory]
-        )
+            'nz_g': float(Nz_list[frame_in_trajectory]),
+            'ps_rad_s': float(ps_list[frame_in_trajectory]),
+            'mode': modes[frame_in_trajectory]
+        }
 
         raylib_renderer.render(render_state)
         

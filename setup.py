@@ -1,12 +1,62 @@
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 import numpy as np
+import subprocess
+import os
+
+# Get raylib library path
+def get_raylib_config():
+    """Get raylib include and library paths from pkg-config."""
+    try:
+        # Try pkg-config first
+        cflags = subprocess.check_output(['pkg-config', '--cflags', 'raylib']).decode().strip().split()
+        libs = subprocess.check_output(['pkg-config', '--libs', 'raylib']).decode().strip().split()
+        
+        include_dirs = [flag[2:] for flag in cflags if flag.startswith('-I')]
+        library_dirs = [flag[2:] for flag in libs if flag.startswith('-L')]
+        libraries = [flag[2:] for flag in libs if flag.startswith('-l')]
+        
+        return include_dirs, library_dirs, libraries
+    except:
+        # Fallback to pyray's raylib
+        import pyray
+        pyray_path = os.path.dirname(pyray.__file__)
+        
+        # Common locations for raylib when installed with pyray
+        possible_includes = [
+            os.path.join(pyray_path, 'include'),
+            '/usr/local/include',
+            '/opt/homebrew/include',  # macOS ARM
+            '/usr/include',
+        ]
+        
+        possible_lib_dirs = [
+            os.path.join(pyray_path),
+            '/usr/local/lib',
+            '/opt/homebrew/lib',  # macOS ARM
+            '/usr/lib',
+        ]
+        
+        include_dirs = [d for d in possible_includes if os.path.exists(d)]
+        library_dirs = [d for d in possible_lib_dirs if os.path.exists(d)]
+        
+        return include_dirs, library_dirs, ['raylib']
+
+raylib_includes, raylib_lib_dirs, raylib_libs = get_raylib_config()
 
 extensions = [
     Extension(
         name="code.aerobench.highlevel.f16_model",
         sources=["code/aerobench/highlevel/f16_model.pyx"],
         include_dirs=["code/aerobench/highlevel", np.get_include()],
+        language="c",
+    ),
+    Extension(
+        name="code.aerobench.visualize.raylib_renderer_cy",
+        sources=["code/aerobench/visualize/raylib_renderer_cy.pyx"],
+        include_dirs=["code/aerobench/visualize"] + raylib_includes,
+        library_dirs=raylib_lib_dirs,
+        libraries=raylib_libs,
         language="c",
     )
 ]
