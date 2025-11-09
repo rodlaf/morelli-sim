@@ -9,14 +9,14 @@ import sys
 import numpy as np
 from numpy import deg2rad
 
-import matplotlib.pyplot as plt
-
-from aerobench.run_f16_sim import run_f16_sim
+from aerobench.envs.f16_env import F16Env
+from aerobench.envs.agents import AutopilotAgent
+from aerobench.envs.runner import run_f16_env
 from aerobench.visualize import anim3d
 from aerobench.examples.waypoint.waypoint_autopilot import WaypointAutopilot
 
 def simulate(filename):
-    'simulate the system, returning waypoints, res'
+    'simulate the system using environment/agent architecture'
 
     ### Initial Conditions ###
     power = 9 # engine power level (0-10)
@@ -42,67 +42,32 @@ def simulate(filename):
                  [-15000, -7500, alt-500],
                  [-15000, 6000, alt+2000]]
 
-    ap = WaypointAutopilot(waypoints, stdout=True)
-
+    # Create environment
     step = 1/30
     extended_states = True
-    res = run_f16_sim(init, tmax, ap, step=step, extended_states=extended_states, integrator_str='euler')
+    env = F16Env(
+        initial_state=np.array(init, dtype=float),
+        step_size=step,
+        integrator='euler',
+        time_limit=tmax,
+        extended_states=extended_states
+    )
+    
+    # Create agent from autopilot
+    autopilot = WaypointAutopilot(waypoints, stdout=True)
+    agent = AutopilotAgent(autopilot)
+    
+    # Run simulation
+    res = run_f16_env(
+        env=env,
+        agent=agent,
+        tmax=tmax,
+        print_mode_changes=True
+    )
 
     print(f"Waypoint simulation completed in {round(res['runtime'], 2)} seconds (extended_states={extended_states})")
 
-    if filename.endswith('.mp4'):
-        skip_override = 4
-    elif filename.endswith('.gif'):
-        skip_override = 15
-    else:
-        skip_override = 30
-
-    anim_lines = []
-    modes = res['modes']
-    modes = modes[0::skip_override]
-
-    def init_extra(ax):
-        'initialize plot extra shapes'
-
-        l1, = ax.plot([], [], [], 'bo', ms=8, lw=0, zorder=50)
-        anim_lines.append(l1)
-
-        l2, = ax.plot([], [], [], 'lime', marker='o', ms=8, lw=0, zorder=50)
-        anim_lines.append(l2)
-
-        return anim_lines
-
-    def update_extra(frame):
-        'update plot extra shapes'
-
-        mode_names = ['Waypoint 1', 'Waypoint 2', 'Waypoint 3']
-
-        done_xs = []
-        done_ys = []
-        done_zs = []
-
-        blue_xs = []
-        blue_ys = []
-        blue_zs = []
-
-        for i, mode_name in enumerate(mode_names):
-            if modes[frame] == mode_name:
-                blue_xs.append(waypoints[i][0])
-                blue_ys.append(waypoints[i][1])
-                blue_zs.append(waypoints[i][2])
-                break
-
-            done_xs.append(waypoints[i][0])
-            done_ys.append(waypoints[i][1])
-            done_zs.append(waypoints[i][2])
-
-        anim_lines[0].set_data(blue_xs, blue_ys)
-        anim_lines[0].set_3d_properties(blue_zs)
-
-        anim_lines[1].set_data(done_xs, done_ys)
-        anim_lines[1].set_3d_properties(done_zs)
-
-    return res, init_extra, update_extra, skip_override, waypoints
+    return res, waypoints
 
 def main():
     'main function'
@@ -114,7 +79,7 @@ def main():
         filename = ''
         print("Plotting to the screen. To save a video, pass a command-line argument ending with '.mp4' or '.gif'.")
 
-    res, init_extra, update_extra, skip_override, waypoints = simulate(filename)
+    res, waypoints = simulate(filename)
         
     anim3d.make_anim(res, filename, waypoints)
 
