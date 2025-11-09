@@ -245,25 +245,26 @@ class RaylibRenderer:
         # Right (v) contributions:
         t1 = sphi * cpsi
         t3 = sphi * spsi
-        t2 = cphi * stheta
         right_north = t1 * stheta - cphi * spsi  # s3
         right_east = t3 * stheta + cphi * cpsi   # s4
         right_up = sphi * ctheta                 # s5 (negated in model)
         
-        # Down (w) contributions:
-        down_north = t2 * cpsi + t3              # s6
-        down_east = t2 * spsi - t1               # s7
-        down_up = cphi * ctheta                  # s8 (negated in model)
-        
         # Convert to our visualization frame: (East, Up, North)
-        # Forward direction in our coords
+        # Forward direction in our coords (includes pitch via stheta)
         nose_dir = np.array([forward_east, forward_up, forward_north])
         
-        # Right direction in our coords
+        # Right direction in our coords (includes roll via sphi)
         right_dir = np.array([right_east, -right_up, right_north])  # negate because model uses -v*s5
         
-        # Up direction in our coords (negate down)
-        up_dir = np.array([-down_east, -down_up, -down_north])  # negate because model uses -w*s8
+        # Up direction: use cross product of forward × right to ensure orthogonal frame
+        # This guarantees the up vector is perpendicular to both forward and right
+        # and follows the right-hand rule
+        up_dir = np.cross(nose_dir, right_dir)
+        up_dir = up_dir / np.linalg.norm(up_dir)  # normalize
+        
+        # Note: The nose_dir already contains pitch (via forward_up = stheta)
+        # and the right_dir contains roll (via right_up = sphi * ctheta)
+        # so the cross product properly combines all three Euler angles
         
         # Scale to visualization size
         forward = nose_dir * size
