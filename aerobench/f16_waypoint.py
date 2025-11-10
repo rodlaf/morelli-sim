@@ -105,9 +105,9 @@ if __name__ == '__main__':
     steps = 0
     i = 0
     
-    print(f"Running for 10 seconds...")
+    print(f"Running for 5 seconds...")
     start = time.time()
-    while time.time() - start < 10:
+    while time.time() - start < 5:
         state, reward, terminated, truncated, info = env.step(actions[i % CACHE])
         steps += 1
         i += 1

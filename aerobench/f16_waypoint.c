@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
     int render_fps = 60;
     double target_frame_time = 1.0 / render_fps;
     double last_render_time = get_wall_time();
-    double sim_time_elapsed = 0.0;
+    double last_step_time = get_wall_time();
     int waypoint_count = 1;
     
     /* Main loop */
@@ -189,10 +189,12 @@ int main(int argc, char** argv) {
     
     while (!f16_waypoint_should_close()) {
         double current_time = get_wall_time();
-        double real_time_elapsed = current_time - last_render_time;
-        double target_sim_time = sim_time_elapsed + (real_time_elapsed * playback_speed);
         
-        /* Step simulation until caught up */
+        /* Step simulation at playback speed (uncapped) */
+        double real_time_since_step = current_time - last_step_time;
+        double target_sim_time = env.time + (real_time_since_step * playback_speed);
+        
+        /* Run simulation steps to catch up */
         while (env.time < target_sim_time) {
             double u_ref[4];
             autopilot_get_action(&autopilot, env.state, u_ref);
@@ -207,8 +209,7 @@ int main(int argc, char** argv) {
                 f16_waypoint_reset(&env, is_success);
                 autopilot_update_waypoint(&autopilot, env.waypoint);
                 
-                sim_time_elapsed = 0.0;
-                last_render_time = get_wall_time();
+                last_step_time = get_wall_time();
                 
                 if (is_success) {
                     waypoint_count++;
@@ -223,21 +224,20 @@ int main(int argc, char** argv) {
             }
         }
         
-        /* Render */
-        f16_waypoint_render(&env);
+        last_step_time = current_time;
         
-        sim_time_elapsed = env.time;
-        last_render_time = current_time;
-        
-        /* Sleep to maintain FPS */
-        double frame_duration = get_wall_time() - current_time;
-        double sleep_time = target_frame_time - frame_duration;
-        if (sleep_time > 0) {
-            struct timespec ts;
-            ts.tv_sec = 0;
-            ts.tv_nsec = (long)(sleep_time * 1e9);
-            nanosleep(&ts, NULL);
+        /* Render at fixed FPS (frame skipping happens automatically) */
+        double time_since_render = current_time - last_render_time;
+        if (time_since_render >= target_frame_time) {
+            f16_waypoint_render(&env);
+            last_render_time = current_time;
         }
+        
+        /* Small sleep to avoid busy waiting */
+        struct timespec ts;
+        ts.tv_sec = 0;
+        ts.tv_nsec = 1000000;  /* 1ms */
+        nanosleep(&ts, NULL);
     }
     
     f16_waypoint_close();
