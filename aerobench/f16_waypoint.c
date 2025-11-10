@@ -8,6 +8,10 @@
 #include <time.h>
 #include <sys/time.h>
 
+/* Playback configuration */
+#define PLAYBACK_SPEED 10.0   /* 1.0 = real-time, 2.0 = 2x speed, 0.5 = half speed */
+#define RENDER_FPS 60        /* Target frames per second for rendering */
+
 /* Get wall-clock time in seconds */
 static double get_wall_time(void) {
     struct timeval time;
@@ -177,11 +181,13 @@ int main(int argc, char** argv) {
     printf("Press ESC to exit\n\n");
     
     /* Timing variables */
-    double playback_speed = 1;
-    int render_fps = 60;
-    double target_frame_time = 1.0 / render_fps;
+    double target_render_dt = 1.0 / RENDER_FPS;
     double last_render_time = get_wall_time();
-    double last_step_time = get_wall_time();
+    
+    /* Calculate how many simulation steps to run per rendered frame */
+    /* sim_steps_per_frame = (PLAYBACK_SPEED * target_render_dt) / env.step_size */
+    double sim_steps_per_frame = (PLAYBACK_SPEED * target_render_dt) / env.step_size;
+    
     int waypoint_count = 1;
     
     /* Main loop */
@@ -189,46 +195,41 @@ int main(int argc, char** argv) {
     
     while (!f16_waypoint_should_close()) {
         double current_time = get_wall_time();
-        
-        /* Step simulation at playback speed (uncapped) */
-        double real_time_since_step = current_time - last_step_time;
-        double target_sim_time = env.time + (real_time_since_step * playback_speed);
-        
-        /* Run simulation steps to catch up */
-        while (env.time < target_sim_time) {
-            double u_ref[4];
-            autopilot_get_action(&autopilot, env.state, u_ref);
-            
-            int result = f16_waypoint_step(&env, u_ref);
-            
-            if (result != 0) {
-                /* Episode ended */
-                int is_success = (result == 1);
-                
-                f16_waypoint_clear_trail();
-                f16_waypoint_reset(&env, is_success);
-                autopilot_update_waypoint(&autopilot, env.waypoint);
-                
-                last_step_time = get_wall_time();
-                
-                if (is_success) {
-                    waypoint_count++;
-                    printf("Waypoint %d reached!\n", waypoint_count - 1);
-                    printf("New waypoint %d: E=%.1f N=%.1f Alt=%.1f\n\n",
-                           waypoint_count, env.waypoint[0], env.waypoint[1], env.waypoint[2]);
-                } else {
-                    printf("Physics violation! Resetting...\n\n");
-                    waypoint_count = 1;
-                }
-                break;
-            }
-        }
-        
-        last_step_time = current_time;
-        
-        /* Render at fixed FPS (frame skipping happens automatically) */
         double time_since_render = current_time - last_render_time;
-        if (time_since_render >= target_frame_time) {
+        
+        /* Render at target FPS */
+        if (time_since_render >= target_render_dt) {
+            /* Run simulation steps for this frame */
+            int steps_this_frame = (int)(sim_steps_per_frame + 0.5);  /* Round to nearest int */
+            
+            for (int step = 0; step < steps_this_frame; step++) {
+                double u_ref[4];
+                autopilot_get_action(&autopilot, env.state, u_ref);
+                
+                int result = f16_waypoint_step(&env, u_ref);
+                
+                if (result != 0) {
+                    /* Episode ended */
+                    int is_success = (result == 1);
+                    
+                    f16_waypoint_clear_trail();
+                    f16_waypoint_reset(&env, is_success);
+                    autopilot_update_waypoint(&autopilot, env.waypoint);
+                    
+                    if (is_success) {
+                        waypoint_count++;
+                        printf("Waypoint %d reached!\n", waypoint_count - 1);
+                        printf("New waypoint %d: E=%.1f N=%.1f Alt=%.1f\n\n",
+                               waypoint_count, env.waypoint[0], env.waypoint[1], env.waypoint[2]);
+                    } else {
+                        printf("Physics violation! Resetting...\n\n");
+                        waypoint_count = 1;
+                    }
+                    break;
+                }
+            }
+            
+            /* Render the current state */
             f16_waypoint_render(&env);
             last_render_time = current_time;
         }
