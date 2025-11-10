@@ -5,6 +5,7 @@ Demonstrates F-16 waypoint following with autopilot agent.
 Run with: python -m aerobench.demo
 """
 
+import time
 from math import pi, atan2, sqrt, sin, cos, asin
 
 import numpy as np
@@ -233,39 +234,67 @@ class AutopilotAgent:
         return rv
 
 
-def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
+def run_simulation(env: F16Waypoint, agent: AutopilotAgent, 
+                   playback_speed: float, render_fps: int):
     """
     Run F-16 simulation with live rendering (PufferLib-style)
     
     Args:
         env: F16Waypoint environment
         agent: AutopilotAgent instance
+        playback_speed: Speed multiplier (1.0 = real-time, 2.0 = 2x speed, etc.)
+        render_fps: Target frames per second for rendering
         
     Runs infinite loop with real-time rendering until window closed.
     """
     state, info = env.reset()
     
     print("Starting live F-16 simulation...")
+    print(f"Playback speed: {playback_speed}x")
+    print(f"Render FPS: {render_fps}")
+    print(f"Simulation step size: {env.step_size:.6f}s")
     print(f"Waypoints: {len(env.waypoints)}")
     for i, wp in enumerate(env.waypoints):
         print(f"  WP{i+1}: E={wp[0]:7.1f} N={wp[1]:7.1f} Alt={wp[2]:7.1f}")
     print("Press ESC or close window to exit\n")
     
     frame_count = 0
+    sim_time_elapsed = 0.0
+    
+    # Frame timing
+    target_frame_time = 1.0 / render_fps
+    last_render_time = time.perf_counter()
     
     # Main loop - similar to PufferLib squared.h example
     env.render()
     
     while not env.should_close_window():
-        # Get action from agent
-        u_ref = agent.get_action(state, env.time)
+        current_time = time.perf_counter()
         
-        # Step environment
-        state, reward, terminated, truncated, info = env.step(u_ref)
+        # Determine how much simulation time should have elapsed
+        real_time_elapsed = current_time - last_render_time
+        target_sim_time = sim_time_elapsed + (real_time_elapsed * playback_speed)
+        
+        # Step simulation forward until we catch up to target time
+        steps_taken = 0
+        while env.time < target_sim_time:
+            # Get action from agent
+            u_ref = agent.get_action(state, env.time)
+            
+            # Step environment
+            state, reward, terminated, truncated, info = env.step(u_ref)
+            steps_taken += 1
+            
+            # Check for termination
+            if terminated or truncated or agent.is_done(state, env.time):
+                break
         
         # Render current state
         env.render()
         
+        # Update timing
+        sim_time_elapsed = env.time
+        last_render_time = current_time
         frame_count += 1
         
         # Reset on termination or completion
@@ -287,6 +316,14 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent):
             print()
             
             frame_count = 0
+            sim_time_elapsed = 0.0
+            last_render_time = time.perf_counter()
+        
+        # Sleep to maintain target FPS
+        frame_duration = time.perf_counter() - current_time
+        sleep_time = target_frame_time - frame_duration
+        if sleep_time > 0:
+            time.sleep(sleep_time)
     
     # Cleanup
     env.close_window()
@@ -299,10 +336,10 @@ def main():
     # Create environment with random waypoint generation
     env = F16Waypoint(
         num_waypoints=3,
-        step_size=1/30,
+        step_size=1/120,  # Fine-grained simulation steps
         time_limit=150.0,
         extended_states=True,
-        waypoint_radius=15000.0,
+        waypoint_radius=30000.0,
         altitude_range=(1000.0, 4000.0),
         random_seed=None  # Set to int for reproducibility
     )
@@ -311,7 +348,12 @@ def main():
     agent = AutopilotAgent(env.waypoints, stdout=True)
     
     # Run live simulation loop
-    run_simulation(env, agent)
+    run_simulation(
+        env, 
+        agent,
+        playback_speed=3.0,  # 1.0 = real-time, 2.0 = 2x speed, 0.5 = slow-mo
+        render_fps=60        # Render at 60 FPS regardless of step_size
+    )
 
 
 if __name__ == '__main__':
