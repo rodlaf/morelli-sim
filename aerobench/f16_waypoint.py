@@ -81,3 +81,44 @@ class F16Waypoint:
     def time(self):
         """Get current time"""
         return self._c_env.time
+
+
+if __name__ == '__main__':
+    """Speed test for F16 Waypoint environment"""
+    import time
+    
+    print("F16 Waypoint Speed Test")
+    print("=" * 50)
+    
+    # Create environment
+    env = F16Waypoint(step_size=1/30, time_limit=100.0, random_seed=42)
+    state, info = env.reset()
+    
+    # Pre-generate random actions for consistent testing
+    CACHE = 1024
+    actions = np.random.uniform(-1, 1, (CACHE, 4))
+    actions[:, 0] = np.clip(actions[:, 0] * 2 + 1, -1, 4)  # Nz: -1 to 4
+    actions[:, 1] = actions[:, 1] * 0.5  # ps: -0.5 to 0.5
+    actions[:, 2] = actions[:, 2] * 0.1  # Ny_r: -0.1 to 0.1
+    actions[:, 3] = np.clip(actions[:, 3] * 0.5 + 0.5, 0, 1)  # throttle: 0 to 1
+    
+    steps = 0
+    i = 0
+    
+    print(f"Running for 10 seconds...")
+    start = time.time()
+    while time.time() - start < 10:
+        state, reward, terminated, truncated, info = env.step(actions[i % CACHE])
+        steps += 1
+        i += 1
+        
+        if terminated or truncated:
+            state, info = env.reset(keep_position=(info.get('termination_reason') == 'success'))
+    
+    elapsed = time.time() - start
+    sps = int(steps / elapsed)
+    
+    print(f"Steps: {steps}")
+    print(f"Time: {elapsed:.2f}s")
+    print(f"F16 Waypoint SPS: {sps}")
+    print("=" * 50)
