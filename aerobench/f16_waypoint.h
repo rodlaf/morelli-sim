@@ -30,23 +30,24 @@
 #define POW 12
 #define NUM_STATE_VARS 13
 
-// Physics bounds
+// Physics bounds - alpha (angle of attack) and velocity limits
 #define ALPHA_MIN -2.0f
 #define ALPHA_MAX 2.0f
 #define VELOCITY_MIN 200.0f
 #define VELOCITY_MAX 3000.0f
 
-// World bounds (box containing all valid positions)
-#define WORLD_BOUNDS_E 20000.0f
-#define WORLD_BOUNDS_N 30000.0f
+// World bounds - defines the playable box (east/north ±bounds, altitude 0 to max)
+#define WORLD_BOUNDS_E 18000.0f
+#define WORLD_BOUNDS_N 24000.0f
 #define WORLD_BOUNDS_ALT 15000.0f
 
-// Waypoint parameters
-#define WAYPOINT_DISTANCE_MIN 12000.0f
-#define WAYPOINT_DISTANCE_MAX 13000.0f
-#define WAYPOINT_ALT_MIN 2000.0f
-#define WAYPOINT_ALT_MAX 4000.0f
-#define WAYPOINT_CAPTURE_RADIUS 500.0f
+// Waypoint generation parameters
+#define WAYPOINT_DISTANCE_MIN 12000.0f  // Min distance from jet when generating waypoint
+#define WAYPOINT_DISTANCE_MAX 13000.0f  // Max distance from jet when generating waypoint
+#define WAYPOINT_ALT_MIN 2000.0f        // Min altitude for waypoint generation
+#define WAYPOINT_ALT_MAX 4000.0f        // Max altitude for waypoint generation
+#define WAYPOINT_WORLDBOUND_MARGIN 3000.0f  // Min distance waypoints must keep from side walls and ceiling (not floor)
+#define WAYPOINT_CAPTURE_RADIUS 500.0f  // Distance to capture waypoint
 
 #define PI 3.14159265358979323846f
 
@@ -111,28 +112,33 @@ static void generate_initial_state(double* state) {
     state[POSN] = randd(-WORLD_BOUNDS_N * 0.5, WORLD_BOUNDS_N * 0.5);
 }
 
-// Generate random waypoint within world bounds
+// Generate random waypoint within world bounds with margin
 static void generate_waypoint(F16Waypoint* env) {
     // Ensure waypoint generation is always feasible
     static int asserts_checked = 0;
     if (!asserts_checked) {
-        // Verify waypoint altitude range fits within world bounds
-        if (!(WAYPOINT_ALT_MIN >= 0 && WAYPOINT_ALT_MAX <= WORLD_BOUNDS_ALT)) {
-            fprintf(stderr, "ASSERT FAILED: Waypoint altitude range [%.1f, %.1f] must fit within world bounds [0, %.1f]\n",
-                    WAYPOINT_ALT_MIN, WAYPOINT_ALT_MAX, WORLD_BOUNDS_ALT);
+        // Verify waypoint altitude range fits within world bounds with margin from ceiling
+        if (!(WAYPOINT_ALT_MIN >= 0 && WAYPOINT_ALT_MAX <= (WORLD_BOUNDS_ALT - WAYPOINT_WORLDBOUND_MARGIN))) {
+            fprintf(stderr, "ASSERT FAILED: Waypoint altitude range [%.1f, %.1f] must fit within [0, %.1f] (world bound %.1f - margin %.1f)\n",
+                    WAYPOINT_ALT_MIN, WAYPOINT_ALT_MAX, WORLD_BOUNDS_ALT - WAYPOINT_WORLDBOUND_MARGIN, 
+                    WORLD_BOUNDS_ALT, WAYPOINT_WORLDBOUND_MARGIN);
             exit(1);
         }
-        // Verify world bounds are positive
-        if (!(WORLD_BOUNDS_E > 0 && WORLD_BOUNDS_N > 0 && WORLD_BOUNDS_ALT > 0)) {
-            fprintf(stderr, "ASSERT FAILED: World bounds must be positive (E=%.1f, N=%.1f, ALT=%.1f)\n",
-                    WORLD_BOUNDS_E, WORLD_BOUNDS_N, WORLD_BOUNDS_ALT);
+        // Verify world bounds are positive and large enough for margins
+        if (!(WORLD_BOUNDS_E > WAYPOINT_WORLDBOUND_MARGIN && 
+              WORLD_BOUNDS_N > WAYPOINT_WORLDBOUND_MARGIN && 
+              WORLD_BOUNDS_ALT > WAYPOINT_WORLDBOUND_MARGIN)) {
+            fprintf(stderr, "ASSERT FAILED: World bounds (E=%.1f, N=%.1f, ALT=%.1f) must be > margin (%.1f)\n",
+                    WORLD_BOUNDS_E, WORLD_BOUNDS_N, WORLD_BOUNDS_ALT, WAYPOINT_WORLDBOUND_MARGIN);
             exit(1);
         }
-        // Verify waypoint distance constraints are achievable within world bounds
-        // Need to ensure we can generate waypoints at WAYPOINT_DISTANCE_MIN from any valid position
-        double max_distance_from_center = sqrt(WORLD_BOUNDS_E * WORLD_BOUNDS_E + WORLD_BOUNDS_N * WORLD_BOUNDS_N);
+        // Verify waypoint distance constraints are achievable within world bounds with margins
+        double max_distance_from_center = sqrt(
+            (WORLD_BOUNDS_E - WAYPOINT_WORLDBOUND_MARGIN) * (WORLD_BOUNDS_E - WAYPOINT_WORLDBOUND_MARGIN) + 
+            (WORLD_BOUNDS_N - WAYPOINT_WORLDBOUND_MARGIN) * (WORLD_BOUNDS_N - WAYPOINT_WORLDBOUND_MARGIN)
+        );
         if (!(WAYPOINT_DISTANCE_MAX <= max_distance_from_center)) {
-            fprintf(stderr, "ASSERT FAILED: WAYPOINT_DISTANCE_MAX (%.1f) must be <= diagonal of world bounds (%.1f)\n",
+            fprintf(stderr, "ASSERT FAILED: WAYPOINT_DISTANCE_MAX (%.1f) must be <= diagonal of bounded area (%.1f)\n",
                     WAYPOINT_DISTANCE_MAX, max_distance_from_center);
             exit(1);
         }
@@ -142,16 +148,18 @@ static void generate_waypoint(F16Waypoint* env) {
     double pos_e = env->state[POSE];
     double pos_n = env->state[POSN];
     
-    // Generate waypoint at desired distance from current position, but clamped to world bounds
+    // Generate waypoint at desired distance from current position
     double distance = randd(WAYPOINT_DISTANCE_MIN, WAYPOINT_DISTANCE_MAX);
     double angle = randd(0.0, 2.0 * PI);
     
     double target_e = pos_e + distance * cos(angle);
     double target_n = pos_n + distance * sin(angle);
     
-    // Clamp to world bounds
-    env->waypoint[0] = fmax(-WORLD_BOUNDS_E, fmin(WORLD_BOUNDS_E, target_e));
-    env->waypoint[1] = fmax(-WORLD_BOUNDS_N, fmin(WORLD_BOUNDS_N, target_n));
+    // Clamp to world bounds with margin (not applied to floor at altitude 0)
+    env->waypoint[0] = fmax(-WORLD_BOUNDS_E + WAYPOINT_WORLDBOUND_MARGIN, 
+                            fmin(WORLD_BOUNDS_E - WAYPOINT_WORLDBOUND_MARGIN, target_e));
+    env->waypoint[1] = fmax(-WORLD_BOUNDS_N + WAYPOINT_WORLDBOUND_MARGIN, 
+                            fmin(WORLD_BOUNDS_N - WAYPOINT_WORLDBOUND_MARGIN, target_n));
     env->waypoint[2] = randd(WAYPOINT_ALT_MIN, WAYPOINT_ALT_MAX);
 }
 
