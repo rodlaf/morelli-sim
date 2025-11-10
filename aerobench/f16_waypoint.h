@@ -6,6 +6,7 @@
 #ifndef F16_WAYPOINT_H
 #define F16_WAYPOINT_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -34,12 +35,11 @@
 #define ALPHA_MAX 2.0f
 #define VELOCITY_MIN 200.0f
 #define VELOCITY_MAX 3000.0f
-#define ALTITUDE_MIN -10000.0f
-#define ALTITUDE_MAX 100000.0f
 
-// World bounds
+// World bounds (box containing all valid positions)
 #define WORLD_BOUNDS_E 20000.0f
-#define WORLD_BOUNDS_N 20000.0f
+#define WORLD_BOUNDS_N 30000.0f
+#define WORLD_BOUNDS_ALT 15000.0f
 
 // Waypoint parameters
 #define WAYPOINT_DISTANCE_MIN 12000.0f
@@ -97,7 +97,7 @@ static inline double wrap_to_pi(double angle) {
     return result;
 }
 
-// Generate initial state
+// Generate initial state within world bounds
 static void generate_initial_state(double* state) {
     memset(state, 0, 16 * sizeof(double));
     state[VT] = 540.0;
@@ -105,26 +105,67 @@ static void generate_initial_state(double* state) {
     state[THETA] = 0.03706505;//deg2rad(2.1215);
     state[ALT] = 1500.0;
     state[POW] = 9.0;
+    
+    // Randomize starting position within world bounds
+    state[POSE] = randd(-WORLD_BOUNDS_E * 0.5, WORLD_BOUNDS_E * 0.5);
+    state[POSN] = randd(-WORLD_BOUNDS_N * 0.5, WORLD_BOUNDS_N * 0.5);
 }
 
-// Generate random waypoint from current position
+// Generate random waypoint within world bounds
 static void generate_waypoint(F16Waypoint* env) {
+    // Ensure waypoint generation is always feasible
+    static int asserts_checked = 0;
+    if (!asserts_checked) {
+        // Verify waypoint altitude range fits within world bounds
+        if (!(WAYPOINT_ALT_MIN >= 0 && WAYPOINT_ALT_MAX <= WORLD_BOUNDS_ALT)) {
+            fprintf(stderr, "ASSERT FAILED: Waypoint altitude range [%.1f, %.1f] must fit within world bounds [0, %.1f]\n",
+                    WAYPOINT_ALT_MIN, WAYPOINT_ALT_MAX, WORLD_BOUNDS_ALT);
+            exit(1);
+        }
+        // Verify world bounds are positive
+        if (!(WORLD_BOUNDS_E > 0 && WORLD_BOUNDS_N > 0 && WORLD_BOUNDS_ALT > 0)) {
+            fprintf(stderr, "ASSERT FAILED: World bounds must be positive (E=%.1f, N=%.1f, ALT=%.1f)\n",
+                    WORLD_BOUNDS_E, WORLD_BOUNDS_N, WORLD_BOUNDS_ALT);
+            exit(1);
+        }
+        // Verify waypoint distance constraints are achievable within world bounds
+        // Need to ensure we can generate waypoints at WAYPOINT_DISTANCE_MIN from any valid position
+        double max_distance_from_center = sqrt(WORLD_BOUNDS_E * WORLD_BOUNDS_E + WORLD_BOUNDS_N * WORLD_BOUNDS_N);
+        if (!(WAYPOINT_DISTANCE_MAX <= max_distance_from_center)) {
+            fprintf(stderr, "ASSERT FAILED: WAYPOINT_DISTANCE_MAX (%.1f) must be <= diagonal of world bounds (%.1f)\n",
+                    WAYPOINT_DISTANCE_MAX, max_distance_from_center);
+            exit(1);
+        }
+        asserts_checked = 1;
+    }
+    
     double pos_e = env->state[POSE];
     double pos_n = env->state[POSN];
     
+    // Generate waypoint at desired distance from current position, but clamped to world bounds
     double distance = randd(WAYPOINT_DISTANCE_MIN, WAYPOINT_DISTANCE_MAX);
     double angle = randd(0.0, 2.0 * PI);
     
-    env->waypoint[0] = pos_e + distance * cos(angle);
-    env->waypoint[1] = pos_n + distance * sin(angle);
+    double target_e = pos_e + distance * cos(angle);
+    double target_n = pos_n + distance * sin(angle);
+    
+    // Clamp to world bounds
+    env->waypoint[0] = fmax(-WORLD_BOUNDS_E, fmin(WORLD_BOUNDS_E, target_e));
+    env->waypoint[1] = fmax(-WORLD_BOUNDS_N, fmin(WORLD_BOUNDS_N, target_n));
     env->waypoint[2] = randd(WAYPOINT_ALT_MIN, WAYPOINT_ALT_MAX);
 }
 
-// Check physics bounds
+// Check physics bounds and world bounds
 static int check_physics_violation(const double* state) {
+    // Physics bounds
     if (state[ALPHA] <= ALPHA_MIN || state[ALPHA] >= ALPHA_MAX) return 1;
     if (state[VT] < VELOCITY_MIN || state[VT] > VELOCITY_MAX) return 1;
-    if (state[ALT] <= ALTITUDE_MIN || state[ALT] >= ALTITUDE_MAX) return 1;
+    
+    // World bounds
+    if (state[POSE] < -WORLD_BOUNDS_E || state[POSE] > WORLD_BOUNDS_E) return 1;
+    if (state[POSN] < -WORLD_BOUNDS_N || state[POSN] > WORLD_BOUNDS_N) return 1;
+    if (state[ALT] < 0 || state[ALT] > WORLD_BOUNDS_ALT) return 1;
+    
     return 0;
 }
 
@@ -172,7 +213,7 @@ static void update_render_state(F16Waypoint* env) {
     env->render_state.world_bounds_e_max = WORLD_BOUNDS_E;
     env->render_state.world_bounds_n_min = -WORLD_BOUNDS_N;
     env->render_state.world_bounds_n_max = WORLD_BOUNDS_N;
-    env->render_state.world_bounds_alt_max = ALTITUDE_MAX;
+    env->render_state.world_bounds_alt_max = WORLD_BOUNDS_ALT;
 }
 
 // Required: Reset environment
