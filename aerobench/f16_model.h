@@ -277,7 +277,6 @@ static inline void subf16_model(double x[13], double u[4], double xd[13],
     double cpow = tgear(thtlc);
     xd[12] = pdot(power, cpow);
     double t = thrust(power, alt, amach);
-    double dail = ail / 20.0, drdr = rdr / 30.0;
 
     // component build up
     double cxt = 0.0, cyt = 0.0, czt = 0.0, clt = 0.0, cmt = 0.0, cnt = 0.0;
