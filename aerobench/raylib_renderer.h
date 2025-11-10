@@ -21,7 +21,10 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define TARGET_FPS 60
-#define CHASE_DISTANCE 3000.0f
+#define CAMERA_DEFAULT_DISTANCE 10000.0f  // Default camera distance from target
+#define CAMERA_ZOOM_MIN_DISTANCE 500.0f   // Closest zoom (camera distance)
+#define CAMERA_ZOOM_MAX_DISTANCE 50000.0f  // Farthest zoom (camera distance)
+#define CAMERA_DEFAULT_ELEVATION 0.3f     // Default camera elevation angle in radians (~17 degrees up)
 #define CHASE_ELEVATION 150.0f
 #define F16_SCALE 150.0f
 #define GRID_SPACING 1000.0f
@@ -78,7 +81,7 @@ static int _num_markers = 0;
 static Vector3 _last_marker_pos = {0};
 static bool _has_last_marker = false;
 static Font _font = {0};
-static Vector2 _manual_camera_offset = {0.0f, 0.0f};  /* azimuth, elevation */
+static Vector2 _manual_camera_offset = {0.0f, CAMERA_DEFAULT_ELEVATION};  /* azimuth, elevation */
 static float _manual_zoom = 0.0f;
 static Vector2 _last_mouse_pos = {0};
 static bool _mouse_was_down = false;
@@ -98,7 +101,7 @@ static void _initialize(void) {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Aerobench 3D");
     SetTargetFPS(TARGET_FPS);
     
-    _camera.position = (Vector3){0.0f, CHASE_ELEVATION, -CHASE_DISTANCE};
+    _camera.position = (Vector3){0.0f, CHASE_ELEVATION, -CAMERA_DEFAULT_DISTANCE};
     _camera.target = (Vector3){0.0f, 0.0f, 0.0f};
     _camera.up = (Vector3){0.0f, 1.0f, 0.0f};
     _camera.fovy = 60.0f;
@@ -127,8 +130,8 @@ static void _handle_camera_input(void) {
     float wheel = GetMouseWheelMove();
     if (wheel != 0.0f) {
         _manual_zoom += wheel * 200.0f;
-        float min_zoom = -(1000000.0f - CHASE_DISTANCE);  /* Allow zoom out to 100km */
-        float max_zoom = CHASE_DISTANCE - 10.0f;  /* Allow zoom in very close */
+        float min_zoom = -(CAMERA_ZOOM_MAX_DISTANCE - CAMERA_DEFAULT_DISTANCE);
+        float max_zoom = CAMERA_DEFAULT_DISTANCE - CAMERA_ZOOM_MIN_DISTANCE;
         if (_manual_zoom < min_zoom) _manual_zoom = min_zoom;
         if (_manual_zoom > max_zoom) _manual_zoom = max_zoom;
     }
@@ -157,7 +160,7 @@ static void _update_camera(Vector3 position) {
     _camera.target = position;
     _camera.up = (Vector3){0.0f, 1.0f, 0.0f};
     
-    float d = CHASE_DISTANCE - _manual_zoom;
+    float d = CAMERA_DEFAULT_DISTANCE - _manual_zoom;
     
     float az = _manual_camera_offset.x;
     float el = _manual_camera_offset.y;
