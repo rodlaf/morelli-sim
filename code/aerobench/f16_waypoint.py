@@ -3,6 +3,17 @@ F-16 Waypoint Environment
 
 Single-file environment for F-16 waypoint following task.
 Combines environment, agent, and simulation in Gymnasium-style API.
+
+The environment terminates when:
+  - Alpha (angle of attack) exceeds [-2, 2] radians
+  - Velocity falls outside [200, 3000] ft/s
+  - Altitude falls outside [-10000, 100000] ft
+  - Integration fails
+
+The environment truncates when:
+  - Time limit is exceeded (default 150 seconds)
+
+Note: Waypoint completion is handled by the autopilot agent, not the environment.
 """
 
 import time
@@ -19,13 +30,24 @@ class F16Waypoint:
     F-16 waypoint following environment with random waypoint generation.
     """
     
+    # Physics bounds for termination
+    ALPHA_MIN = -2.0  # radians
+    ALPHA_MAX = 2.0   # radians
+    VELOCITY_MIN = 200.0   # ft/s
+    VELOCITY_MAX = 3000.0  # ft/s
+    ALTITUDE_MIN = -10000.0  # ft
+    ALTITUDE_MAX = 100000.0  # ft
+    
+    # Waypoint generation center (east, north) in feet
+    WAYPOINT_CENTER = (10000.0, 10000.0)
+    
     def __init__(self, 
                  num_waypoints: int = 3,
                  initial_state: np.ndarray = None,
                  step_size: float = 1/30,
-                 time_limit: float = 150.0,
+                 time_limit: float = 200.0,
                  extended_states: bool = True,
-                 waypoint_radius: float = 10000.0,
+                 waypoint_radius: float = 5000.0,
                  altitude_range: tuple = (1000.0, 4000.0),
                  random_seed: int = None):
         """
@@ -88,12 +110,12 @@ class F16Waypoint:
         """Generate random waypoints within specified constraints"""
         waypoints = []
         for _ in range(self.num_waypoints):
-            # Random position within circular region
+            # Random position within circular region centered at WAYPOINT_CENTER
             angle = np.random.uniform(0, 2 * np.pi)
             radius = np.random.uniform(0, self.waypoint_radius)
             
-            east = radius * np.cos(angle)
-            north = radius * np.sin(angle)
+            east = self.WAYPOINT_CENTER[0] + radius * np.cos(angle)
+            north = self.WAYPOINT_CENTER[1] + radius * np.sin(angle)
             altitude = np.random.uniform(self.altitude_range[0], self.altitude_range[1])
             
             waypoints.append([east, north, altitude])
@@ -225,34 +247,31 @@ class F16Waypoint:
     def _dynamics(self, t: float, state: np.ndarray) -> np.ndarray:
         """Dynamics function for integration"""
         alpha = state[StateIndex.ALPHA]
-        if not -2 < alpha < 2:
-            raise RuntimeError(f"alpha ({alpha}) out of bounds")
+        if not self.ALPHA_MIN < alpha < self.ALPHA_MAX:
+            raise RuntimeError(f"alpha ({alpha}) out of bounds [{self.ALPHA_MIN}, {self.ALPHA_MAX}]")
         
         vel = state[StateIndex.VEL]
-        if not 200 <= vel <= 3000:
-            raise RuntimeError(f"velocity ({vel}) out of bounds")
+        if not self.VELOCITY_MIN <= vel <= self.VELOCITY_MAX:
+            raise RuntimeError(f"velocity ({vel}) out of bounds [{self.VELOCITY_MIN}, {self.VELOCITY_MAX}]")
         
         alt = state[StateIndex.ALT]
-        if not -10000 < alt < 100000:
-            raise RuntimeError(f"altitude ({alt}) out of bounds")
+        if not self.ALTITUDE_MIN < alt < self.ALTITUDE_MAX:
+            raise RuntimeError(f"altitude ({alt}) out of bounds [{self.ALTITUDE_MIN}, {self.ALTITUDE_MAX}]")
         
         return f16_model.controlled_f16_wrapper(state, self._current_u_ref)[0]
     
     def _check_terminated(self) -> bool:
         """Check termination conditions"""
-        try:
-            alpha = self.state[StateIndex.ALPHA]
-            if not -2 < alpha < 2:
-                return True
-            
-            vel = self.state[StateIndex.VEL]
-            if not 200 <= vel <= 3000:
-                return True
-            
-            alt = self.state[StateIndex.ALT]
-            if not -10000 < alt < 100000:
-                return True
-        except:
+        alpha = self.state[StateIndex.ALPHA]
+        if not self.ALPHA_MIN < alpha < self.ALPHA_MAX:
+            return True
+        
+        vel = self.state[StateIndex.VEL]
+        if not self.VELOCITY_MIN <= vel <= self.VELOCITY_MAX:
+            return True
+        
+        alt = self.state[StateIndex.ALT]
+        if not self.ALTITUDE_MIN < alt < self.ALTITUDE_MAX:
             return True
         
         return False
