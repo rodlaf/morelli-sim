@@ -6,10 +6,10 @@ Run with: python -m aerobench.demo
 """
 
 import time
-from math import pi, atan2, sqrt, sin, cos, asin
+from math import pi, atan2, sqrt, sin, cos, asin, atan
 
 import numpy as np
-from numpy import deg2rad
+from numpy import deg2rad, rad2deg
 
 from aerobench.f16_waypoint import F16Waypoint
 from aerobench.util import StateIndex
@@ -18,18 +18,34 @@ from aerobench.util import StateIndex
 class AutopilotAgent:
     """Simple waypoint-following autopilot for single waypoint tracking"""
     
-    def __init__(self, target_waypoint, target_speed=550.0, max_bank_deg=65.0):
+    # Control gains - tuned for stable F-16 flight
+    K_PSI_P = 6.0          # Heading proportional gain
+    K_PSI_D = 0.8          # Heading derivative gain
+    K_PHI_P = 1.0          # Roll proportional gain
+    K_PHI_D = 0.6          # Roll derivative gain
+    K_ALT_P = 0.008        # Altitude proportional gain
+    K_ALT_D = 0.025        # Altitude derivative gain
+    K_VT = 0.25            # Velocity gain
+    
+    # Physical limits
+    MAX_BANK_DEG = 60.0    # Maximum bank angle
+    MIN_NZ = -1.0          # Minimum normal load factor
+    MAX_NZ = 5.0           # Maximum normal load factor
+    MAX_GAMMA_DEG = 20.0   # Maximum climb/descent angle
+    
+    # Target speed
+    TARGET_SPEED = 550.0   # ft/s
+    
+    def __init__(self, target_waypoint):
         """
         Initialize autopilot for single waypoint
         
         Args:
             target_waypoint: [east, north, altitude] position
-            target_speed: Target airspeed in ft/s
-            max_bank_deg: Maximum bank angle in degrees
         """
         self.waypoint = np.array(target_waypoint)
-        self.target_speed = target_speed
-        self.max_bank_rad = deg2rad(max_bank_deg)
+        self.max_bank_rad = deg2rad(self.MAX_BANK_DEG)
+        self.max_gamma_rad = deg2rad(self.MAX_GAMMA_DEG)
     
     def update_waypoint(self, new_waypoint):
         """Update to new waypoint when captured"""
@@ -39,76 +55,91 @@ class AutopilotAgent:
         """
         Compute control action [Nz, ps, Ny_r, throttle]
         
-        Uses simple proportional control laws for heading, altitude, and speed tracking.
+        Decoupled control: heading tracking in lateral, altitude tracking in longitudinal.
         """
-        # Heading to waypoint
+        # Heading control (lateral)
         psi_cmd = self._heading_to_waypoint(state)
         phi_cmd = self._heading_error_to_roll(state, psi_cmd)
         ps_cmd = self._roll_rate_command(state, phi_cmd)
         
-        # Altitude tracking
+        # Altitude control (longitudinal)
         nz_cmd = self._altitude_nz_command(state, phi_cmd)
         
         # Speed tracking
         throttle = self._throttle_command(state)
         
         # Clamp Nz
-        nz_cmd = np.clip(nz_cmd, -1.0, 4.0)
+        nz_cmd = np.clip(nz_cmd, self.MIN_NZ, self.MAX_NZ)
         
         return np.array([nz_cmd, ps_cmd, 0.0, throttle], dtype=float)
     
     def _heading_to_waypoint(self, state: np.ndarray) -> float:
-        """Calculate heading angle to waypoint"""
-        e_pos, n_pos = state[StateIndex.POSE], state[StateIndex.POSN]
-        de, dn = self.waypoint[0] - e_pos, self.waypoint[1] - n_pos
+        """Calculate heading angle to waypoint (horizontal only)"""
+        e_pos = state[StateIndex.POSE]
+        n_pos = state[StateIndex.POSN]
+        
+        de = self.waypoint[0] - e_pos
+        dn = self.waypoint[1] - n_pos
+        
         return self._wrap_pi(pi/2 - atan2(dn, de))
     
     def _heading_error_to_roll(self, state: np.ndarray, psi_cmd: float) -> float:
-        """Convert heading error to roll angle command (P control)"""
+        """Convert heading error to roll angle command (PD control)"""
         psi = self._wrap_pi(state[StateIndex.PSI])
         psi_err = self._wrap_pi(psi_cmd - psi)
         r = state[StateIndex.R]
         
-        # PD control: proportional on heading error, derivative on yaw rate
-        phi_cmd = 5.0 * psi_err - 0.5 * r
+        # PD control
+        phi_cmd = self.K_PSI_P * psi_err - self.K_PSI_D * r
         return np.clip(phi_cmd, -self.max_bank_rad, self.max_bank_rad)
     
     def _roll_rate_command(self, state: np.ndarray, phi_cmd: float) -> float:
         """Convert roll angle error to roll rate command (PD control)"""
-        phi, p = state[StateIndex.PHI], state[StateIndex.P]
-        return 0.75 * (phi_cmd - phi) - 0.5 * p
+        phi = state[StateIndex.PHI]
+        p = state[StateIndex.P]
+        return self.K_PHI_P * (phi_cmd - phi) - self.K_PHI_D * p
     
     def _altitude_nz_command(self, state: np.ndarray, phi_cmd: float) -> float:
-        """Calculate Nz command to track altitude"""
+        """Calculate Nz command to track waypoint altitude"""
         h_cmd = self.waypoint[2]
         h = state[StateIndex.ALT]
         vt = state[StateIndex.VT]
         
-        # Altitude error and vertical rate
+        # Altitude error
         h_err = h_cmd - h
+        
+        # Vertical rate (from flight path angle)
         gamma = self._path_angle(state)
         h_dot = vt * sin(gamma)
         
+        # Limit climb/descent angle
+        horiz_range = sqrt((self.waypoint[0] - state[StateIndex.POSE])**2 + 
+                          (self.waypoint[1] - state[StateIndex.POSN])**2)
+        if horiz_range > 100.0:
+            gamma_max = atan2(h_err, horiz_range)
+            gamma_max = np.clip(gamma_max, -self.max_gamma_rad, self.max_gamma_rad)
+            h_dot_max = vt * sin(gamma_max)
+        else:
+            h_dot_max = 0.0
+        
         # PD control on altitude
-        nz_alt = 0.005 * h_err - 0.02 * h_dot
+        nz_alt = self.K_ALT_P * h_err - self.K_ALT_D * h_dot
         
-        # Add compensation for bank angle (1/cos(phi) - 1)
-        nz_turn = (1.0 / cos(phi_cmd) - 1.0) if abs(phi_cmd) > 0.01 else 0.0
+        # Add 1g + turn compensation
+        nz_turn = (1.0 / cos(phi_cmd) - 1.0) if abs(cos(phi_cmd)) > 0.1 else 0.0
         
-        # Special handling for descent in bank (avoid negative Gs)
-        if h_err < 0 and abs(phi_cmd) > deg2rad(15):
-            return max(0.0, nz_alt + nz_turn)
-        
-        return nz_alt + nz_turn
+        return 1.0 + nz_alt + nz_turn
     
     def _throttle_command(self, state: np.ndarray) -> float:
         """Simple proportional throttle control"""
-        return 0.25 * (self.target_speed - state[StateIndex.VT])
+        return self.K_VT * (self.TARGET_SPEED - state[StateIndex.VT])
     
     def _path_angle(self, state: np.ndarray) -> float:
         """Calculate flight path angle gamma"""
-        alpha, beta = state[StateIndex.ALPHA], state[StateIndex.BETA]
-        phi, theta = state[StateIndex.PHI], state[StateIndex.THETA]
+        alpha = state[StateIndex.ALPHA]
+        beta = state[StateIndex.BETA]
+        phi = state[StateIndex.PHI]
+        theta = state[StateIndex.THETA]
         
         return asin((cos(alpha)*sin(theta) - sin(alpha)*cos(theta)*cos(phi))*cos(beta) - 
                     cos(theta)*sin(phi)*sin(beta))
