@@ -193,28 +193,55 @@ class F16Waypoint:
         """Clear trail/ribbon (called on episode end without full reset)"""
         raylib_renderer.clear_trail()
         
-    def reset(self, initial_time: float = 0.0) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """Reset to initial state and generate new waypoint"""
-        self.state = self.initial_state.copy()
-        self.time = initial_time
+    def reset(self, keep_position: bool = False) -> Tuple[np.ndarray, Dict[str, Any]]:
+        """
+        Reset environment
         
-        # Generate waypoint based on current state (after reset)
-        self.waypoint = self._generate_waypoint()
+        Args:
+            keep_position: If True, keep current position (for successful waypoint capture).
+                          If False, reset to initial state (for physics violations).
         
-        self.times = [self.time]
-        self.states = [self.state.copy()]
-        
-        if self.extended_states:
-            self.xd_list = []
-            self.u_list = []
-            self.Nz_list = []
-            self.ps_list = []
-            self.Ny_r_list = []
-        
-        self.integrator = self.integrator_class(
-            self._dynamics, self.time, self.state, np.inf, step=self.step_size)
-        
-        self.wall_time_start = time.perf_counter()
+        Returns:
+            (state, info) tuple
+        """
+        if keep_position and self.state is not None:
+            # Keep aircraft where it is, just generate new waypoint and reset time
+            self.waypoint = self._generate_waypoint()
+            self.time = 0.0
+            self.wall_time_start = time.perf_counter()
+            
+            # Keep state and integrator but reset history
+            self.times = [self.time]
+            self.states = [self.state.copy()]
+            
+            if self.extended_states:
+                self.xd_list = []
+                self.u_list = []
+                self.Nz_list = []
+                self.ps_list = []
+                self.Ny_r_list = []
+        else:
+            # Full reset to initial state
+            self.state = self.initial_state.copy()
+            self.time = 0.0
+            
+            # Generate waypoint based on initial state
+            self.waypoint = self._generate_waypoint()
+            
+            self.times = [self.time]
+            self.states = [self.state.copy()]
+            
+            if self.extended_states:
+                self.xd_list = []
+                self.u_list = []
+                self.Nz_list = []
+                self.ps_list = []
+                self.Ny_r_list = []
+            
+            self.integrator = self.integrator_class(
+                self._dynamics, self.time, self.state, np.inf, step=self.step_size)
+            
+            self.wall_time_start = time.perf_counter()
         
         return self.state.copy(), self._get_info()
     
@@ -246,10 +273,14 @@ class F16Waypoint:
             self.ps_list.append(ps)
             self.Ny_r_list.append(Ny_r)
         
-        terminated = self._check_terminated()
+        terminated, reason = self._check_terminated()
         truncated = self.time >= self.time_limit
         
-        return self.state.copy(), 0.0, terminated, truncated, self._get_info()
+        info = self._get_info()
+        if reason:
+            info['termination_reason'] = reason
+        
+        return self.state.copy(), 0.0, terminated, truncated, info
     
     def _dynamics(self, t: float, state: np.ndarray) -> np.ndarray:
         """Dynamics function for integration"""
@@ -267,19 +298,24 @@ class F16Waypoint:
         
         return f16_model.controlled_f16_wrapper(state, self._current_u_ref)[0]
     
-    def _check_terminated(self) -> bool:
-        """Check termination conditions"""
+    def _check_terminated(self) -> tuple[bool, str]:
+        """
+        Check termination conditions
+        
+        Returns:
+            (terminated, reason) where reason is 'success', 'physics', or None
+        """
         alpha = self.state[StateIndex.ALPHA]
         if not self.ALPHA_MIN < alpha < self.ALPHA_MAX:
-            return True
+            return True, 'physics'
         
         vel = self.state[StateIndex.VEL]
         if not self.VELOCITY_MIN <= vel <= self.VELOCITY_MAX:
-            return True
+            return True, 'physics'
         
         alt = self.state[StateIndex.ALT]
         if not self.ALTITUDE_MIN < alt < self.ALTITUDE_MAX:
-            return True
+            return True, 'physics'
         
         # Check if waypoint reached
         pos_e = self.state[StateIndex.POSE]
@@ -293,10 +329,10 @@ class F16Waypoint:
         ])
         
         if distance < self.WAYPOINT_CAPTURE_RADIUS:
-            # Waypoint reached - episode complete (success termination)
-            return True
+            # Waypoint reached - episode complete (success)
+            return True, 'success'
         
-        return False
+        return False, None
     
     def _get_info(self) -> Dict[str, Any]:
         """Build info dictionary"""
