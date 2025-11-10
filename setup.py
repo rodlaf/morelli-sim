@@ -44,25 +44,22 @@ def get_raylib_config():
 
 raylib_includes, raylib_lib_dirs, raylib_libs = get_raylib_config()
 
+# Single extension - f16_waypoint_cy which includes everything
+# It uses f16_waypoint.h which includes f16_model.h and raylib_renderer.h
 extensions = [
     Extension(
-        name="aerobench.f16_model",
-        sources=["aerobench/f16_model.pyx"],
-        include_dirs=["aerobench", np.get_include()],
-        language="c",
-    ),
-    Extension(
-        name="aerobench.raylib_renderer_cy",
-        sources=["aerobench/raylib_renderer_cy.pyx"],
-        include_dirs=["aerobench"] + raylib_includes,
+        name="aerobench.f16_waypoint_cy",
+        sources=["aerobench/f16_waypoint_cy.pyx"],
+        include_dirs=["aerobench", np.get_include()] + raylib_includes,
         library_dirs=raylib_lib_dirs,
         libraries=raylib_libs,
         language="c",
+        extra_compile_args=["-std=c99", "-Wno-unused-variable"],  # Suppress unused variable warnings
     )
 ]
 
 setup(
-    name="aerobench-f16-model",
+    name="aerobench-f16",
     ext_modules=cythonize(extensions, compiler_directives={"language_level": "3"}),
     zip_safe=False,
 )
