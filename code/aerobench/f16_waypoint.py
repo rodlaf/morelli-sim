@@ -204,44 +204,31 @@ class F16Waypoint:
         Returns:
             (state, info) tuple
         """
-        if keep_position and self.state is not None:
-            # Keep aircraft where it is, just generate new waypoint and reset time
-            self.waypoint = self._generate_waypoint()
-            self.time = 0.0
-            self.wall_time_start = time.perf_counter()
-            
-            # Keep state and integrator but reset history
-            self.times = [self.time]
-            self.states = [self.state.copy()]
-            
-            if self.extended_states:
-                self.xd_list = []
-                self.u_list = []
-                self.Nz_list = []
-                self.ps_list = []
-                self.Ny_r_list = []
-        else:
+        if not keep_position:
             # Full reset to initial state
             self.state = self.initial_state.copy()
-            self.time = 0.0
-            
-            # Generate waypoint based on initial state
-            self.waypoint = self._generate_waypoint()
-            
-            self.times = [self.time]
-            self.states = [self.state.copy()]
-            
-            if self.extended_states:
-                self.xd_list = []
-                self.u_list = []
-                self.Nz_list = []
-                self.ps_list = []
-                self.Ny_r_list = []
-            
-            self.integrator = self.integrator_class(
-                self._dynamics, self.time, self.state, np.inf, step=self.step_size)
-            
-            self.wall_time_start = time.perf_counter()
+        # else: keep current state
+        
+        # Always reset time and generate new waypoint
+        self.time = 0.0
+        self.waypoint = self._generate_waypoint()
+        
+        # Reset history
+        self.times = [self.time]
+        self.states = [self.state.copy()]
+        
+        if self.extended_states:
+            self.xd_list = []
+            self.u_list = []
+            self.Nz_list = []
+            self.ps_list = []
+            self.Ny_r_list = []
+        
+        # Reinitialize integrator with current state
+        self.integrator = self.integrator_class(
+            self._dynamics, self.time, self.state, np.inf, step=self.step_size)
+        
+        self.wall_time_start = time.perf_counter()
         
         return self.state.copy(), self._get_info()
     
