@@ -50,12 +50,22 @@ extensions = [
         library_dirs=raylib_lib_dirs,
         libraries=raylib_libs + ['m'],  # Add math library
         language="c",
-        extra_compile_args=["-std=c11", "-O3"],  # C11 for better compatibility
+        extra_compile_args=["-std=c11", "-O3"],
     )
 ]
 
 setup(
     name="aerobench-f16",
+    version="1.0.0",
+    description="F-16 waypoint navigation environment with PufferLib integration",
+    author="Stanley Bak et al.",
     ext_modules=extensions,
+    packages=["aerobench"],
+    install_requires=[
+        "numpy>=1.20.0",
+        "gymnasium>=0.28.0",
+        "pufferlib>=0.5.0",
+    ],
+    python_requires=">=3.8",
     zip_safe=False,
 )
