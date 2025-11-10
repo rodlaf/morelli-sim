@@ -53,7 +53,6 @@ class AutopilotAgent:
     
     def update_waypoint(self, new_waypoint):
         """Update to new waypoint when captured"""
-        print(f'(AutopilotAgent) UPDATING WAYPOINT')
         self.waypoint = np.array(new_waypoint)
     
     def get_action(self, state: np.ndarray, time: float) -> np.ndarray:
@@ -262,54 +261,27 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent,
         
         # Reset on termination or truncation
         if terminated or truncated:
-            # Check why we terminated
             is_success = info.get('termination_reason') == 'success'
             
+            # Clear trail and reset environment
+            env.clear_trail()
+            state, info = env.reset(keep_position=is_success)
+            agent.update_waypoint(env.waypoint)
+            
+            # Reset timing
+            sim_time_elapsed = 0.0
+            last_render_time = time.perf_counter()
+            last_waypoint = env.waypoint.copy()
+            
             if is_success:
-                # Waypoint reached - continue seamlessly
                 waypoint_count += 1
                 print(f"\nWaypoint {waypoint_count - 1} reached at t={env.time:.2f}s")
-                
-                # Clear trail for new episode
-                env.clear_trail()
-                
-                # Reset environment keeping position (generates new waypoint from current position)
-                state, info = env.reset(keep_position=True)
-                
-                # Update agent with new waypoint
-                agent.update_waypoint(env.waypoint)
-                
                 print(f"New waypoint {waypoint_count}: E={env.waypoint[0]:7.1f} N={env.waypoint[1]:7.1f} Alt={env.waypoint[2]:7.1f}\n")
-                
-                # Reset timing but keep rendering
-                sim_time_elapsed = 0.0
-                last_render_time = time.perf_counter()
-                last_waypoint = env.waypoint.copy()
-                
             else:
-                # Physics bounds violated - full reset
-                print(f"\n!!! Physics violation at {env.time:.2f}s after {frame_count} frames !!!")
-                print(f"Waypoints reached: {waypoint_count - 1}")
-                print(f"Final altitude: {state[StateIndex.ALT]:.1f} ft")
-                print("Resetting...\n")
-                
-                # Clear trail
-                env.clear_trail()
-                
-                # Full reset to initial state
-                state, info = env.reset(keep_position=False)
-                
-                # Reset agent with new waypoint
-                agent = AutopilotAgent(env.waypoint)
-                
-                print(f"New waypoint 1: E={env.waypoint[0]:7.1f} N={env.waypoint[1]:7.1f} Alt={env.waypoint[2]:7.1f}")
-                print()
-                
+                print(f"\n!!! Physics violation after {waypoint_count - 1} waypoints !!!")
+                print(f"Resetting to initial state\n")
                 frame_count = 0
-                sim_time_elapsed = 0.0
                 waypoint_count = 1
-                last_waypoint = env.waypoint.copy()
-                last_render_time = time.perf_counter()
         
         # Sleep to maintain target FPS
         frame_duration = time.perf_counter() - current_time

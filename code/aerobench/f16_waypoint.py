@@ -50,21 +50,8 @@ class F16Waypoint:
     # Waypoint capture radius
     WAYPOINT_CAPTURE_RADIUS = 500.0  # ft
     
-    def __init__(self, 
-                 step_size,
-                 time_limit,
-                 extended_states: bool = True,
-                 random_seed: int = None):
-        """
-        Initialize F-16 waypoint environment with random waypoint generation
-        
-        Args:
-            initial_state: Initial state vector (13+ elements), generated if None
-            step_size: Simulation time step in seconds
-            time_limit: Maximum simulation time
-            extended_states: Whether to compute extended states
-            random_seed: Random seed for reproducibility (None for random)
-        """
+    def __init__(self, step_size, time_limit, extended_states=True, random_seed=None):
+        """Initialize F-16 waypoint environment"""
         if random_seed is not None:
             np.random.seed(random_seed)
         
@@ -72,78 +59,52 @@ class F16Waypoint:
         self.time_limit = time_limit
         self.extended_states = extended_states
         
-        # Generate or use provided initial state
-        initial_state = self._generate_initial_state()
-        
         # State management
-        num_vars = len(get_state_names()) + 3  # num integrators
+        initial_state = self._generate_initial_state()
+        num_vars = len(get_state_names()) + 3
+        self.initial_state = np.zeros(num_vars) if initial_state.size < num_vars else initial_state.copy()
         if initial_state.size < num_vars:
-            self.initial_state = np.zeros(num_vars)
             self.initial_state[:initial_state.shape[0]] = initial_state
-        else:
-            self.initial_state = initial_state.copy()
         
         self.state = None
         self.time = None
         self.integrator = None
-        self.waypoint = None  # Will be set in reset()
+        self.waypoint = None
+        self.integrator_class = Euler
+        self.wall_time_start = None
         
         # History tracking
         self.times = []
         self.states = []
-        
-        if self.extended_states:
+        if extended_states:
             self.xd_list = []
             self.u_list = []
             self.Nz_list = []
             self.ps_list = []
             self.Ny_r_list = []
-        
-        self.integrator_class = Euler
-        self.wall_time_start = None
     
     def _generate_waypoint(self) -> np.ndarray:
-        """
-        Generate a random waypoint at specified distance from current aircraft position.
-        
-        Returns:
-            New waypoint [east, north, altitude]
-        """
+        """Generate random waypoint at specified distance from current aircraft position"""
         # Get current aircraft position (or origin if no state yet)
-        if self.state is not None:
-            pos_e = self.state[StateIndex.POSE]
-            pos_n = self.state[StateIndex.POSN]
-        else:
-            pos_e = 0.0
-            pos_n = 0.0
+        pos_e = self.state[StateIndex.POSE] if self.state is not None else 0.0
+        pos_n = self.state[StateIndex.POSN] if self.state is not None else 0.0
         
         # Random distance and direction (horizontal plane)
         distance = np.random.uniform(self.WAYPOINT_DISTANCE_MIN, self.WAYPOINT_DISTANCE_MAX)
         angle = np.random.uniform(0, 2 * np.pi)
         
         # Calculate new position relative to current aircraft position
-        waypoint_e = pos_e + distance * np.cos(angle)
-        waypoint_n = pos_n + distance * np.sin(angle)
-        waypoint_alt = np.random.uniform(self.WAYPOINT_ALT_MIN, self.WAYPOINT_ALT_MAX)
-        
-        return np.array([waypoint_e, waypoint_n, waypoint_alt])
+        return np.array([
+            pos_e + distance * np.cos(angle),
+            pos_n + distance * np.sin(angle),
+            np.random.uniform(self.WAYPOINT_ALT_MIN, self.WAYPOINT_ALT_MAX)
+        ])
     
     def _generate_initial_state(self) -> np.ndarray:
-        """Generate a reasonable initial state for F-16"""
+        """Generate initial state for F-16"""
         from numpy import deg2rad
-        
-        # Standard initial conditions
-        power = 9
-        alpha = deg2rad(2.1215)
-        beta = 0
-        alt = 1500
-        vt = 540
-        phi = 0
-        theta = deg2rad(2.1215)  # Match alpha for level flight
-        psi = 0
-        
-        # [vt, alpha, beta, phi, theta, psi, p, q, r, pos_n, pos_e, alt, power]
-        return np.array([vt, alpha, beta, phi, theta, psi, 0, 0, 0, 0, 0, alt, power], dtype=float)
+        power, alpha, vt, alt, theta = 9, deg2rad(2.1215), 540, 1500, deg2rad(2.1215)
+        return np.array([vt, alpha, 0, 0, theta, 0, 0, 0, 0, 0, 0, alt, power], dtype=float)
         
     def render(self):
         """Render current state using Raylib"""
@@ -193,27 +154,13 @@ class F16Waypoint:
         """Clear trail/ribbon (called on episode end without full reset)"""
         raylib_renderer.clear_trail()
         
-    def reset(self, keep_position: bool = False) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """
-        Reset environment
-        
-        Args:
-            keep_position: If True, keep current position (for successful waypoint capture).
-                          If False, reset to initial state (for physics violations).
-        
-        Returns:
-            (state, info) tuple
-        """
+    def reset(self, keep_position=False) -> Tuple[np.ndarray, Dict[str, Any]]:
+        """Reset environment (keep_position=True for waypoint success, False for physics violation)"""
         if not keep_position:
-            # Full reset to initial state
             self.state = self.initial_state.copy()
-        # else: keep current state
         
-        # Always reset time and generate new waypoint
         self.time = 0.0
         self.waypoint = self._generate_waypoint()
-        
-        # Reset history
         self.times = [self.time]
         self.states = [self.state.copy()]
         
@@ -224,10 +171,8 @@ class F16Waypoint:
             self.ps_list = []
             self.Ny_r_list = []
         
-        # Reinitialize integrator with current state
         self.integrator = self.integrator_class(
             self._dynamics, self.time, self.state, np.inf, step=self.step_size)
-        
         self.wall_time_start = time.perf_counter()
         
         return self.state.copy(), self._get_info()
