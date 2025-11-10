@@ -23,6 +23,7 @@ cdef extern from "f16_waypoint.h":
         double Ny_r
         int tick
         unsigned int seed
+        double reward
     
     void f16_waypoint_reset(F16Waypoint* env, int keep_position)
     int f16_waypoint_step(F16Waypoint* env, const double u_ref[4])
@@ -85,7 +86,8 @@ cdef class F16WaypointEnv:
         
         cdef bint terminated = (result == 1) or (result == 2)
         cdef bint truncated = (result == 3)
-        cdef double reward = 1.0 if result == 1 else (-1.0 if result == 2 else 0.0)
+        # Use the random reward generated in the C code
+        cdef double reward = self.env.reward
         
         info = {
             'time': self.env.time,

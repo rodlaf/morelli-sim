@@ -81,6 +81,9 @@ typedef struct {
     int tick;
     unsigned int seed;
     
+    // Reward (random value in [0, 1])
+    double reward;
+    
     // Renderer state
     RenderState render_state;
 } F16Waypoint;
@@ -222,6 +225,7 @@ static void update_render_state(F16Waypoint* env) {
     env->render_state.world_bounds_n_min = -WORLD_BOUNDS_N;
     env->render_state.world_bounds_n_max = WORLD_BOUNDS_N;
     env->render_state.world_bounds_alt_max = WORLD_BOUNDS_ALT;
+    env->render_state.reward = (float)env->reward;
 }
 
 // Required: Reset environment
@@ -234,6 +238,7 @@ void f16_waypoint_reset(F16Waypoint* env, int keep_position) {
     
     env->time = 0.0;
     env->tick = 0;
+    env->reward = 0.0;
     
     // Generate new waypoint
     generate_waypoint(env);
@@ -249,6 +254,9 @@ void f16_waypoint_reset(F16Waypoint* env, int keep_position) {
 // Returns: 0=continue, 1=terminated (success), 2=terminated (physics violation), 3=truncated (time limit)
 int f16_waypoint_step(F16Waypoint* env, const double u_ref[4]) {
     env->tick += 1;
+    
+    // Generate random reward in [0, 1]
+    env->reward = randd(0.0, 1.0);
     
     // Copy control reference
     memcpy(env->u_ref, u_ref, 4 * sizeof(double));

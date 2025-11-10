@@ -62,6 +62,7 @@ typedef struct {
     float world_bounds_n_min;
     float world_bounds_n_max;
     float world_bounds_alt_max;
+    float reward;
 } RenderState;
 
 /* Trail marker structure */
@@ -244,8 +245,11 @@ static void _draw_hud(RenderState* state) {
             state->phi_rad * RAD2DEG, state->theta_rad * RAD2DEG, state->psi_rad * RAD2DEG);
     DrawTextEx(_font, text, (Vector2){p, p + 7*lh}, 20, 1, RAYWHITE);
     
-    DrawTextEx(_font, "Left click + drag: rotate camera", (Vector2){p, p + 8*lh}, 20, 1, RAYWHITE);
-    DrawTextEx(_font, "Mouse wheel: zoom in/out", (Vector2){p, p + 9*lh}, 20, 1, RAYWHITE);
+    sprintf(text, "reward = %.4f", state->reward);
+    DrawTextEx(_font, text, (Vector2){p, p + 8*lh}, 20, 1, YELLOW);
+    
+    DrawTextEx(_font, "Left click + drag: rotate camera", (Vector2){p, p + 9*lh}, 20, 1, RAYWHITE);
+    DrawTextEx(_font, "Mouse wheel: zoom in/out", (Vector2){p, p + 10*lh}, 20, 1, RAYWHITE);
 }
 
 /* Main render function */
