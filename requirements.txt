@@ -3,3 +3,5 @@ scipy
 matplotlib
 slycot
 control
+gymnasium
+pufferlib
