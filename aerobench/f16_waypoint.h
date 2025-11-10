@@ -71,6 +71,7 @@ typedef struct {
     
     // Control reference (high-level autopilot commands)
     double u_ref[4];  // [Nz, ps, Ny_r, throttle]
+    double u_ref_prev[4];  // Previous control reference for smoothness penalty
     
     // Extended state outputs
     double xd[16];
@@ -81,7 +82,7 @@ typedef struct {
     int tick;
     unsigned int seed;
     
-    // Reward (random value in [0, 1])
+    // Reward (computed using comprehensive reward function)
     double reward;
     
     // Renderer state
@@ -99,6 +100,119 @@ static inline double wrap_to_pi(double angle) {
     if (result > PI) result -= 2.0 * PI;
     if (result < -PI) result += 2.0 * PI;
     return result;
+}
+
+// Utility: Gaussian reward function
+static inline double gaussian_reward(double x, double sigma) {
+    return exp(-0.5 * (x / sigma) * (x / sigma));
+}
+
+// Utility: Cartesian to spherical coordinates
+static void cart2sph(double x, double y, double z, double* az, double* elev, double* r) {
+    double h = sqrt(x * x + y * y);
+    *r = sqrt(h * h + z * z);
+    *elev = atan2(z, h);
+    *az = atan2(y, x);
+}
+
+// Get waypoint observation in spherical coordinates (no scaling)
+static void get_waypoint_obs_noscale_sph(const double* state, const double* waypoint, 
+                                         double* delta_az, double* delta_elev, double* r) {
+    // Delta waypoint vector
+    double delta_e = waypoint[0] - state[POSE];
+    double delta_n = waypoint[1] - state[POSN];
+    double delta_alt = waypoint[2] - state[ALT];
+    
+    // Convert to spherical coordinates
+    double az, elev, range;
+    cart2sph(delta_e, delta_n, delta_alt, &az, &elev, &range);
+    
+    // Calculate azimuth error (heading error)
+    double psi = state[PSI];
+    *delta_az = wrap_to_pi(PI / 2.0 - az) - wrap_to_pi(psi);
+    *delta_az = wrap_to_pi(*delta_az);
+    
+    // Zero out azimuth if directly above/below (within 10 ft horizontal distance)
+    double horiz_dist = sqrt(delta_e * delta_e + delta_n * delta_n);
+    if (horiz_dist <= 10.0) {
+        *delta_az = 0.0;
+    }
+    
+    // Calculate elevation error (pitch error)
+    double theta = state[THETA];
+    *delta_elev = wrap_to_pi(elev) - wrap_to_pi(theta);
+    *delta_elev = wrap_to_pi(*delta_elev);
+    
+    *r = range;
+}
+
+// Compute waypoint reward using spherical coordinates
+static double get_waypoint_reward_sph(const double* state, const double* waypoint) {
+    double delta_az, delta_elev, r;
+    get_waypoint_obs_noscale_sph(state, waypoint, &delta_az, &delta_elev, &r);
+    
+    // Gaussian rewards for alignment and proximity
+    double rew_az = gaussian_reward(delta_az, 30.0 / 180.0 * PI);    // 30 degrees std
+    double rew_el = gaussian_reward(delta_elev, 30.0 / 180.0 * PI);  // 30 degrees std
+    double rew_rr = gaussian_reward(r, 1000.0);                       // 1000 ft std
+    
+    return rew_rr + 0.1 * (rew_az + rew_el);
+}
+
+// Compute comprehensive reward (matching JAX implementation)
+static double compute_reward(F16Waypoint* env, const double u_ref[4], const double u_ref_prev[4]) {
+    double reward = 0.0;
+    
+    // 1. Waypoint proximity reward (spherical coordinates)
+    double reward_waypoint = 2.0 * get_waypoint_reward_sph(env->state, env->waypoint);
+    
+    // Scale by velocity Gaussian (encourage 500 ft/s cruise speed)
+    double velocity_error = env->state[VT] - 500.0;
+    reward_waypoint *= gaussian_reward(velocity_error, 100.0);
+    
+    // 2. Style/smoothness penalties
+    double phi = env->state[PHI];
+    double p = env->state[P];
+    double q = env->state[Q];
+    double r = env->state[R];
+    
+    double reward_roll = -5.0e-3 * (phi * phi);
+    double reward_rollrate = -5.0e-3 * (p * p);
+    double reward_pitchrate = -5.0e-3 * (q * q);
+    double reward_yawrate = -5.0e-3 * (r * r);
+    
+    // 3. Velocity regulation reward
+    double reward_velocity = 2.0e-2 * gaussian_reward(velocity_error, 50.0);
+    
+    // 4. Action magnitude penalty (L2 norm of actions)
+    double action_mag_sq = 0.0;
+    for (int i = 0; i < 3; i++) {  // Only first 3 actions (Nz, ps, throttle)
+        action_mag_sq += u_ref[i] * u_ref[i];
+    }
+    double reward_actionmag = -1.0e-2 * (action_mag_sq / 3.0);
+    
+    // 5. Action smoothness penalty (difference from previous action)
+    double action_delta_sq = 0.0;
+    for (int i = 0; i < 3; i++) {
+        double delta = u_ref_prev[i] - u_ref[i];
+        action_delta_sq += delta * delta;
+    }
+    double reward_actiondlt = -1.0e-1 * (action_delta_sq / 3.0);
+    
+    // 6. Alive bonus
+    double reward_alive = 1.0e-2;
+    
+    // Total reward
+    reward = reward_waypoint + reward_roll + reward_rollrate + reward_pitchrate + 
+             reward_yawrate + reward_velocity + reward_actionmag + reward_actiondlt + 
+             reward_alive;
+    
+    // Clip reward to minimum of -0.2
+    if (reward < -0.2) {
+        reward = -0.2;
+    }
+    
+    return reward;
 }
 
 // Generate initial state within world bounds
@@ -245,6 +359,7 @@ void f16_waypoint_reset(F16Waypoint* env, int keep_position) {
     
     // Initialize control reference to zero
     memset(env->u_ref, 0, 4 * sizeof(double));
+    memset(env->u_ref_prev, 0, 4 * sizeof(double));
     
     // Update render state
     update_render_state(env);
@@ -255,8 +370,11 @@ void f16_waypoint_reset(F16Waypoint* env, int keep_position) {
 int f16_waypoint_step(F16Waypoint* env, const double u_ref[4]) {
     env->tick += 1;
     
-    // Generate random reward in [0, 1]
-    env->reward = randd(0.0, 1.0);
+    // Compute reward using comprehensive reward function
+    env->reward = compute_reward(env, u_ref, env->u_ref_prev);
+    
+    // Store previous action for next step
+    memcpy(env->u_ref_prev, env->u_ref, 4 * sizeof(double));
     
     // Copy control reference
     memcpy(env->u_ref, u_ref, 4 * sizeof(double));

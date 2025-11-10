@@ -177,7 +177,7 @@ int main(int argc, char** argv) {
     printf("Press ESC to exit\n\n");
     
     /* Timing variables */
-    double playback_speed = 6.0;
+    double playback_speed = 1;
     int render_fps = 60;
     double target_frame_time = 1.0 / render_fps;
     double last_render_time = get_wall_time();
