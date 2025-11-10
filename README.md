@@ -7,7 +7,7 @@ Fast C-based F-16 simulation with continuous waypoint reaching task.
 Install dependencies:
 ```bash
 pip install numpy scipy cython
-brew install raylib  # macOS
+brew install raylib pkg-config  # macOS
 ```
 
 Build C extensions:
@@ -17,11 +17,24 @@ python setup.py build_ext --inplace
 
 ## Run
 
+Python demo (with autopilot):
 ```bash
 python -m aerobench.demo
 ```
 
-Controls: ESC to exit, window auto-resets on physics violations.
+Standalone C demo (no Python required):
+```bash
+cd aerobench
+gcc -o f16_waypoint f16_waypoint.c $(pkg-config --cflags --libs raylib) -lm -O3
+./f16_waypoint
+```
+
+Speed test:
+```bash
+python -m aerobench.f16_waypoint
+```
+
+Controls: ESC to exit, left-click+drag to rotate camera, scroll to zoom
 
 ## Citation
 
