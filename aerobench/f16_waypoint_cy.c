@@ -1803,7 +1803,7 @@ static CYTHON_INLINE __pyx_t_long_double_complex __pyx_t_long_double_complex_fro
 /*--- Type declarations ---*/
 struct __pyx_obj_9aerobench_15f16_waypoint_cy_F16WaypointEnv;
 
-/* "aerobench/f16_waypoint_cy.pyx":35
+/* "aerobench/f16_waypoint_cy.pyx":36
  * 
  * 
  * cdef class F16WaypointEnv:             # <<<<<<<<<<<<<<
@@ -4853,7 +4853,7 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":40
+/* "aerobench/f16_waypoint_cy.pyx":41
  *     cdef bint initialized
  * 
  *     def __init__(self, double step_size=1.0/30.0, double time_limit=100.0,             # <<<<<<<<<<<<<<
@@ -4889,63 +4889,63 @@ static int __pyx_pw_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_1__init__(PyOb
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_step_size,&__pyx_mstate_global->__pyx_n_u_time_limit,&__pyx_mstate_global->__pyx_n_u_random_seed,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_VARARGS(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 40, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 41, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  3:
         values[2] = __Pyx_ArgRef_VARARGS(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 41, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_VARARGS(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 41, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_VARARGS(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 41, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "__init__", 0) < (0)) __PYX_ERR(0, 40, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "__init__", 0) < (0)) __PYX_ERR(0, 41, __pyx_L3_error)
     } else {
       switch (__pyx_nargs) {
         case  3:
         values[2] = __Pyx_ArgRef_VARARGS(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 41, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_VARARGS(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 41, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_VARARGS(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 41, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
     if (values[0]) {
-      __pyx_v_step_size = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_step_size == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
+      __pyx_v_step_size = __Pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_step_size == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L3_error)
     } else {
       __pyx_v_step_size = __pyx_mstate_global->__pyx_k_;
     }
     if (values[1]) {
-      __pyx_v_time_limit = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_time_limit == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
+      __pyx_v_time_limit = __Pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_time_limit == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L3_error)
     } else {
       __pyx_v_time_limit = ((double)100.0);
     }
     if (values[2]) {
-      __pyx_v_random_seed = __Pyx_PyLong_As_unsigned_int(values[2]); if (unlikely((__pyx_v_random_seed == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L3_error)
+      __pyx_v_random_seed = __Pyx_PyLong_As_unsigned_int(values[2]); if (unlikely((__pyx_v_random_seed == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L3_error)
     } else {
       __pyx_v_random_seed = ((unsigned int)0);
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 3, __pyx_nargs); __PYX_ERR(0, 40, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 3, __pyx_nargs); __PYX_ERR(0, 41, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -4971,7 +4971,7 @@ static int __pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__(struc
   unsigned int __pyx_t_1;
   int __pyx_t_2;
 
-  /* "aerobench/f16_waypoint_cy.pyx":43
+  /* "aerobench/f16_waypoint_cy.pyx":44
  *                  unsigned int random_seed=0):
  *         """Initialize environment"""
  *         self.env.step_size = step_size             # <<<<<<<<<<<<<<
@@ -4980,7 +4980,7 @@ static int __pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__(struc
 */
   __pyx_v_self->env.step_size = __pyx_v_step_size;
 
-  /* "aerobench/f16_waypoint_cy.pyx":44
+  /* "aerobench/f16_waypoint_cy.pyx":45
  *         """Initialize environment"""
  *         self.env.step_size = step_size
  *         self.env.time_limit = time_limit             # <<<<<<<<<<<<<<
@@ -4989,7 +4989,7 @@ static int __pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__(struc
 */
   __pyx_v_self->env.time_limit = __pyx_v_time_limit;
 
-  /* "aerobench/f16_waypoint_cy.pyx":45
+  /* "aerobench/f16_waypoint_cy.pyx":46
  *         self.env.step_size = step_size
  *         self.env.time_limit = time_limit
  *         self.env.seed = random_seed if random_seed != 0 else <unsigned int>42             # <<<<<<<<<<<<<<
@@ -5004,7 +5004,7 @@ static int __pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__(struc
   }
   __pyx_v_self->env.seed = __pyx_t_1;
 
-  /* "aerobench/f16_waypoint_cy.pyx":48
+  /* "aerobench/f16_waypoint_cy.pyx":49
  * 
  *         # Seed C random
  *         srand(self.env.seed)             # <<<<<<<<<<<<<<
@@ -5013,7 +5013,7 @@ static int __pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__(struc
 */
   srand(__pyx_v_self->env.seed);
 
-  /* "aerobench/f16_waypoint_cy.pyx":50
+  /* "aerobench/f16_waypoint_cy.pyx":51
  *         srand(self.env.seed)
  * 
  *         self.initialized = True             # <<<<<<<<<<<<<<
@@ -5022,7 +5022,7 @@ static int __pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__(struc
 */
   __pyx_v_self->initialized = 1;
 
-  /* "aerobench/f16_waypoint_cy.pyx":40
+  /* "aerobench/f16_waypoint_cy.pyx":41
  *     cdef bint initialized
  * 
  *     def __init__(self, double step_size=1.0/30.0, double time_limit=100.0,             # <<<<<<<<<<<<<<
@@ -5035,7 +5035,7 @@ static int __pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__(struc
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":52
+/* "aerobench/f16_waypoint_cy.pyx":53
  *         self.initialized = True
  * 
  *     def reset(self, bint keep_position=False):             # <<<<<<<<<<<<<<
@@ -5083,37 +5083,37 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_keep_position,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 52, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 53, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 52, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 53, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "reset", 0) < (0)) __PYX_ERR(0, 52, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "reset", 0) < (0)) __PYX_ERR(0, 53, __pyx_L3_error)
     } else {
       switch (__pyx_nargs) {
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 52, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 53, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
     if (values[0]) {
-      __pyx_v_keep_position = __Pyx_PyObject_IsTrue(values[0]); if (unlikely((__pyx_v_keep_position == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L3_error)
+      __pyx_v_keep_position = __Pyx_PyObject_IsTrue(values[0]); if (unlikely((__pyx_v_keep_position == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L3_error)
     } else {
       __pyx_v_keep_position = ((int)0);
     }
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("reset", 0, 0, 1, __pyx_nargs); __PYX_ERR(0, 52, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("reset", 0, 0, 1, __pyx_nargs); __PYX_ERR(0, 53, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5155,7 +5155,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":54
+  /* "aerobench/f16_waypoint_cy.pyx":55
  *     def reset(self, bint keep_position=False):
  *         """Reset environment"""
  *         f16_waypoint_reset(&self.env, 1 if keep_position else 0)             # <<<<<<<<<<<<<<
@@ -5169,7 +5169,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
   }
   f16_waypoint_reset((&__pyx_v_self->env), __pyx_t_1);
 
-  /* "aerobench/f16_waypoint_cy.pyx":58
+  /* "aerobench/f16_waypoint_cy.pyx":59
  *         # Return state and info
  *         cdef int i
  *         state = np.zeros(13, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5177,14 +5177,14 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
  *             state[i] = self.env.state[i]
 */
   __pyx_t_3 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_7 = 1;
@@ -5201,21 +5201,21 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_3, __pyx_mstate_global->__pyx_int_13};
-    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 58, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_4, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 59, __pyx_L1_error)
     __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_5, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
   __pyx_v_state = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":59
+  /* "aerobench/f16_waypoint_cy.pyx":60
  *         cdef int i
  *         state = np.zeros(13, dtype=np.float64)
  *         for i in range(13):             # <<<<<<<<<<<<<<
@@ -5225,34 +5225,34 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
   for (__pyx_t_1 = 0; __pyx_t_1 < 13; __pyx_t_1+=1) {
     __pyx_v_i = __pyx_t_1;
 
-    /* "aerobench/f16_waypoint_cy.pyx":60
+    /* "aerobench/f16_waypoint_cy.pyx":61
  *         state = np.zeros(13, dtype=np.float64)
  *         for i in range(13):
  *             state[i] = self.env.state[i]             # <<<<<<<<<<<<<<
  * 
  *         info = {
 */
-    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_self->env.state[__pyx_v_i])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_self->env.state[__pyx_v_i])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely((__Pyx_SetItemInt(__pyx_v_state, __pyx_v_i, __pyx_t_2, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference) < 0))) __PYX_ERR(0, 60, __pyx_L1_error)
+    if (unlikely((__Pyx_SetItemInt(__pyx_v_state, __pyx_v_i, __pyx_t_2, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference) < 0))) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "aerobench/f16_waypoint_cy.pyx":63
+  /* "aerobench/f16_waypoint_cy.pyx":64
  * 
  *         info = {
  *             'time': self.env.time,             # <<<<<<<<<<<<<<
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                                  self.env.waypoint[2]], dtype=np.float64),
 */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->env.time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->env.time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_time, __pyx_t_5) < (0)) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_time, __pyx_t_5) < (0)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":64
+  /* "aerobench/f16_waypoint_cy.pyx":65
  *         info = {
  *             'time': self.env.time,
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],             # <<<<<<<<<<<<<<
@@ -5260,55 +5260,55 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
  *         }
 */
   __pyx_t_4 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[0])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[0])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_8 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[1])); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_8 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[1])); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
 
-  /* "aerobench/f16_waypoint_cy.pyx":65
+  /* "aerobench/f16_waypoint_cy.pyx":66
  *             'time': self.env.time,
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                                  self.env.waypoint[2]], dtype=np.float64),             # <<<<<<<<<<<<<<
  *         }
  *         return state, info
 */
-  __pyx_t_9 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[2])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[2])); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
 
-  /* "aerobench/f16_waypoint_cy.pyx":64
+  /* "aerobench/f16_waypoint_cy.pyx":65
  *         info = {
  *             'time': self.env.time,
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],             # <<<<<<<<<<<<<<
  *                                  self.env.waypoint[2]], dtype=np.float64),
  *         }
 */
-  __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_GIVEREF(__pyx_t_6);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_10, 0, __pyx_t_6) != (0)) __PYX_ERR(0, 64, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_10, 0, __pyx_t_6) != (0)) __PYX_ERR(0, 65, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_8);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_10, 1, __pyx_t_8) != (0)) __PYX_ERR(0, 64, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_10, 1, __pyx_t_8) != (0)) __PYX_ERR(0, 65, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_9);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_10, 2, __pyx_t_9) != (0)) __PYX_ERR(0, 64, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_10, 2, __pyx_t_9) != (0)) __PYX_ERR(0, 65, __pyx_L1_error);
   __pyx_t_6 = 0;
   __pyx_t_8 = 0;
   __pyx_t_9 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":65
+  /* "aerobench/f16_waypoint_cy.pyx":66
  *             'time': self.env.time,
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                                  self.env.waypoint[2]], dtype=np.float64),             # <<<<<<<<<<<<<<
  *         }
  *         return state, info
 */
-  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __pyx_t_7 = 1;
@@ -5325,24 +5325,24 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_4, __pyx_t_10};
-    __pyx_t_9 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_9, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 64, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_8, __pyx_t_9, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 65, __pyx_L1_error)
     __pyx_t_5 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_3, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_9);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
   }
-  if (PyDict_SetItem(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_waypoint, __pyx_t_5) < (0)) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_waypoint, __pyx_t_5) < (0)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_info = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":67
+  /* "aerobench/f16_waypoint_cy.pyx":68
  *                                  self.env.waypoint[2]], dtype=np.float64),
  *         }
  *         return state, info             # <<<<<<<<<<<<<<
@@ -5350,19 +5350,19 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
  *     def step(self, np.ndarray[double, ndim=1] u_ref):
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_state);
   __Pyx_GIVEREF(__pyx_v_state);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_state) != (0)) __PYX_ERR(0, 67, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_state) != (0)) __PYX_ERR(0, 68, __pyx_L1_error);
   __Pyx_INCREF(__pyx_v_info);
   __Pyx_GIVEREF(__pyx_v_info);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_info) != (0)) __PYX_ERR(0, 67, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_info) != (0)) __PYX_ERR(0, 68, __pyx_L1_error);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":52
+  /* "aerobench/f16_waypoint_cy.pyx":53
  *         self.initialized = True
  * 
  *     def reset(self, bint keep_position=False):             # <<<<<<<<<<<<<<
@@ -5390,7 +5390,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_2reset(s
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":69
+/* "aerobench/f16_waypoint_cy.pyx":70
  *         return state, info
  * 
  *     def step(self, np.ndarray[double, ndim=1] u_ref):             # <<<<<<<<<<<<<<
@@ -5438,32 +5438,32 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_u_ref,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 69, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 70, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 69, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 70, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "step", 0) < (0)) __PYX_ERR(0, 69, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "step", 0) < (0)) __PYX_ERR(0, 70, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 1; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("step", 1, 1, 1, i); __PYX_ERR(0, 69, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("step", 1, 1, 1, i); __PYX_ERR(0, 70, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 69, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 70, __pyx_L3_error)
     }
     __pyx_v_u_ref = ((PyArrayObject *)values[0]);
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("step", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 69, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("step", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 70, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5474,7 +5474,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_u_ref), __pyx_mstate_global->__pyx_ptype_5numpy_ndarray, 1, "u_ref", 0))) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_u_ref), __pyx_mstate_global->__pyx_ptype_5numpy_ndarray, 1, "u_ref", 0))) __PYX_ERR(0, 70, __pyx_L1_error)
   __pyx_r = __pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(((struct __pyx_obj_9aerobench_15f16_waypoint_cy_F16WaypointEnv *)__pyx_v_self), __pyx_v_u_ref);
 
   /* function exit code */
@@ -5532,11 +5532,11 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   __pyx_pybuffernd_u_ref.rcbuffer = &__pyx_pybuffer_u_ref;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_u_ref.rcbuffer->pybuffer, (PyObject*)__pyx_v_u_ref, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 69, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_u_ref.rcbuffer->pybuffer, (PyObject*)__pyx_v_u_ref, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 70, __pyx_L1_error)
   }
   __pyx_pybuffernd_u_ref.diminfo[0].strides = __pyx_pybuffernd_u_ref.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_u_ref.diminfo[0].shape = __pyx_pybuffernd_u_ref.rcbuffer->pybuffer.shape[0];
 
-  /* "aerobench/f16_waypoint_cy.pyx":72
+  /* "aerobench/f16_waypoint_cy.pyx":73
  *         """Step environment with control input"""
  *         cdef double u_ref_c[4]
  *         u_ref_c[0] = u_ref[0]             # <<<<<<<<<<<<<<
@@ -5551,11 +5551,11 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   } else if (unlikely(__pyx_t_1 >= __pyx_pybuffernd_u_ref.diminfo[0].shape)) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 72, __pyx_L1_error)
+    __PYX_ERR(0, 73, __pyx_L1_error)
   }
   (__pyx_v_u_ref_c[0]) = (*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_u_ref.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_u_ref.diminfo[0].strides));
 
-  /* "aerobench/f16_waypoint_cy.pyx":73
+  /* "aerobench/f16_waypoint_cy.pyx":74
  *         cdef double u_ref_c[4]
  *         u_ref_c[0] = u_ref[0]
  *         u_ref_c[1] = u_ref[1]             # <<<<<<<<<<<<<<
@@ -5570,11 +5570,11 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   } else if (unlikely(__pyx_t_1 >= __pyx_pybuffernd_u_ref.diminfo[0].shape)) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 73, __pyx_L1_error)
+    __PYX_ERR(0, 74, __pyx_L1_error)
   }
   (__pyx_v_u_ref_c[1]) = (*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_u_ref.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_u_ref.diminfo[0].strides));
 
-  /* "aerobench/f16_waypoint_cy.pyx":74
+  /* "aerobench/f16_waypoint_cy.pyx":75
  *         u_ref_c[0] = u_ref[0]
  *         u_ref_c[1] = u_ref[1]
  *         u_ref_c[2] = u_ref[2]             # <<<<<<<<<<<<<<
@@ -5589,11 +5589,11 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   } else if (unlikely(__pyx_t_1 >= __pyx_pybuffernd_u_ref.diminfo[0].shape)) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 74, __pyx_L1_error)
+    __PYX_ERR(0, 75, __pyx_L1_error)
   }
   (__pyx_v_u_ref_c[2]) = (*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_u_ref.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_u_ref.diminfo[0].strides));
 
-  /* "aerobench/f16_waypoint_cy.pyx":75
+  /* "aerobench/f16_waypoint_cy.pyx":76
  *         u_ref_c[1] = u_ref[1]
  *         u_ref_c[2] = u_ref[2]
  *         u_ref_c[3] = u_ref[3]             # <<<<<<<<<<<<<<
@@ -5608,11 +5608,11 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   } else if (unlikely(__pyx_t_1 >= __pyx_pybuffernd_u_ref.diminfo[0].shape)) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 75, __pyx_L1_error)
+    __PYX_ERR(0, 76, __pyx_L1_error)
   }
   (__pyx_v_u_ref_c[3]) = (*__Pyx_BufPtrStrided1d(double *, __pyx_pybuffernd_u_ref.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_u_ref.diminfo[0].strides));
 
-  /* "aerobench/f16_waypoint_cy.pyx":77
+  /* "aerobench/f16_waypoint_cy.pyx":78
  *         u_ref_c[3] = u_ref[3]
  * 
  *         cdef int result = f16_waypoint_step(&self.env, u_ref_c)             # <<<<<<<<<<<<<<
@@ -5621,7 +5621,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
 */
   __pyx_v_result = f16_waypoint_step((&__pyx_v_self->env), __pyx_v_u_ref_c);
 
-  /* "aerobench/f16_waypoint_cy.pyx":81
+  /* "aerobench/f16_waypoint_cy.pyx":82
  *         # Return state, reward, terminated, truncated, info
  *         cdef int i
  *         state = np.zeros(13, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5629,14 +5629,14 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
  *             state[i] = self.env.state[i]
 */
   __pyx_t_4 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_8 = 1;
@@ -5653,21 +5653,21 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_4, __pyx_mstate_global->__pyx_int_13};
-    __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_7, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 81, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_7, __pyx_t_5, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 82, __pyx_L1_error)
     __pyx_t_3 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_6, __pyx_callargs+__pyx_t_8, (2-__pyx_t_8) | (__pyx_t_8*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
   }
   __pyx_v_state = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":82
+  /* "aerobench/f16_waypoint_cy.pyx":83
  *         cdef int i
  *         state = np.zeros(13, dtype=np.float64)
  *         for i in range(13):             # <<<<<<<<<<<<<<
@@ -5677,20 +5677,20 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   for (__pyx_t_2 = 0; __pyx_t_2 < 13; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "aerobench/f16_waypoint_cy.pyx":83
+    /* "aerobench/f16_waypoint_cy.pyx":84
  *         state = np.zeros(13, dtype=np.float64)
  *         for i in range(13):
  *             state[i] = self.env.state[i]             # <<<<<<<<<<<<<<
  * 
  *         cdef bint terminated = (result == 1) or (result == 2)
 */
-    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->env.state[__pyx_v_i])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->env.state[__pyx_v_i])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely((__Pyx_SetItemInt(__pyx_v_state, __pyx_v_i, __pyx_t_3, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference) < 0))) __PYX_ERR(0, 83, __pyx_L1_error)
+    if (unlikely((__Pyx_SetItemInt(__pyx_v_state, __pyx_v_i, __pyx_t_3, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference) < 0))) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
 
-  /* "aerobench/f16_waypoint_cy.pyx":85
+  /* "aerobench/f16_waypoint_cy.pyx":86
  *             state[i] = self.env.state[i]
  * 
  *         cdef bint terminated = (result == 1) or (result == 2)             # <<<<<<<<<<<<<<
@@ -5708,7 +5708,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   }
   __pyx_v_terminated = __pyx_t_9;
 
-  /* "aerobench/f16_waypoint_cy.pyx":86
+  /* "aerobench/f16_waypoint_cy.pyx":87
  * 
  *         cdef bint terminated = (result == 1) or (result == 2)
  *         cdef bint truncated = (result == 3)             # <<<<<<<<<<<<<<
@@ -5717,7 +5717,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
 */
   __pyx_v_truncated = (__pyx_v_result == 3);
 
-  /* "aerobench/f16_waypoint_cy.pyx":87
+  /* "aerobench/f16_waypoint_cy.pyx":88
  *         cdef bint terminated = (result == 1) or (result == 2)
  *         cdef bint truncated = (result == 3)
  *         cdef double reward = 1.0 if result == 1 else (-1.0 if result == 2 else 0.0)             # <<<<<<<<<<<<<<
@@ -5738,21 +5738,21 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   }
   __pyx_v_reward = __pyx_t_10;
 
-  /* "aerobench/f16_waypoint_cy.pyx":90
+  /* "aerobench/f16_waypoint_cy.pyx":91
  * 
  *         info = {
  *             'time': self.env.time,             # <<<<<<<<<<<<<<
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                                  self.env.waypoint[2]], dtype=np.float64),
 */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->env.time); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->env.time); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_time, __pyx_t_6) < (0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_time, __pyx_t_6) < (0)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":91
+  /* "aerobench/f16_waypoint_cy.pyx":92
  *         info = {
  *             'time': self.env.time,
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],             # <<<<<<<<<<<<<<
@@ -5760,55 +5760,55 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
  *             'Nz': self.env.Nz,
 */
   __pyx_t_5 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[0])); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[0])); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_13 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[1])); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_13 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[1])); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
 
-  /* "aerobench/f16_waypoint_cy.pyx":92
+  /* "aerobench/f16_waypoint_cy.pyx":93
  *             'time': self.env.time,
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                                  self.env.waypoint[2]], dtype=np.float64),             # <<<<<<<<<<<<<<
  *             'Nz': self.env.Nz,
  *             'ps': self.env.ps,
 */
-  __pyx_t_14 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[2])); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_14 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[2])); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
 
-  /* "aerobench/f16_waypoint_cy.pyx":91
+  /* "aerobench/f16_waypoint_cy.pyx":92
  *         info = {
  *             'time': self.env.time,
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],             # <<<<<<<<<<<<<<
  *                                  self.env.waypoint[2]], dtype=np.float64),
  *             'Nz': self.env.Nz,
 */
-  __pyx_t_15 = PyList_New(3); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_15 = PyList_New(3); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __Pyx_GIVEREF(__pyx_t_7);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_15, 0, __pyx_t_7) != (0)) __PYX_ERR(0, 91, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_15, 0, __pyx_t_7) != (0)) __PYX_ERR(0, 92, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_13);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_15, 1, __pyx_t_13) != (0)) __PYX_ERR(0, 91, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_15, 1, __pyx_t_13) != (0)) __PYX_ERR(0, 92, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_14);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_15, 2, __pyx_t_14) != (0)) __PYX_ERR(0, 91, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_15, 2, __pyx_t_14) != (0)) __PYX_ERR(0, 92, __pyx_L1_error);
   __pyx_t_7 = 0;
   __pyx_t_13 = 0;
   __pyx_t_14 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":92
+  /* "aerobench/f16_waypoint_cy.pyx":93
  *             'time': self.env.time,
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                                  self.env.waypoint[2]], dtype=np.float64),             # <<<<<<<<<<<<<<
  *             'Nz': self.env.Nz,
  *             'ps': self.env.ps,
 */
-  __Pyx_GetModuleGlobalName(__pyx_t_14, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_14, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_t_8 = 1;
@@ -5825,60 +5825,60 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_5, __pyx_t_15};
-    __pyx_t_14 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_13, __pyx_t_14, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 91, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_13, __pyx_t_14, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 92, __pyx_L1_error)
     __pyx_t_6 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_4, __pyx_callargs+__pyx_t_8, (2-__pyx_t_8) | (__pyx_t_8*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_14);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
   }
-  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_waypoint, __pyx_t_6) < (0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_waypoint, __pyx_t_6) < (0)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":93
+  /* "aerobench/f16_waypoint_cy.pyx":94
  *             'waypoint': np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                                  self.env.waypoint[2]], dtype=np.float64),
  *             'Nz': self.env.Nz,             # <<<<<<<<<<<<<<
  *             'ps': self.env.ps,
  *             'Ny_r': self.env.Ny_r,
 */
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->env.Nz); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->env.Nz); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_Nz, __pyx_t_6) < (0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_Nz, __pyx_t_6) < (0)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":94
+  /* "aerobench/f16_waypoint_cy.pyx":95
  *                                  self.env.waypoint[2]], dtype=np.float64),
  *             'Nz': self.env.Nz,
  *             'ps': self.env.ps,             # <<<<<<<<<<<<<<
  *             'Ny_r': self.env.Ny_r,
  *         }
 */
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->env.ps); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->env.ps); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_ps, __pyx_t_6) < (0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_ps, __pyx_t_6) < (0)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":95
+  /* "aerobench/f16_waypoint_cy.pyx":96
  *             'Nz': self.env.Nz,
  *             'ps': self.env.ps,
  *             'Ny_r': self.env.Ny_r,             # <<<<<<<<<<<<<<
  *         }
  * 
 */
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->env.Ny_r); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->env.Ny_r); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_Ny_r, __pyx_t_6) < (0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_Ny_r, __pyx_t_6) < (0)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_info = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":98
+  /* "aerobench/f16_waypoint_cy.pyx":99
  *         }
  * 
  *         if result == 1:             # <<<<<<<<<<<<<<
@@ -5888,16 +5888,16 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   switch (__pyx_v_result) {
     case 1:
 
-    /* "aerobench/f16_waypoint_cy.pyx":99
+    /* "aerobench/f16_waypoint_cy.pyx":100
  * 
  *         if result == 1:
  *             info['termination_reason'] = 'success'             # <<<<<<<<<<<<<<
  *         elif result == 2:
  *             info['termination_reason'] = 'physics'
 */
-    if (unlikely((PyDict_SetItem(__pyx_v_info, __pyx_mstate_global->__pyx_n_u_termination_reason, __pyx_mstate_global->__pyx_n_u_success) < 0))) __PYX_ERR(0, 99, __pyx_L1_error)
+    if (unlikely((PyDict_SetItem(__pyx_v_info, __pyx_mstate_global->__pyx_n_u_termination_reason, __pyx_mstate_global->__pyx_n_u_success) < 0))) __PYX_ERR(0, 100, __pyx_L1_error)
 
-    /* "aerobench/f16_waypoint_cy.pyx":98
+    /* "aerobench/f16_waypoint_cy.pyx":99
  *         }
  * 
  *         if result == 1:             # <<<<<<<<<<<<<<
@@ -5907,16 +5907,16 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
     break;
     case 2:
 
-    /* "aerobench/f16_waypoint_cy.pyx":101
+    /* "aerobench/f16_waypoint_cy.pyx":102
  *             info['termination_reason'] = 'success'
  *         elif result == 2:
  *             info['termination_reason'] = 'physics'             # <<<<<<<<<<<<<<
  * 
  *         return state, reward, terminated, truncated, info
 */
-    if (unlikely((PyDict_SetItem(__pyx_v_info, __pyx_mstate_global->__pyx_n_u_termination_reason, __pyx_mstate_global->__pyx_n_u_physics) < 0))) __PYX_ERR(0, 101, __pyx_L1_error)
+    if (unlikely((PyDict_SetItem(__pyx_v_info, __pyx_mstate_global->__pyx_n_u_termination_reason, __pyx_mstate_global->__pyx_n_u_physics) < 0))) __PYX_ERR(0, 102, __pyx_L1_error)
 
-    /* "aerobench/f16_waypoint_cy.pyx":100
+    /* "aerobench/f16_waypoint_cy.pyx":101
  *         if result == 1:
  *             info['termination_reason'] = 'success'
  *         elif result == 2:             # <<<<<<<<<<<<<<
@@ -5927,7 +5927,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
     default: break;
   }
 
-  /* "aerobench/f16_waypoint_cy.pyx":103
+  /* "aerobench/f16_waypoint_cy.pyx":104
  *             info['termination_reason'] = 'physics'
  * 
  *         return state, reward, terminated, truncated, info             # <<<<<<<<<<<<<<
@@ -5935,26 +5935,26 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
  *     def render(self):
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_reward); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_reward); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_terminated); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_terminated); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_truncated); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_truncated); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_14 = PyTuple_New(5); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_14 = PyTuple_New(5); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_INCREF(__pyx_v_state);
   __Pyx_GIVEREF(__pyx_v_state);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_v_state) != (0)) __PYX_ERR(0, 103, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_v_state) != (0)) __PYX_ERR(0, 104, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_3);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_3) != (0)) __PYX_ERR(0, 103, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_3) != (0)) __PYX_ERR(0, 104, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_6);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 2, __pyx_t_6) != (0)) __PYX_ERR(0, 103, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 2, __pyx_t_6) != (0)) __PYX_ERR(0, 104, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 3, __pyx_t_4) != (0)) __PYX_ERR(0, 103, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 3, __pyx_t_4) != (0)) __PYX_ERR(0, 104, __pyx_L1_error);
   __Pyx_INCREF(__pyx_v_info);
   __Pyx_GIVEREF(__pyx_v_info);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 4, __pyx_v_info) != (0)) __PYX_ERR(0, 103, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_14, 4, __pyx_v_info) != (0)) __PYX_ERR(0, 104, __pyx_L1_error);
   __pyx_t_3 = 0;
   __pyx_t_6 = 0;
   __pyx_t_4 = 0;
@@ -5962,7 +5962,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   __pyx_t_14 = 0;
   goto __pyx_L0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":69
+  /* "aerobench/f16_waypoint_cy.pyx":70
  *         return state, info
  * 
  *     def step(self, np.ndarray[double, ndim=1] u_ref):             # <<<<<<<<<<<<<<
@@ -5999,7 +5999,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4step(st
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":105
+/* "aerobench/f16_waypoint_cy.pyx":106
  *         return state, reward, terminated, truncated, info
  * 
  *     def render(self):             # <<<<<<<<<<<<<<
@@ -6055,7 +6055,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_6render(
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("render", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":107
+  /* "aerobench/f16_waypoint_cy.pyx":108
  *     def render(self):
  *         """Render current state"""
  *         f16_waypoint_render(&self.env)             # <<<<<<<<<<<<<<
@@ -6064,7 +6064,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_6render(
 */
   f16_waypoint_render((&__pyx_v_self->env));
 
-  /* "aerobench/f16_waypoint_cy.pyx":105
+  /* "aerobench/f16_waypoint_cy.pyx":106
  *         return state, reward, terminated, truncated, info
  * 
  *     def render(self):             # <<<<<<<<<<<<<<
@@ -6079,7 +6079,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_6render(
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":109
+/* "aerobench/f16_waypoint_cy.pyx":110
  *         f16_waypoint_render(&self.env)
  * 
  *     def should_close_window(self):             # <<<<<<<<<<<<<<
@@ -6139,7 +6139,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_8should_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("should_close_window", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":111
+  /* "aerobench/f16_waypoint_cy.pyx":112
  *     def should_close_window(self):
  *         """Check if window should close"""
  *         return f16_waypoint_should_close() != 0             # <<<<<<<<<<<<<<
@@ -6147,13 +6147,13 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_8should_
  *     def close_window(self):
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong((f16_waypoint_should_close() != 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((f16_waypoint_should_close() != 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":109
+  /* "aerobench/f16_waypoint_cy.pyx":110
  *         f16_waypoint_render(&self.env)
  * 
  *     def should_close_window(self):             # <<<<<<<<<<<<<<
@@ -6172,7 +6172,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_8should_
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":113
+/* "aerobench/f16_waypoint_cy.pyx":114
  *         return f16_waypoint_should_close() != 0
  * 
  *     def close_window(self):             # <<<<<<<<<<<<<<
@@ -6228,7 +6228,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_10close_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("close_window", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":115
+  /* "aerobench/f16_waypoint_cy.pyx":116
  *     def close_window(self):
  *         """Close window"""
  *         f16_waypoint_close()             # <<<<<<<<<<<<<<
@@ -6237,7 +6237,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_10close_
 */
   f16_waypoint_close();
 
-  /* "aerobench/f16_waypoint_cy.pyx":113
+  /* "aerobench/f16_waypoint_cy.pyx":114
  *         return f16_waypoint_should_close() != 0
  * 
  *     def close_window(self):             # <<<<<<<<<<<<<<
@@ -6252,7 +6252,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_10close_
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":117
+/* "aerobench/f16_waypoint_cy.pyx":118
  *         f16_waypoint_close()
  * 
  *     def clear_trail(self):             # <<<<<<<<<<<<<<
@@ -6308,7 +6308,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_12clear_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("clear_trail", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":119
+  /* "aerobench/f16_waypoint_cy.pyx":120
  *     def clear_trail(self):
  *         """Clear trail"""
  *         f16_waypoint_clear_trail()             # <<<<<<<<<<<<<<
@@ -6317,7 +6317,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_12clear_
 */
   f16_waypoint_clear_trail();
 
-  /* "aerobench/f16_waypoint_cy.pyx":117
+  /* "aerobench/f16_waypoint_cy.pyx":118
  *         f16_waypoint_close()
  * 
  *     def clear_trail(self):             # <<<<<<<<<<<<<<
@@ -6332,7 +6332,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_12clear_
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":121
+/* "aerobench/f16_waypoint_cy.pyx":122
  *         f16_waypoint_clear_trail()
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6372,7 +6372,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_5state__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":125
+  /* "aerobench/f16_waypoint_cy.pyx":126
  *         """Get current state"""
  *         cdef int i
  *         state = np.zeros(13, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -6380,14 +6380,14 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_5state__
  *             state[i] = self.env.state[i]
 */
   __pyx_t_2 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_6 = 1;
@@ -6404,21 +6404,21 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_5state__
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_2, __pyx_mstate_global->__pyx_int_13};
-    __pyx_t_3 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_3, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 125, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_3, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 126, __pyx_L1_error)
     __pyx_t_1 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_4, __pyx_callargs+__pyx_t_6, (2-__pyx_t_6) | (__pyx_t_6*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_3);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   }
   __pyx_v_state = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":126
+  /* "aerobench/f16_waypoint_cy.pyx":127
  *         cdef int i
  *         state = np.zeros(13, dtype=np.float64)
  *         for i in range(13):             # <<<<<<<<<<<<<<
@@ -6428,20 +6428,20 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_5state__
   for (__pyx_t_7 = 0; __pyx_t_7 < 13; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "aerobench/f16_waypoint_cy.pyx":127
+    /* "aerobench/f16_waypoint_cy.pyx":128
  *         state = np.zeros(13, dtype=np.float64)
  *         for i in range(13):
  *             state[i] = self.env.state[i]             # <<<<<<<<<<<<<<
  *         return state
  * 
 */
-    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->env.state[__pyx_v_i])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->env.state[__pyx_v_i])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely((__Pyx_SetItemInt(__pyx_v_state, __pyx_v_i, __pyx_t_1, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference) < 0))) __PYX_ERR(0, 127, __pyx_L1_error)
+    if (unlikely((__Pyx_SetItemInt(__pyx_v_state, __pyx_v_i, __pyx_t_1, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference) < 0))) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "aerobench/f16_waypoint_cy.pyx":128
+  /* "aerobench/f16_waypoint_cy.pyx":129
  *         for i in range(13):
  *             state[i] = self.env.state[i]
  *         return state             # <<<<<<<<<<<<<<
@@ -6453,7 +6453,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_5state__
   __pyx_r = __pyx_v_state;
   goto __pyx_L0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":121
+  /* "aerobench/f16_waypoint_cy.pyx":122
  *         f16_waypoint_clear_trail()
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6477,7 +6477,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_5state__
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":130
+/* "aerobench/f16_waypoint_cy.pyx":131
  *         return state
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6516,7 +6516,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_8waypoin
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":133
+  /* "aerobench/f16_waypoint_cy.pyx":134
  *     def waypoint(self):
  *         """Get current waypoint"""
  *         return np.array([self.env.waypoint[0], self.env.waypoint[1],             # <<<<<<<<<<<<<<
@@ -6525,55 +6525,55 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_8waypoin
 */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_mstate_global->__pyx_n_u_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[1])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[1])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "aerobench/f16_waypoint_cy.pyx":134
+  /* "aerobench/f16_waypoint_cy.pyx":135
  *         """Get current waypoint"""
  *         return np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                         self.env.waypoint[2]], dtype=np.float64)             # <<<<<<<<<<<<<<
  * 
  *     @property
 */
-  __pyx_t_6 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[2])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble((__pyx_v_self->env.waypoint[2])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
-  /* "aerobench/f16_waypoint_cy.pyx":133
+  /* "aerobench/f16_waypoint_cy.pyx":134
  *     def waypoint(self):
  *         """Get current waypoint"""
  *         return np.array([self.env.waypoint[0], self.env.waypoint[1],             # <<<<<<<<<<<<<<
  *                         self.env.waypoint[2]], dtype=np.float64)
  * 
 */
-  __pyx_t_7 = PyList_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_7 = PyList_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_3);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_7, 0, __pyx_t_3) != (0)) __PYX_ERR(0, 133, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_7, 0, __pyx_t_3) != (0)) __PYX_ERR(0, 134, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_5);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_7, 1, __pyx_t_5) != (0)) __PYX_ERR(0, 133, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_7, 1, __pyx_t_5) != (0)) __PYX_ERR(0, 134, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_6);
-  if (__Pyx_PyList_SET_ITEM(__pyx_t_7, 2, __pyx_t_6) != (0)) __PYX_ERR(0, 133, __pyx_L1_error);
+  if (__Pyx_PyList_SET_ITEM(__pyx_t_7, 2, __pyx_t_6) != (0)) __PYX_ERR(0, 134, __pyx_L1_error);
   __pyx_t_3 = 0;
   __pyx_t_5 = 0;
   __pyx_t_6 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":134
+  /* "aerobench/f16_waypoint_cy.pyx":135
  *         """Get current waypoint"""
  *         return np.array([self.env.waypoint[0], self.env.waypoint[1],
  *                         self.env.waypoint[2]], dtype=np.float64)             # <<<<<<<<<<<<<<
  * 
  *     @property
 */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_8 = 1;
@@ -6590,23 +6590,23 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_8waypoin
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_2, __pyx_t_7};
-    __pyx_t_6 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_6, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 133, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_5, __pyx_t_6, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 134, __pyx_L1_error)
     __pyx_t_1 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_4, __pyx_callargs+__pyx_t_8, (2-__pyx_t_8) | (__pyx_t_8*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   }
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":130
+  /* "aerobench/f16_waypoint_cy.pyx":131
  *         return state
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6631,7 +6631,7 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_8waypoin
   return __pyx_r;
 }
 
-/* "aerobench/f16_waypoint_cy.pyx":136
+/* "aerobench/f16_waypoint_cy.pyx":137
  *                         self.env.waypoint[2]], dtype=np.float64)
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -6663,19 +6663,19 @@ static PyObject *__pyx_pf_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_4time___
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":139
+  /* "aerobench/f16_waypoint_cy.pyx":140
  *     def time(self):
  *         """Get current time"""
  *         return self.env.time             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->env.time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->env.time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":136
+  /* "aerobench/f16_waypoint_cy.pyx":137
  *                         self.env.waypoint[2]], dtype=np.float64)
  * 
  *     @property             # <<<<<<<<<<<<<<
@@ -7104,15 +7104,15 @@ static int __Pyx_modinit_type_init_code(__pyx_mstatetype *__pyx_mstate) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_9aerobench_15f16_waypoint_cy_F16WaypointEnv_spec, NULL); if (unlikely(!__pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv)) __PYX_ERR(0, 35, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_9aerobench_15f16_waypoint_cy_F16WaypointEnv_spec, __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv) < (0)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_9aerobench_15f16_waypoint_cy_F16WaypointEnv_spec, NULL); if (unlikely(!__pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv)) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_9aerobench_15f16_waypoint_cy_F16WaypointEnv_spec, __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv) < (0)) __PYX_ERR(0, 36, __pyx_L1_error)
   #else
   __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv = &__pyx_type_9aerobench_15f16_waypoint_cy_F16WaypointEnv;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv) < (0)) __PYX_ERR(0, 35, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv) < (0)) __PYX_ERR(0, 36, __pyx_L1_error)
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount((PyObject*)__pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv);
@@ -7124,7 +7124,7 @@ static int __Pyx_modinit_type_init_code(__pyx_mstatetype *__pyx_mstate) {
   #endif
   #if CYTHON_UPDATE_DESCRIPTOR_DOC
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)__pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 35, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)__pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 36, __pyx_L1_error)
     if (__Pyx_IS_TYPE(wrapper, &PyWrapperDescr_Type)) {
       __pyx_wrapperbase_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__.doc = __pyx_doc_9aerobench_15f16_waypoint_cy_14F16WaypointEnv___init__;
@@ -7132,8 +7132,8 @@ static int __Pyx_modinit_type_init_code(__pyx_mstatetype *__pyx_mstate) {
     }
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv, (PyObject *) __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv) < (0)) __PYX_ERR(0, 35, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject *) __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv) < (0)) __PYX_ERR(0, 35, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv, (PyObject *) __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv) < (0)) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_mstate->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv) < (0)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -7605,7 +7605,7 @@ __Pyx_RefNannySetupContext("PyInit_f16_waypoint_cy", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_2) < (0)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":40
+  /* "aerobench/f16_waypoint_cy.pyx":41
  *     cdef bint initialized
  * 
  *     def __init__(self, double step_size=1.0/30.0, double time_limit=100.0,             # <<<<<<<<<<<<<<
@@ -7614,95 +7614,95 @@ __Pyx_RefNannySetupContext("PyInit_f16_waypoint_cy", 0);
 */
   __pyx_mstate_global->__pyx_k_ = (1.0 / 30.0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":52
+  /* "aerobench/f16_waypoint_cy.pyx":53
  *         self.initialized = True
  * 
  *     def reset(self, bint keep_position=False):             # <<<<<<<<<<<<<<
  *         """Reset environment"""
  *         f16_waypoint_reset(&self.env, 1 if keep_position else 0)
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_3reset, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_reset, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_3reset, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_reset, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_mstate_global->__pyx_tuple[0]);
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_reset, __pyx_t_2) < (0)) __PYX_ERR(0, 52, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_reset, __pyx_t_2) < (0)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":69
+  /* "aerobench/f16_waypoint_cy.pyx":70
  *         return state, info
  * 
  *     def step(self, np.ndarray[double, ndim=1] u_ref):             # <<<<<<<<<<<<<<
  *         """Step environment with control input"""
  *         cdef double u_ref_c[4]
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_5step, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_step, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_5step, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_step, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_step, __pyx_t_2) < (0)) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_step, __pyx_t_2) < (0)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":105
+  /* "aerobench/f16_waypoint_cy.pyx":106
  *         return state, reward, terminated, truncated, info
  * 
  *     def render(self):             # <<<<<<<<<<<<<<
  *         """Render current state"""
  *         f16_waypoint_render(&self.env)
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_7render, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_render, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_7render, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_render, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_render, __pyx_t_2) < (0)) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_render, __pyx_t_2) < (0)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":109
+  /* "aerobench/f16_waypoint_cy.pyx":110
  *         f16_waypoint_render(&self.env)
  * 
  *     def should_close_window(self):             # <<<<<<<<<<<<<<
  *         """Check if window should close"""
  *         return f16_waypoint_should_close() != 0
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_9should_close_window, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_should_close_wind, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_9should_close_window, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_should_close_wind, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_should_close_window, __pyx_t_2) < (0)) __PYX_ERR(0, 109, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_should_close_window, __pyx_t_2) < (0)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":113
+  /* "aerobench/f16_waypoint_cy.pyx":114
  *         return f16_waypoint_should_close() != 0
  * 
  *     def close_window(self):             # <<<<<<<<<<<<<<
  *         """Close window"""
  *         f16_waypoint_close()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_11close_window, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_close_window, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[4])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_11close_window, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_close_window, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[4])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_close_window, __pyx_t_2) < (0)) __PYX_ERR(0, 113, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_close_window, __pyx_t_2) < (0)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "aerobench/f16_waypoint_cy.pyx":117
+  /* "aerobench/f16_waypoint_cy.pyx":118
  *         f16_waypoint_close()
  * 
  *     def clear_trail(self):             # <<<<<<<<<<<<<<
  *         """Clear trail"""
  *         f16_waypoint_clear_trail()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_13clear_trail, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_clear_trail, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[5])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_15f16_waypoint_cy_14F16WaypointEnv_13clear_trail, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_F16WaypointEnv_clear_trail, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_waypoint_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[5])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_clear_trail, __pyx_t_2) < (0)) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_9aerobench_15f16_waypoint_cy_F16WaypointEnv, __pyx_mstate_global->__pyx_n_u_clear_trail, __pyx_t_2) < (0)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "(tree fragment)":1
@@ -7795,14 +7795,14 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "aerobench/f16_waypoint_cy.pyx":52
+  /* "aerobench/f16_waypoint_cy.pyx":53
  *         self.initialized = True
  * 
  *     def reset(self, bint keep_position=False):             # <<<<<<<<<<<<<<
  *         """Reset environment"""
  *         f16_waypoint_reset(&self.env, 1 if keep_position else 0)
 */
-  __pyx_mstate_global->__pyx_tuple[0] = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_mstate_global->__pyx_tuple[0])) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_mstate_global->__pyx_tuple[0] = PyTuple_Pack(1, Py_False); if (unlikely(!__pyx_mstate_global->__pyx_tuple[0])) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_mstate_global->__pyx_tuple[0]);
   __Pyx_GIVEREF(__pyx_mstate_global->__pyx_tuple[0]);
   #if CYTHON_IMMORTAL_CONSTANTS
@@ -7940,32 +7940,32 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 52};
+    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 53};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_keep_position, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_state, __pyx_mstate->__pyx_n_u_info};
     __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_f16_waypoint_cy_pyx, __pyx_mstate->__pyx_n_u_reset, __pyx_mstate->__pyx_kp_b_iso88591_q_1D_e_a_V2Q_E_aq_t4vQa_D_A_d_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 10, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 69};
+    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 10, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 70};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_u_ref, __pyx_mstate->__pyx_n_u_u_ref_c, __pyx_mstate->__pyx_n_u_result, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_state, __pyx_mstate->__pyx_n_u_terminated, __pyx_mstate->__pyx_n_u_truncated, __pyx_mstate->__pyx_n_u_reward, __pyx_mstate->__pyx_n_u_info};
     __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_f16_waypoint_cy_pyx, __pyx_mstate->__pyx_n_u_step, __pyx_mstate->__pyx_kp_b_iso88591_A_q_U_1_q_U_1_q_U_1_q_U_1_1AT_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 1, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 105};
+    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 1, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 106};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self};
     __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_f16_waypoint_cy_pyx, __pyx_mstate->__pyx_n_u_render, __pyx_mstate->__pyx_kp_b_iso88591_A_1AT, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 1, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 109};
+    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 1, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 110};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self};
     __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_f16_waypoint_cy_pyx, __pyx_mstate->__pyx_n_u_should_close_window, __pyx_mstate->__pyx_kp_b_iso88591_A_3a, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 1, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 113};
+    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 1, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 114};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self};
     __pyx_mstate_global->__pyx_codeobj_tab[4] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_f16_waypoint_cy_pyx, __pyx_mstate->__pyx_n_u_close_window, __pyx_mstate->__pyx_kp_b_iso88591_A, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[4])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 1, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 117};
+    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 1, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 118};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self};
     __pyx_mstate_global->__pyx_codeobj_tab[5] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_f16_waypoint_cy_pyx, __pyx_mstate->__pyx_n_u_clear_trail, __pyx_mstate->__pyx_kp_b_iso88591_A_2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[5])) goto bad;
   }
