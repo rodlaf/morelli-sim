@@ -54,7 +54,7 @@ extensions = [
         library_dirs=raylib_lib_dirs,
         libraries=raylib_libs,
         language="c",
-        extra_compile_args=["-std=c99", "-Wno-unused-variable"],  # Suppress unused variable warnings
+        extra_compile_args=["-std=c99"],  # Ensure C99 support
     )
 ]
 

@@ -6,12 +6,11 @@ Run with: python -m aerobench.demo
 """
 
 import time
-from math import pi, atan2, sqrt, sin, cos, asin
+from math import pi, atan2, sin, cos, asin
 
 import numpy as np
-from numpy import deg2rad, rad2deg
 
-from aerobench.f16_waypoint_new import F16Waypoint, StateIndex
+from aerobench.f16_waypoint import F16Waypoint, StateIndex
 
 
 class AutopilotAgent:
