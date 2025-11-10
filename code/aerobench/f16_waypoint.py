@@ -41,16 +41,18 @@ class F16Waypoint:
     ALTITUDE_MIN = -10000.0  # ft
     ALTITUDE_MAX = 100000.0  # ft
     
-    # Waypoint generation bounds (east, north, altitude)
-    WAYPOINT_MIN = np.array([-3000.0, 15000.0, 1000.0])
-    WAYPOINT_MAX = np.array([3000.0, 20000.0, 4000.0])
+    # Waypoint generation parameters
+    WAYPOINT_DISTANCE_MIN = 10000.0  # ft from current position
+    WAYPOINT_DISTANCE_MAX = 30000.0  # ft from current position
+    WAYPOINT_ALT_MIN = 2000.0  # ft
+    WAYPOINT_ALT_MAX = 8000.0  # ft
     
     # Waypoint capture radius
     WAYPOINT_CAPTURE_RADIUS = 500.0  # ft
     
     def __init__(self, 
                  initial_state: np.ndarray = None,
-                 step_size: float = 1/30,
+                 step_size: float = 1/60,
                  time_limit: float = 200.0,
                  extended_states: bool = True,
                  random_seed: int = None):
@@ -104,9 +106,36 @@ class F16Waypoint:
         self.integrator_class = Euler
         self.wall_time_start = None
     
-    def _generate_waypoint(self) -> np.ndarray:
-        """Generate a single random waypoint within specified bounds"""
-        return np.random.uniform(self.WAYPOINT_MIN, self.WAYPOINT_MAX)
+    def _generate_waypoint(self, current_pos: np.ndarray = None) -> np.ndarray:
+        """
+        Generate a random waypoint at specified distance and altitude.
+        
+        Args:
+            current_pos: Current [east, north, altitude] position (waypoint if just captured)
+            
+        Returns:
+            New waypoint [east, north, altitude]
+        """
+        if current_pos is None:
+            # Initial waypoint - random position
+            current_pos = np.array([0.0, 0.0, 0.0])
+        
+        # Random distance and direction (horizontal plane)
+        distance = np.random.uniform(self.WAYPOINT_DISTANCE_MIN, self.WAYPOINT_DISTANCE_MAX)
+        angle = np.random.uniform(0, 2 * np.pi)
+        
+        # Calculate new position
+        delta_east = distance * np.cos(angle)
+        delta_north = distance * np.sin(angle)
+        altitude = np.random.uniform(self.WAYPOINT_ALT_MIN, self.WAYPOINT_ALT_MAX)
+        
+        waypoint = np.array([
+            current_pos[0] + delta_east,
+            current_pos[1] + delta_north,
+            altitude
+        ])
+        
+        return waypoint
     
     def _generate_initial_state(self) -> np.ndarray:
         """Generate a reasonable initial state for F-16"""
@@ -169,9 +198,9 @@ class F16Waypoint:
         """Close render window"""
         raylib_renderer.close()
     
-    def reset_rendering(self):
-        """Reset rendering state (trail, etc.)"""
-        raylib_renderer.reset()
+    def clear_trail(self):
+        """Clear trail/ribbon (called on episode end without full reset)"""
+        raylib_renderer.clear_trail()
         
     def reset(self, initial_time: float = 0.0) -> Tuple[np.ndarray, Dict[str, Any]]:
         """Reset to initial state and generate new waypoint"""
@@ -273,8 +302,9 @@ class F16Waypoint:
         ])
         
         if distance < self.WAYPOINT_CAPTURE_RADIUS:
-            # Waypoint reached, generate new one and continue
-            self.waypoint = self._generate_waypoint()
+            # Waypoint reached, generate new one at minimum distance from OLD waypoint
+            old_waypoint = self.waypoint.copy()
+            self.waypoint = self._generate_waypoint(old_waypoint)
             return False  # Don't terminate, continue with new waypoint
         
         return False

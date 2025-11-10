@@ -2257,7 +2257,7 @@ int __pyx_module_is_main_code__aerobench__visualize__raylib_renderer_cy = 0;
 /* #### Code section: decls ### */
 static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_render(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_state_dict); /* proto */
 static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2close(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4reset(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6window_should_close(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 /* #### Code section: late_includes ### */
 /* #### Code section: module_state ### */
@@ -2284,7 +2284,7 @@ typedef struct {
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values;
   PyObject *__pyx_tuple[1];
   PyObject *__pyx_codeobj_tab[4];
-  PyObject *__pyx_string_tab[42];
+  PyObject *__pyx_string_tab[43];
   PyObject *__pyx_number_tab[1];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
@@ -2332,26 +2332,26 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_alpha_rad __pyx_string_tab[3]
 #define __pyx_n_u_asyncio_coroutines __pyx_string_tab[4]
 #define __pyx_n_u_beta_rad __pyx_string_tab[5]
-#define __pyx_n_u_cline_in_traceback __pyx_string_tab[6]
-#define __pyx_n_u_close __pyx_string_tab[7]
-#define __pyx_n_u_code_aerobench_visualize_raylib __pyx_string_tab[8]
-#define __pyx_n_u_func __pyx_string_tab[9]
-#define __pyx_n_u_get __pyx_string_tab[10]
-#define __pyx_n_u_i __pyx_string_tab[11]
-#define __pyx_n_u_is_coroutine __pyx_string_tab[12]
-#define __pyx_n_u_items __pyx_string_tab[13]
-#define __pyx_n_u_main __pyx_string_tab[14]
-#define __pyx_n_u_module __pyx_string_tab[15]
-#define __pyx_n_u_name __pyx_string_tab[16]
-#define __pyx_n_u_nz_g __pyx_string_tab[17]
-#define __pyx_n_u_phi_rad __pyx_string_tab[18]
-#define __pyx_n_u_pop __pyx_string_tab[19]
-#define __pyx_n_u_position_ft __pyx_string_tab[20]
-#define __pyx_n_u_ps_rad_s __pyx_string_tab[21]
-#define __pyx_n_u_psi_rad __pyx_string_tab[22]
-#define __pyx_n_u_qualname __pyx_string_tab[23]
-#define __pyx_n_u_render __pyx_string_tab[24]
-#define __pyx_n_u_reset __pyx_string_tab[25]
+#define __pyx_n_u_clear_trail __pyx_string_tab[6]
+#define __pyx_n_u_cline_in_traceback __pyx_string_tab[7]
+#define __pyx_n_u_close __pyx_string_tab[8]
+#define __pyx_n_u_code_aerobench_visualize_raylib __pyx_string_tab[9]
+#define __pyx_n_u_func __pyx_string_tab[10]
+#define __pyx_n_u_get __pyx_string_tab[11]
+#define __pyx_n_u_i __pyx_string_tab[12]
+#define __pyx_n_u_is_coroutine __pyx_string_tab[13]
+#define __pyx_n_u_items __pyx_string_tab[14]
+#define __pyx_n_u_main __pyx_string_tab[15]
+#define __pyx_n_u_module __pyx_string_tab[16]
+#define __pyx_n_u_name __pyx_string_tab[17]
+#define __pyx_n_u_nz_g __pyx_string_tab[18]
+#define __pyx_n_u_phi_rad __pyx_string_tab[19]
+#define __pyx_n_u_pop __pyx_string_tab[20]
+#define __pyx_n_u_position_ft __pyx_string_tab[21]
+#define __pyx_n_u_ps_rad_s __pyx_string_tab[22]
+#define __pyx_n_u_psi_rad __pyx_string_tab[23]
+#define __pyx_n_u_qualname __pyx_string_tab[24]
+#define __pyx_n_u_render __pyx_string_tab[25]
 #define __pyx_n_u_set_name __pyx_string_tab[26]
 #define __pyx_n_u_setdefault __pyx_string_tab[27]
 #define __pyx_n_u_speed_fps __pyx_string_tab[28]
@@ -2367,7 +2367,8 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_window_should_close __pyx_string_tab[38]
 #define __pyx_kp_b_iso88591__2 __pyx_string_tab[39]
 #define __pyx_kp_b_iso88591_q __pyx_string_tab[40]
-#define __pyx_kp_b_iso88591_z_a_1A_AQ_AQ_1A_1_AQ_1_Yj_q_Yj __pyx_string_tab[41]
+#define __pyx_kp_b_iso88591_q_2 __pyx_string_tab[41]
+#define __pyx_kp_b_iso88591_z_a_1A_AQ_AQ_1A_1_AQ_1_Yj_q_Yj __pyx_string_tab[42]
 #define __pyx_float_50_0 __pyx_number_tab[0]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
@@ -2385,7 +2386,7 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   #endif
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_tuple[i]); }
   for (int i=0; i<4; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<42; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<43; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
@@ -2411,7 +2412,7 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_empty_unicode);
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_tuple[i]); }
   for (int i=0; i<4; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<42; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<43; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
@@ -3187,7 +3188,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
  *     """Close the renderer window."""
  *     raylib_renderer_close()             # <<<<<<<<<<<<<<
  * 
- * def reset():
+ * def clear_trail():
 */
   raylib_renderer_close();
 
@@ -3209,48 +3210,48 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
 /* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
  *     raylib_renderer_close()
  * 
- * def reset():             # <<<<<<<<<<<<<<
- *     """Reset trail and markers (for animation loops)."""
- *     raylib_renderer_reset()
+ * def clear_trail():             # <<<<<<<<<<<<<<
+ *     """Clear trail/ribbon only (for episode boundaries without full reset)."""
+ *     raylib_renderer_clear_trail()
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5reset(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-PyDoc_STRVAR(__pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_4reset, "Reset trail and markers (for animation loops).");
-static PyMethodDef __pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5reset = {"reset", (PyCFunction)__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5reset, METH_NOARGS, __pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_4reset};
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5reset(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+PyDoc_STRVAR(__pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail, "Clear trail/ribbon only (for episode boundaries without full reset).");
+static PyMethodDef __pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail = {"clear_trail", (PyCFunction)__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail, METH_NOARGS, __pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail};
+static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("reset (wrapper)", 0);
+  __Pyx_RefNannySetupContext("clear_trail (wrapper)", 0);
   __pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
-  __pyx_r = __pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4reset(__pyx_self);
+  __pyx_r = __pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4reset(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("reset", 0);
+  __Pyx_RefNannySetupContext("clear_trail", 0);
 
   /* "code/aerobench/visualize/raylib_renderer_cy.pyx":99
- * def reset():
- *     """Reset trail and markers (for animation loops)."""
- *     raylib_renderer_reset()             # <<<<<<<<<<<<<<
+ * def clear_trail():
+ *     """Clear trail/ribbon only (for episode boundaries without full reset)."""
+ *     raylib_renderer_clear_trail()             # <<<<<<<<<<<<<<
  * 
  * def window_should_close():
 */
-  raylib_renderer_reset();
+  raylib_renderer_clear_trail();
 
   /* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
  *     raylib_renderer_close()
  * 
- * def reset():             # <<<<<<<<<<<<<<
- *     """Reset trail and markers (for animation loops)."""
- *     raylib_renderer_reset()
+ * def clear_trail():             # <<<<<<<<<<<<<<
+ *     """Clear trail/ribbon only (for episode boundaries without full reset)."""
+ *     raylib_renderer_clear_trail()
 */
 
   /* function exit code */
@@ -3261,7 +3262,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4rese
 }
 
 /* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
- *     raylib_renderer_reset()
+ *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
  *     """Check if window should close."""
@@ -3307,7 +3308,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6wind
   goto __pyx_L0;
 
   /* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
- *     raylib_renderer_reset()
+ *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
  *     """Check if window should close."""
@@ -3706,20 +3707,20 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   /* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
  *     raylib_renderer_close()
  * 
- * def reset():             # <<<<<<<<<<<<<<
- *     """Reset trail and markers (for animation loops)."""
- *     raylib_renderer_reset()
+ * def clear_trail():             # <<<<<<<<<<<<<<
+ *     """Clear trail/ribbon only (for episode boundaries without full reset)."""
+ *     raylib_renderer_clear_trail()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5reset, 0, __pyx_mstate_global->__pyx_n_u_reset, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail, 0, __pyx_mstate_global->__pyx_n_u_clear_trail, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_reset, __pyx_t_2) < (0)) __PYX_ERR(0, 97, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_clear_trail, __pyx_t_2) < (0)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
- *     raylib_renderer_reset()
+ *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
  *     """Check if window should close."""
@@ -3829,25 +3830,25 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 10; } index[] = {{1},{47},{20},{9},{18},{8},{18},{5},{43},{8},{3},{1},{13},{5},{8},{10},{8},{4},{7},{3},{11},{8},{7},{12},{6},{5},{12},{10},{9},{5},{10},{8},{9},{8},{6},{15},{9},{14},{19},{7},{10},{554}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (617 bytes) */
-const char* const cstring = "BZh91AY&SY\rc\037;\000\000k\177\377\347\377\"\265m\225\264\204\266\201p~\277\377\377\360@@@@@@@@@\000@@@\000@\000@\002\034;sj\345\206R4jzS\332$\364\364\324M2a\032\000\014\215\000\000\000\000\311\265\006\2412eOj'\352\231\251\220\306\246\021\204\302d\030\000\000\002\r\030F\032\236\211\224\311@\003G\250hh\000\000\000\000\000\000\003A$\224\332\"m\023!\246\200\000\000\006\200\0004\3204\321\2016R\233\302\261q^\031\277T\212)A\362\240 a\021\2740\003\345\243\010\251\020\030^\023\000Nc\030\212\240\260\30412u\010G@(\020=U\034\303\212I1$\256#\240e\315\024\352\366\260\273\342'\016\205)\301\033!\204\367m\215\314\367(\306C\206ap\342JV\317\205&'\211\304\326\031\235~\021R\030@\370H$rf.S\237\363\201|L\211\010\277b+D\205\230\373Q\031\020\253\346\"\251\350\031\310\263J\npf-da\016Z\270\262\037\272\"1\304\022\260\303XX\006\262+\202\321R\330s\034\202\2111\325W{\316\210%\360\236M\030\213\016\254\215\234\305\007\\B\225]\204RM\025\201\177\337n%Q\207i\001\307H*\032@\212\340K\306\345\364g\341\322\006\0068T\030\252\200>\030\216\256\207\2338\204E\231\007\216\037\276p\343\274\005]\213\001'm\004\006%L*\330\264Kr\264\275\016&`\360\204MaH\252\366\021*&\021\260\211i\300\350\312U-E\\\261-\353\210\027M\320\376\264\342%\023\240\267\212D\310\014\010s\251SKP\204!T\212\254E\313\301\032\376\254\252\230\320\226\010@ZT\241Z\323\rY\245Q\234(~U\345RZE\220\340dl\360Ff\256&W\322\030!A~y\244\034\034\353n\034#\000\000\352\333\"J\361\346_\nG\360X\362\302\2233H+.\025\315q\205\200Wd'\213\356R\255\261\304\362\312\264\025\n!\0033\005\365E\206f1Et\256\257\333\261\212G\242B]\375\376\304\024{I\313'\0307\250\007 \265j\217\232\002\202\205\271\2303,\241\022B\032\022\362\240\tx\261W*\212\241\300p\354\241\331\277\305\334\221N\024$\003X\307\316\300";
-    PyObject *data = __Pyx_DecompressString(cstring, 617, 2);
+    const struct { const unsigned int length: 10; } index[] = {{1},{47},{20},{9},{18},{8},{11},{18},{5},{43},{8},{3},{1},{13},{5},{8},{10},{8},{4},{7},{3},{11},{8},{7},{12},{6},{12},{10},{9},{5},{10},{8},{9},{8},{6},{15},{9},{14},{19},{7},{7},{10},{554}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (621 bytes) */
+const char* const cstring = "BZh91AY&SY\t\241\335^\000\000l\377\377\347\377\"\265\355\225\264\204\266\201p~\277\377\377\360@@@@@@@@@\000@@@\000@\000@\002\034;qW.\031(\032\t\264\243\301O(\310\3654\000\000\000\000\000\003M\032zj\r\010\t\225<(\3654\362\21544\000\000\014\200\000\000\000\000j\247\2315\023$\030\0021\0314a20\232\r4\311\246\t\220a2z\214\t$\215 \236\223i\000\000\000h\001\246\200\000\320\003FLM\224\250\360\254[W\006o\300\224'L\017\231\001\013\010\215\341x\0376\014B\220\204\276\360\200\004\3460\211\330\242\2778b\n\024\242\035\010\241@\365\0069\003\020\022$\304\2638\216\221\223<TlY\276\357i\316\035\022T\0026C\t\356\2525w\271F2\0343\013~\214\305l\330\222c\000N'\260\314\353\261\nA\204\017\210\206W&b\335G~\036/\245<\247\340\214\301\223M\215\307\251\243m@\21382Y\350\010\261\271\305\207\035\344p-\324'\237\031\214\030M\373\037+\206\000\333\241f\201l\032\023\034\031C\365\t\341\235\n.\272\350w\311*\210Z\203\334\244(\212bMZ\030\\p\214\337Q=\310\2533\210\376\372\301\362a\212\311f\014L\030\301f\016\264\237\236\211(\244\204\342x\033\020\337@\362\236v\234\226\232\261`\242\214^(\226\362\013\030\200>\272B[\007\t\211\001\254\324d\315\210\244\306\2505\315\022\0314\211gP\200\246R\3222\036\014J\340\213\021\271\355\026\225\024\212\313\267\025Y\310\202\351\272\031\324\230\321\003\244\246k\354\226\001(\252\247P\3064\214\324\213R\226(i#+\216V\010sm\230@l|\020\325b@\311\233\016\320\217\033\031\211\350\035y\241pL\n\344\225\273F:Dj\373HC\210Y\2325\216\031\036\350b\275s\210\005V\321\022W\016\362\350H\177\007\227u\364\231\232Q|\270V\365F\025\341~\331\224\214_S\031\026\207\021\237*\310c\024\302\026f\013\252\233\014\314H/\322\302\273{\302!j\240\340\277\373^\000\243\336N)?\300\347\330\016\021UV^\260((U\034\"\233\210\213A\020\032\332`46(\221D\262 \200 E0\2020\367\213\271\"\234(H\004\320\356\257\000";
+    PyObject *data = __Pyx_DecompressString(cstring, 621, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (521 bytes) */
-const char* const cstring = "x\332\275P=o\0231\030n\244\002\241M\2202 D\204\020'\020H\010%jU\211\005\t]\005b\253\032&\276\252W\216\317i\014\027\333w\3665\275L\031;\336\350\321\343\21572\366'\334\2301?\241?\001\373B\217\264ea\301\303\353\347\375\360\373\370y\336b\036\220>\"1\037\022\206\307\375\023*\023\024\322\031\351\307(\r\351\020b\302\002\022\223\030p\332\023\351)\300\241\r\207\351;\212\025\034\220S\365\221\214P(\306\010b\024 \2312Ly\017\363\230'\2122\"\207DU\035\034\332\014(\003\025#L\206\010\377\300!\227\304\221\367j\362^M\336\273I\0160J\030\0068&\212\002\225PsPE&\022`\202\354v{&<HB\342\020C\023{\263\031\034\2131u\237\020\\\010.\251\242\234\301H\t\351j \205\254\232\000\221\345^\275Y\321\306D\022\005\340\302\252lQ`\325&\241\222\202\220\000FBJ\205\024\251\002\004\316\021p\231\215\343\337\272\025\265\017\255\316\023\024&DNQ*8e\312uhR\247\177\000\204T\252)e\001\237\202\034\363$\014\240\362i\336Xn>\324\035wm\227\333/L4o\\t7n5\347\263\254\223\275\322h\321l\237}\323]\263c|\007\217\364K\343\233\3015\2706\360Uo\031\317\354\\\033X\253~\316\276\233\206y\234GE\343/\351j\323A\341\025\325\360\247\354\213\216\314Z\307\277\270\275q\267k\341\236\211\362v\341\226\227m\317t\314S3(\237\277.\242E\263u\366>\273\237\241,\321\376\242\325\311\272zG\357k\244\223j\353n1(\320\277\225\035\343\275\262\375\304l\345\317rT\366\367\317\275\345\345\177j\231W@\335\252d_i\325\025\247\273\225\373\371\340F\342^\277\271\364\2432\240\336\271\022\377\300\032\366(?\372\351\375O\361w\254\337\255r\357\303y\264\334\354j\317N\372\277\000\025\225\214\034";
-    PyObject *data = __Pyx_DecompressString(cstring, 521, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (528 bytes) */
+const char* const cstring = "x\332\275P\277o\0231\024n\244\002\245M\2202 D\204\200\023\010$\204\022\005UbABW\201\330\252\206\211_\325\223\343s\032S\307\276;\373\232^\246\216\035o\364\350\361\306\033\031\373'\334\2301\177B\377\004\354K{\244-\013\013\036\236\277\367\276\367\353{\357\261\010H\017\221X\014\t\307\343\336\021\225\tbtFz1J\031\035BLx@b\022\003N\273az\014\260g\315^\372\201b\005\273\344X}&#\304\3021\202\030\005H\246\034S\321\305\"\026\211\242\234\310!Q\025\203\031A1\250\030Q\206\231%\200r\347a2D\370\0203!\211\333\243[\357\321\255\367\350\336\334\003`\224p\014p@\024\005*\241\036G\025\231H\200\t\262\335\355\233\210 a\304!\216&\366\34738\010\307\324\355\023\2120\024\222**8\214T(]\014d(+\022 \262\263\2275\313\261\000\222\250\213.\026\005Vs\302\224\014\t\t`\024J\251\220\"\225\201\300\335\005\234g\355\370B\275\242\266\320J<B,!r\212\322PP\256\034C\223\332\375\003\200Q\251\246\224\007b\nr,\022\026@u\242\223\306b\375\241n\273\357\211\216\334\267Un\2754\026\235w\326nm\234\314\262v\366Z\243\371F\353\364\207\356\230\276\361\035\334\327\257\214o\006\327\340J\302w\275i<\323\277\226\260\022\375\232\3754\r\3638\217\212\306_\334e\247\335\302+\252\344/\3317\035\231\025\306?\277\275v\267c\341\266\211\362V\341\232\227-\317\264\31533(_\274-\242\371F\363\364cv?CY\242\375y\263\235ut_\357h\244\223\252\353\233bP\240\177\013\273\211\367\312\326S\263\231?\317Q\331\3339\363\026\227\373\3242\257\200\232\252d_\241\352\210\323\335\314\375|p\303q\325\357.\357Q\035\240\356\271\024\377\300\036\354Q\276\377\313\373\237\342\357\330{7\313\355Og\321b\275\243=\233\351\377\006\344\033\221\010";
+    PyObject *data = __Pyx_DecompressString(cstring, 528, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (993 bytes) */
-const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx_PyDict_NextRefalpha_radasyncio.coroutinesbeta_radcline_in_tracebackclosecode.aerobench.visualize.raylib_renderer_cy__func__geti_is_coroutineitems__main____module____name__nz_gphi_radpopposition_ftps_rad_spsi_rad__qualname__renderreset__set_name__setdefaultspeed_fpsstatestate_dict__test__theta_radtime_secvalueswaypoint_radiuswaypointswaypoints_listwindow_should_close\200\001\340\004\031\230\021\200\001\340\004\013\320\013'\240q\200\001\360\032\000\005\010\200z\220\021\220,\230a\330\010\r\210\\\230\032\2401\240A\330\010\r\210]\230*\240A\240Q\330\010\r\210]\230*\240A\240Q\330\010\r\210\\\230\032\2401\240A\330\010\r\210[\230\n\240!\2401\330\010\r\210]\230*\240A\240Q\330\010\r\210[\230\n\240!\2401\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210\\\230\032\2401\240N\260!\2601\330\010\r\210X\220Z\230q\240\001\330\010\r\210\\\230\032\2401\240A\360\006\000\t\032\230\032\2404\240q\250\r\260Q\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\360\006\000\t\016\320\r \240\n\250$\250a\320/B\300!\340\010\r\210\\\230\032\2401\330\010\r\210]\230*\240A\330\010\r\210]\230*\240A\330\010\r\210\\\230\032\2401\330\010\r\210[\230\n\240!\330\010\r\210]\230*\240A\330\010\r\210[\230\n\240!\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210\\\230\032\240<\250q\260\001\330\010\r\210X\220Z\230q\330\010\r\210\\\230\032\2401\360\006\000\t\032\230\027\240\001\240\034\250]\270!\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B""\230a\230u\240N\260!\2602\260Q\260a\360\006\000\t\016\320\r \240\007\240q\250\014\3204G\300q\340\004\032\230!\2301\230A";
+    #else /* compression: none (1006 bytes) */
+const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx_PyDict_NextRefalpha_radasyncio.coroutinesbeta_radclear_trailcline_in_tracebackclosecode.aerobench.visualize.raylib_renderer_cy__func__geti_is_coroutineitems__main____module____name__nz_gphi_radpopposition_ftps_rad_spsi_rad__qualname__render__set_name__setdefaultspeed_fpsstatestate_dict__test__theta_radtime_secvalueswaypoint_radiuswaypointswaypoints_listwindow_should_close\200\001\340\004\031\230\021\200\001\340\004\037\230q\200\001\340\004\013\320\013'\240q\200\001\360\032\000\005\010\200z\220\021\220,\230a\330\010\r\210\\\230\032\2401\240A\330\010\r\210]\230*\240A\240Q\330\010\r\210]\230*\240A\240Q\330\010\r\210\\\230\032\2401\240A\330\010\r\210[\230\n\240!\2401\330\010\r\210]\230*\240A\240Q\330\010\r\210[\230\n\240!\2401\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210\\\230\032\2401\240N\260!\2601\330\010\r\210X\220Z\230q\240\001\330\010\r\210\\\230\032\2401\240A\360\006\000\t\032\230\032\2404\240q\250\r\260Q\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\360\006\000\t\016\320\r \240\n\250$\250a\320/B\300!\340\010\r\210\\\230\032\2401\330\010\r\210]\230*\240A\330\010\r\210]\230*\240A\330\010\r\210\\\230\032\2401\330\010\r\210[\230\n\240!\330\010\r\210]\230*\240A\330\010\r\210[\230\n\240!\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210\\\230\032\240<\250q\260\001\330\010\r\210X\220Z\230q\330\010\r\210\\\230\032\2401\360\006\000\t\032\230\027\240\001\240\034\250]\270!\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a""\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\360\006\000\t\016\320\r \240\007\240q\250\014\3204G\300q\340\004\032\230!\2301\230A";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
@@ -3864,7 +3865,7 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 39; i < 42; i++) {
+    for (int i = 39; i < 43; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -3875,7 +3876,7 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 42; i++) {
+    for (Py_ssize_t i = 0; i < 43; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
@@ -3883,7 +3884,7 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
     #if CYTHON_IMMORTAL_CONSTANTS
     {
       PyObject **table = stringtab + 39;
-      for (Py_ssize_t i=0; i<3; ++i) {
+      for (Py_ssize_t i=0; i<4; ++i) {
         #if CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
         Py_SET_REFCNT(table[i], _Py_IMMORTAL_REFCNT_LOCAL);
         #else
@@ -3953,12 +3954,12 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   {
     const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 97};
     PyObject* const varnames[] = {0};
-    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_reset, __pyx_mstate->__pyx_kp_b_iso88591__2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_clear_trail, __pyx_mstate->__pyx_kp_b_iso88591_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
   }
   {
     const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 101};
     PyObject* const varnames[] = {0};
-    __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_window_should_close, __pyx_mstate->__pyx_kp_b_iso88591_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_window_should_close, __pyx_mstate->__pyx_kp_b_iso88591_q_2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;

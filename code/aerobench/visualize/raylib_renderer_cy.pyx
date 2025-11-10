@@ -23,7 +23,7 @@ cdef extern from "raylib_renderer.h":
     
     void raylib_renderer_render(RenderState* state)
     void raylib_renderer_close()
-    void raylib_renderer_reset()
+    void raylib_renderer_clear_trail()
     bint raylib_renderer_should_close()
 
 def render(state_dict):
@@ -94,9 +94,9 @@ def close():
     """Close the renderer window."""
     raylib_renderer_close()
 
-def reset():
-    """Reset trail and markers (for animation loops)."""
-    raylib_renderer_reset()
+def clear_trail():
+    """Clear trail/ribbon only (for episode boundaries without full reset)."""
+    raylib_renderer_clear_trail()
 
 def window_should_close():
     """Check if window should close."""

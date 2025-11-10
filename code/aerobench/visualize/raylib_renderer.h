@@ -112,8 +112,8 @@ void raylib_renderer_close(void) {
     }
 }
 
-/* Reset trail and markers */
-void raylib_renderer_reset(void) {
+/* Clear trail only (called when episode ends but continuing) */
+void raylib_renderer_clear_trail(void) {
     _num_markers = 0;
     _has_last_marker = false;
 }

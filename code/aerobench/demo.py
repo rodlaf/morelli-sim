@@ -6,7 +6,7 @@ Run with: python -m aerobench.demo
 """
 
 import time
-from math import pi, atan2, sqrt, sin, cos, asin, atan
+from math import pi, atan2, sqrt, sin, cos, asin
 
 import numpy as np
 from numpy import deg2rad, rad2deg
@@ -16,25 +16,7 @@ from aerobench.util import StateIndex
 
 
 class AutopilotAgent:
-    """Simple waypoint-following autopilot for single waypoint tracking"""
-    
-    # Control gains - tuned for stable F-16 flight
-    K_PSI_P = 6.0          # Heading proportional gain
-    K_PSI_D = 0.8          # Heading derivative gain
-    K_PHI_P = 1.0          # Roll proportional gain
-    K_PHI_D = 0.6          # Roll derivative gain
-    K_ALT_P = 0.008        # Altitude proportional gain
-    K_ALT_D = 0.025        # Altitude derivative gain
-    K_VT = 0.25            # Velocity gain
-    
-    # Physical limits
-    MAX_BANK_DEG = 60.0    # Maximum bank angle
-    MIN_NZ = -1.0          # Minimum normal load factor
-    MAX_NZ = 5.0           # Maximum normal load factor
-    MAX_GAMMA_DEG = 20.0   # Maximum climb/descent angle
-    
-    # Target speed
-    TARGET_SPEED = 550.0   # ft/s
+    """Waypoint-following autopilot - ported from original MATLAB version"""
     
     def __init__(self, target_waypoint):
         """
@@ -44,108 +26,170 @@ class AutopilotAgent:
             target_waypoint: [east, north, altitude] position
         """
         self.waypoint = np.array(target_waypoint)
-        self.max_bank_rad = deg2rad(self.MAX_BANK_DEG)
-        self.max_gamma_rad = deg2rad(self.MAX_GAMMA_DEG)
+        
+        # Waypoint config
+        self.cfg_slant_range_threshold = 250
+        
+        # Gains for speed control
+        self.cfg_k_vt = 0.25
+        self.cfg_airspeed = 550
+        
+        # Gains for altitude tracking
+        self.cfg_k_alt = 0.005
+        self.cfg_k_h_dot = 0.02
+        
+        # Gains for heading tracking
+        self.cfg_k_prop_psi = 5
+        self.cfg_k_der_psi = 0.5
+        
+        # Gains for roll tracking
+        self.cfg_k_prop_phi = 0.75
+        self.cfg_k_der_phi = 0.5
+        self.cfg_max_bank_deg = 65
+        
+        # Ranges for Nz
+        self.cfg_max_nz_cmd = 4
+        self.cfg_min_nz_cmd = -1
     
     def update_waypoint(self, new_waypoint):
         """Update to new waypoint when captured"""
+        print(f'(AutopilotAgent) UPDATING WAYPOINT')
         self.waypoint = np.array(new_waypoint)
     
     def get_action(self, state: np.ndarray, time: float) -> np.ndarray:
-        """
-        Compute control action [Nz, ps, Ny_r, throttle]
+        """Get control action [Nz, ps, Ny_r, throttle]"""
         
-        Decoupled control: heading tracking in lateral, altitude tracking in longitudinal.
-        """
-        # Heading control (lateral)
-        psi_cmd = self._heading_to_waypoint(state)
-        phi_cmd = self._heading_error_to_roll(state, psi_cmd)
-        ps_cmd = self._roll_rate_command(state, phi_cmd)
+        # Get desired heading to waypoint
+        psi_cmd = self._get_waypoint_heading(state)
         
-        # Altitude control (longitudinal)
-        nz_cmd = self._altitude_nz_command(state, phi_cmd)
+        # Get desired roll angle given desired heading
+        phi_cmd = self._get_phi_to_track_heading(state, psi_cmd)
+        ps_cmd = self._track_roll_angle(state, phi_cmd)
         
-        # Speed tracking
-        throttle = self._throttle_command(state)
+        nz_cmd = self._track_altitude(state)
+        throttle = self._track_airspeed(state)
         
-        # Clamp Nz
-        nz_cmd = np.clip(nz_cmd, self.MIN_NZ, self.MAX_NZ)
+        # Trim to limits
+        nz_cmd = max(self.cfg_min_nz_cmd, min(self.cfg_max_nz_cmd, nz_cmd))
         
-        return np.array([nz_cmd, ps_cmd, 0.0, throttle], dtype=float)
+        return np.array([nz_cmd, ps_cmd, 0, throttle], dtype=float)
     
-    def _heading_to_waypoint(self, state: np.ndarray) -> float:
-        """Calculate heading angle to waypoint (horizontal only)"""
+    def _get_waypoint_heading(self, state: np.ndarray) -> float:
+        """Get heading to waypoint"""
         e_pos = state[StateIndex.POSE]
         n_pos = state[StateIndex.POSN]
         
-        de = self.waypoint[0] - e_pos
-        dn = self.waypoint[1] - n_pos
+        delta_e = self.waypoint[0] - e_pos
+        delta_n = self.waypoint[1] - n_pos
         
-        return self._wrap_pi(pi/2 - atan2(dn, de))
+        heading = self._wrap_to_pi(pi/2 - atan2(delta_n, delta_e))
+        
+        return heading
     
-    def _heading_error_to_roll(self, state: np.ndarray, psi_cmd: float) -> float:
-        """Convert heading error to roll angle command (PD control)"""
-        psi = self._wrap_pi(state[StateIndex.PSI])
-        psi_err = self._wrap_pi(psi_cmd - psi)
+    def _get_phi_to_track_heading(self, state: np.ndarray, psi_cmd: float) -> float:
+        """PD Control on heading angle using phi_cmd as control"""
+        
+        psi = self._wrap_to_pi(state[StateIndex.PSI])
         r = state[StateIndex.R]
         
-        # PD control
-        phi_cmd = self.K_PSI_P * psi_err - self.K_PSI_D * r
-        return np.clip(phi_cmd, -self.max_bank_rad, self.max_bank_rad)
+        # Calculate PD control
+        psi_err = self._wrap_to_pi(psi_cmd - psi)
+        phi_cmd = psi_err * self.cfg_k_prop_psi - r * self.cfg_k_der_psi
+        
+        # Bound to acceptable bank angles
+        max_bank_rad = np.deg2rad(self.cfg_max_bank_deg)
+        phi_cmd = min(max(phi_cmd, -max_bank_rad), max_bank_rad)
+        
+        return phi_cmd
     
-    def _roll_rate_command(self, state: np.ndarray, phi_cmd: float) -> float:
-        """Convert roll angle error to roll rate command (PD control)"""
+    def _track_roll_angle(self, state: np.ndarray, phi_cmd: float) -> float:
+        """PD control on roll angle using stability roll rate"""
+        
         phi = state[StateIndex.PHI]
         p = state[StateIndex.P]
-        return self.K_PHI_P * (phi_cmd - phi) - self.K_PHI_D * p
+        
+        # Calculate PD control
+        ps = (phi_cmd - phi) * self.cfg_k_prop_phi - p * self.cfg_k_der_phi
+        
+        return ps
     
-    def _altitude_nz_command(self, state: np.ndarray, phi_cmd: float) -> float:
-        """Calculate Nz command to track waypoint altitude"""
+    def _track_airspeed(self, state: np.ndarray) -> float:
+        """Proportional control on airspeed using throttle"""
+        
+        vt_cmd = self.cfg_airspeed
+        throttle = self.cfg_k_vt * (vt_cmd - state[StateIndex.VT])
+        
+        return throttle
+    
+    def _track_altitude(self, state: np.ndarray) -> float:
+        """Get nz to track altitude, taking turning into account"""
+        
         h_cmd = self.waypoint[2]
         h = state[StateIndex.ALT]
-        vt = state[StateIndex.VT]
+        phi = state[StateIndex.PHI]
         
-        # Altitude error
-        h_err = h_cmd - h
+        # Calculate altitude error (positive => below target alt)
+        h_error = h_cmd - h
+        nz_alt = self._track_altitude_wings_level(state)
+        nz_roll = self._get_nz_for_level_turn(state)
         
-        # Vertical rate (from flight path angle)
-        gamma = self._path_angle(state)
-        h_dot = vt * sin(gamma)
-        
-        # Limit climb/descent angle
-        horiz_range = sqrt((self.waypoint[0] - state[StateIndex.POSE])**2 + 
-                          (self.waypoint[1] - state[StateIndex.POSN])**2)
-        if horiz_range > 100.0:
-            gamma_max = atan2(h_err, horiz_range)
-            gamma_max = np.clip(gamma_max, -self.max_gamma_rad, self.max_gamma_rad)
-            h_dot_max = vt * sin(gamma_max)
+        if h_error > 0:
+            # Ascend wings level or banked
+            nz = nz_alt + nz_roll
+        elif abs(phi) < np.deg2rad(15):
+            # Descend wings (close enough to) level
+            nz = nz_alt + nz_roll
         else:
-            h_dot_max = 0.0
+            # Descend in bank (no negative Gs)
+            nz = max(0, nz_alt + nz_roll)
         
-        # PD control on altitude
-        nz_alt = self.K_ALT_P * h_err - self.K_ALT_D * h_dot
-        
-        # Add 1g + turn compensation
-        nz_turn = (1.0 / cos(phi_cmd) - 1.0) if abs(cos(phi_cmd)) > 0.1 else 0.0
-        
-        return 1.0 + nz_alt + nz_turn
+        return nz
     
-    def _throttle_command(self, state: np.ndarray) -> float:
-        """Simple proportional throttle control"""
-        return self.K_VT * (self.TARGET_SPEED - state[StateIndex.VT])
+    def _track_altitude_wings_level(self, state: np.ndarray) -> float:
+        """Get nz to track altitude"""
+        
+        h_cmd = self.waypoint[2]
+        vt = state[StateIndex.VT]
+        h = state[StateIndex.ALT]
+        
+        # Proportional-Derivative Control
+        h_error = h_cmd - h
+        gamma = self._get_path_angle(state)
+        h_dot = vt * sin(gamma)  # Calculated, not differentiated
+        
+        # Calculate Nz command
+        nz = self.cfg_k_alt * h_error - self.cfg_k_h_dot * h_dot
+        
+        return nz
     
-    def _path_angle(self, state: np.ndarray) -> float:
-        """Calculate flight path angle gamma"""
+    def _get_nz_for_level_turn(self, state: np.ndarray) -> float:
+        """Get nz to do a level turn - pull g's to maintain altitude during bank"""
+        
+        phi = state[StateIndex.PHI]
+        
+        if abs(phi):  # if cos(phi) ~= 0
+            nz = 1 / cos(phi) - 1  # Keeps plane at altitude
+        else:
+            nz = 0
+        
+        return nz
+    
+    def _get_path_angle(self, state: np.ndarray) -> float:
+        """Get the path angle gamma"""
+        
         alpha = state[StateIndex.ALPHA]
         beta = state[StateIndex.BETA]
         phi = state[StateIndex.PHI]
         theta = state[StateIndex.THETA]
         
-        return asin((cos(alpha)*sin(theta) - sin(alpha)*cos(theta)*cos(phi))*cos(beta) - 
-                    cos(theta)*sin(phi)*sin(beta))
+        gamma = asin((cos(alpha)*sin(theta) - 
+                      sin(alpha)*cos(theta)*cos(phi))*cos(beta) - 
+                     (cos(theta)*sin(phi))*sin(beta))
+        
+        return gamma
     
     @staticmethod
-    def _wrap_pi(angle: float) -> float:
+    def _wrap_to_pi(angle: float) -> float:
         """Wrap angle to [-pi, pi]"""
         rv = angle % (2 * pi)
         if rv > pi:
@@ -156,17 +200,15 @@ class AutopilotAgent:
 def run_simulation(env: F16Waypoint, agent: AutopilotAgent, 
                    playback_speed: float, render_fps: int):
     """
-    Run F-16 simulation with live rendering (PufferLib-style)
+    Run F-16 simulation with live rendering
     
     Args:
-        env: F16Waypoint environment
+        env: F16Waypoint environment (already reset)
         agent: AutopilotAgent instance
         playback_speed: Speed multiplier (1.0 = real-time, 2.0 = 2x speed, etc.)
         render_fps: Target frames per second for rendering
-        
-    Runs infinite loop with real-time rendering until window closed.
     """
-    state, info = env.reset()
+    state = env.state.copy()
     
     print("Starting live F-16 simulation...")
     print(f"Playback speed: {playback_speed}x")
@@ -199,14 +241,7 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent,
         # Step simulation forward until we catch up to target time
         steps_taken = 0
         while env.time < target_sim_time:
-            # Get action from agent
-            u_ref = agent.get_action(state, env.time)
-            
-            # Step environment
-            state, reward, terminated, truncated, info = env.step(u_ref)
-            steps_taken += 1
-            
-            # Check if waypoint changed (waypoint was captured)
+            # Check if waypoint changed (check BEFORE getting action)
             if not np.array_equal(env.waypoint, last_waypoint):
                 waypoint_count += 1
                 print(f"Waypoint {waypoint_count - 1} reached at t={env.time:.1f}s")
@@ -215,6 +250,13 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent,
                 # Update agent to track new waypoint
                 agent.update_waypoint(env.waypoint)
                 last_waypoint = env.waypoint.copy()
+            
+            # Get action from agent
+            u_ref = agent.get_action(state, env.time)
+            
+            # Step environment (may change waypoint in _check_terminated)
+            state, reward, terminated, truncated, info = env.step(u_ref)
+            steps_taken += 1
             
             # Check for termination
             if terminated or truncated:
@@ -235,9 +277,11 @@ def run_simulation(env: F16Waypoint, agent: AutopilotAgent,
             print(f"Final altitude: {state[StateIndex.ALT]:.1f} ft")
             print("Resetting...\n")
             
+            # Clear trail but keep window/camera where it is
+            env.clear_trail()
+            
             # Reset environment (generates new waypoint)
             state, info = env.reset()
-            env.reset_rendering()
             
             # Reset agent with new waypoint
             agent = AutopilotAgent(env.waypoint)
@@ -272,6 +316,9 @@ def main():
         extended_states=True,
         random_seed=None  # Set to int for reproducibility
     )
+    
+    # Reset environment first to get the initial waypoint
+    state, info = env.reset()
     
     # Create simple autopilot agent for single waypoint tracking
     agent = AutopilotAgent(env.waypoint)
