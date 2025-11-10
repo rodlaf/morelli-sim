@@ -30,15 +30,6 @@ class StateIndex:
 class F16Waypoint:
     """F16 Waypoint environment - thin wrapper over C implementation"""
     
-    # Physics/world constants (from C header)
-    ALPHA_MIN, ALPHA_MAX = -2.0, 2.0
-    VELOCITY_MIN, VELOCITY_MAX = 200.0, 3000.0
-    ALTITUDE_MIN, ALTITUDE_MAX = -10000.0, 100000.0
-    WORLD_BOUNDS_E = WORLD_BOUNDS_N = 20000.0
-    WAYPOINT_DISTANCE_MIN, WAYPOINT_DISTANCE_MAX = 12000.0, 13000.0
-    WAYPOINT_ALT_MIN, WAYPOINT_ALT_MAX = 2000.0, 4000.0
-    WAYPOINT_CAPTURE_RADIUS = 500.0
-    
     def __init__(self, step_size=1/30, time_limit=100.0, extended_states=True, random_seed=None):
         """Initialize environment"""
         self.step_size = step_size

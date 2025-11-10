@@ -32,6 +32,7 @@ cdef extern from "f16_waypoint.h":
     void f16_waypoint_clear_trail()
 
 
+
 cdef class F16WaypointEnv:
     """Thin Cython wrapper for C F16Waypoint environment"""
     cdef F16Waypoint env
