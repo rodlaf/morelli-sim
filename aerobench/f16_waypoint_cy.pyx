@@ -11,6 +11,8 @@ import numpy as np
 from libc.stdlib cimport srand, rand
 
 cdef extern from "f16_waypoint.h":
+    cdef int OBS_DIM_TOTAL
+    
     ctypedef struct F16Waypoint:
         double state[16]
         double waypoint[3]
@@ -31,6 +33,7 @@ cdef extern from "f16_waypoint.h":
     int f16_waypoint_should_close()
     void f16_waypoint_close()
     void f16_waypoint_clear_trail()
+    void get_observation(const F16Waypoint* env, double obs[28])
 
 
 
@@ -140,3 +143,17 @@ cdef class F16WaypointEnv:
     def time(self):
         """Get current time"""
         return self.env.time
+    
+    def get_observation(self):
+        """Get RL-compatible observation vector (28 dimensions)
+        
+        Returns observation matching JAX implementation:
+        - [0-18]: F16 state (velocity, sin/cos angles, rates, altitude, power, integrators)
+        - [19-21]: Previous actions (Nz, ps, throttle)
+        - [22-27]: Waypoint info (sin/cos azimuth, sin/cos elevation, symlog range, time)
+        """
+        cdef int i
+        obs = np.zeros(28, dtype=np.float64)
+        cdef double[::1] obs_view = obs
+        get_observation(&self.env, &obs_view[0])
+        return obs
