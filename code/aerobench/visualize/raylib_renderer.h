@@ -34,9 +34,7 @@ static const Color SKY_COLOR = {0, 0, 0, 255};
 static const Color GRID_COLOR = {40, 120, 40, 180};
 static const Color TRAIL_COLOR = {253, 249, 0, 255};  /* YELLOW */
 static const Color ALTITUDE_MARKER_COLOR = {255, 255, 0, 128};
-
-/* Maximum waypoints supported */
-#define MAX_WAYPOINTS 10
+static const Color BOUNDS_COLOR = {255, 0, 0, 80};  /* RED transparent */
 
 /* Render state structure */
 typedef struct {
@@ -52,9 +50,15 @@ typedef struct {
     float altitude;
     float nz_g;
     float ps_rad_s;
-    int num_waypoints;
-    float waypoints[MAX_WAYPOINTS][3];  /* [east, north, altitude] */
-    float waypoint_radius;  /* Capture radius for waypoint visualization */
+    float waypoint_e;
+    float waypoint_n;
+    float waypoint_alt;
+    float waypoint_radius;
+    float world_bounds_e_min;
+    float world_bounds_e_max;
+    float world_bounds_n_min;
+    float world_bounds_n_max;
+    float world_bounds_alt_max;
 } RenderState;
 
 /* Trail marker structure */
@@ -68,7 +72,7 @@ typedef struct {
 /* Module-level state */
 static Camera3D _camera = {0};
 static float _near_plane = 0.1f;
-static float _far_plane = 50000.0f;
+static float _far_plane = 200000.0f;  /* 200km far plane for extreme zoom out */
 static TrailMarker _altitude_markers[MAX_TRAIL_POINTS];
 static int _num_markers = 0;
 static Vector3 _last_marker_pos = {0};
@@ -123,8 +127,8 @@ static void _handle_camera_input(void) {
     float wheel = GetMouseWheelMove();
     if (wheel != 0.0f) {
         _manual_zoom += wheel * 200.0f;
-        float min_zoom = -(20000.0f - CHASE_DISTANCE);
-        float max_zoom = CHASE_DISTANCE - 50.0f;
+        float min_zoom = -(1000000.0f - CHASE_DISTANCE);  /* Allow zoom out to 100km */
+        float max_zoom = CHASE_DISTANCE - 10.0f;  /* Allow zoom in very close */
         if (_manual_zoom < min_zoom) _manual_zoom = min_zoom;
         if (_manual_zoom > max_zoom) _manual_zoom = max_zoom;
     }
@@ -154,8 +158,6 @@ static void _update_camera(Vector3 position) {
     _camera.up = (Vector3){0.0f, 1.0f, 0.0f};
     
     float d = CHASE_DISTANCE - _manual_zoom;
-    if (d < 50.0f) d = 50.0f;
-    if (d > 20000.0f) d = 20000.0f;
     
     float az = _manual_camera_offset.x;
     float el = _manual_camera_offset.y;
@@ -296,22 +298,26 @@ void raylib_renderer_render(RenderState* state) {
     rlFrustum(-top * aspect, top * aspect, -top, top, _near_plane, _far_plane);
     rlMatrixMode(RL_MODELVIEW);
     
-    /* Draw ground grid */
-    float grid_extent = 50000.0f;
+    /* Draw ground grid (constrained to world bounds) */
+    float e_min = state->world_bounds_e_min;
+    float e_max = state->world_bounds_e_max;
+    float n_min = state->world_bounds_n_min;
+    float n_max = state->world_bounds_n_max;
+    
     int grid_step = (int)GRID_SPACING;
     
-    int x_start = ((int)((position.x - grid_extent) / GRID_SPACING)) * grid_step;
-    int x_end = ((int)((position.x + grid_extent) / GRID_SPACING)) * grid_step;
+    int x_start = ((int)(e_min / GRID_SPACING)) * grid_step;
+    int x_end = ((int)(e_max / GRID_SPACING)) * grid_step;
     for (int x = x_start; x <= x_end; x += grid_step) {
-        DrawLine3D((Vector3){(float)x, 0.0f, position.z - grid_extent},
-                  (Vector3){(float)x, 0.0f, position.z + grid_extent}, GRID_COLOR);
+        DrawLine3D((Vector3){(float)x, 0.0f, n_min},
+                  (Vector3){(float)x, 0.0f, n_max}, GRID_COLOR);
     }
     
-    int z_start = ((int)((position.z - grid_extent) / GRID_SPACING)) * grid_step;
-    int z_end = ((int)((position.z + grid_extent) / GRID_SPACING)) * grid_step;
+    int z_start = ((int)(n_min / GRID_SPACING)) * grid_step;
+    int z_end = ((int)(n_max / GRID_SPACING)) * grid_step;
     for (int z = z_start; z <= z_end; z += grid_step) {
-        DrawLine3D((Vector3){position.x - grid_extent, 0.0f, (float)z},
-                  (Vector3){position.x + grid_extent, 0.0f, (float)z}, GRID_COLOR);
+        DrawLine3D((Vector3){e_min, 0.0f, (float)z},
+                  (Vector3){e_max, 0.0f, (float)z}, GRID_COLOR);
     }
     
     /* Draw altitude markers with T-shaped markers and ribbon */
@@ -369,12 +375,31 @@ void raylib_renderer_render(RenderState* state) {
     /* Current position marker */
     DrawLine3D((Vector3){position.x, 0.0f, position.z}, position, ALTITUDE_MARKER_COLOR);
     
-    /* Draw waypoints from render state with configurable radius */
-    for (int i = 0; i < state->num_waypoints; i++) {
-        Vector3 wp_pos = {state->waypoints[i][0], state->waypoints[i][2], state->waypoints[i][1]};  /* [east, altitude, north] */
-        DrawSphere(wp_pos, state->waypoint_radius, PURPLE);
-        DrawLine3D((Vector3){wp_pos.x, 0.0f, wp_pos.z}, wp_pos, PURPLE);
-    }
+    /* Draw waypoint */
+    Vector3 wp_pos = {state->waypoint_e, state->waypoint_alt, state->waypoint_n};
+    DrawSphere(wp_pos, state->waypoint_radius, PURPLE);
+    DrawLine3D((Vector3){wp_pos.x, 0.0f, wp_pos.z}, wp_pos, PURPLE);
+    
+    /* Draw world bounds cube with thick lines */
+    float alt_max = state->world_bounds_alt_max;
+    
+    /* Bottom square */
+    DrawLine3D((Vector3){e_min, 0, n_min}, (Vector3){e_max, 0, n_min}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_max, 0, n_min}, (Vector3){e_max, 0, n_max}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_max, 0, n_max}, (Vector3){e_min, 0, n_max}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_min, 0, n_max}, (Vector3){e_min, 0, n_min}, BOUNDS_COLOR);
+    
+    /* Top square */
+    DrawLine3D((Vector3){e_min, alt_max, n_min}, (Vector3){e_max, alt_max, n_min}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_max, alt_max, n_min}, (Vector3){e_max, alt_max, n_max}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_max, alt_max, n_max}, (Vector3){e_min, alt_max, n_max}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_min, alt_max, n_max}, (Vector3){e_min, alt_max, n_min}, BOUNDS_COLOR);
+    
+    /* Vertical edges */
+    DrawLine3D((Vector3){e_min, 0, n_min}, (Vector3){e_min, alt_max, n_min}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_max, 0, n_min}, (Vector3){e_max, alt_max, n_min}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_max, 0, n_max}, (Vector3){e_max, alt_max, n_max}, BOUNDS_COLOR);
+    DrawLine3D((Vector3){e_min, 0, n_max}, (Vector3){e_min, alt_max, n_max}, BOUNDS_COLOR);
     
     /* Draw plane */
     _draw_simple_plane(position, state->phi_rad, state->theta_rad, state->psi_rad, F16_SCALE);

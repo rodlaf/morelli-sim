@@ -41,6 +41,10 @@ class F16Waypoint:
     ALTITUDE_MIN = -10000.0  # ft
     ALTITUDE_MAX = 100000.0  # ft
     
+    # World visualization bounds
+    WORLD_BOUNDS_E = 20000.0  # ft east/west
+    WORLD_BOUNDS_N = 20000.0  # ft north/south
+    
     # Waypoint generation parameters
     WAYPOINT_DISTANCE_MIN = 12000.0  # ft from current position
     WAYPOINT_DISTANCE_MAX = 13000.0  # ft from current position
@@ -136,8 +140,13 @@ class F16Waypoint:
             ),
             'nz_g': nz_g,
             'ps_rad_s': ps_rad_s,
-            'waypoints': [self.waypoint],  # Wrap single waypoint in list for renderer
-            'waypoint_radius': float(self.WAYPOINT_CAPTURE_RADIUS)
+            'waypoint': self.waypoint,
+            'waypoint_radius': float(self.WAYPOINT_CAPTURE_RADIUS),
+            'world_bounds_e_min': -self.WORLD_BOUNDS_E,
+            'world_bounds_e_max': self.WORLD_BOUNDS_E,
+            'world_bounds_n_min': -self.WORLD_BOUNDS_N,
+            'world_bounds_n_max': self.WORLD_BOUNDS_N,
+            'world_bounds_alt_max': self.ALTITUDE_MAX,
         }
         
         raylib_renderer.render(render_state)

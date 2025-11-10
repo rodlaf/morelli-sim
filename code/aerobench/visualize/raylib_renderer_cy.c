@@ -8,14 +8,18 @@
         ],
         "include_dirs": [
             "code/aerobench/visualize",
-            "/opt/homebrew/Cellar/raylib/5.5/include"
+            "/usr/local/include",
+            "/opt/homebrew/include"
         ],
         "language": "c",
         "libraries": [
             "raylib"
         ],
         "library_dirs": [
-            "/opt/homebrew/Cellar/raylib/5.5/lib"
+            "/Users/rodney/workspace/AeroBenchVVPython/.venv/lib/python3.11/site-packages/pyray",
+            "/usr/local/lib",
+            "/opt/homebrew/lib",
+            "/usr/lib"
         ],
         "name": "code.aerobench.visualize.raylib_renderer_cy",
         "sources": [
@@ -1837,67 +1841,6 @@ static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
 static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
                                                      int is_list, int wraparound, int boundscheck, int unsafe_shared);
 
-/* PyObjectFastCallMethod.proto */
-#if CYTHON_VECTORCALL && PY_VERSION_HEX >= 0x03090000
-#define __Pyx_PyObject_FastCallMethod(name, args, nargsf) PyObject_VectorcallMethod(name, args, nargsf, NULL)
-#else
-static PyObject *__Pyx_PyObject_FastCallMethod(PyObject *name, PyObject *const *args, size_t nargsf);
-#endif
-
-/* PyErrExceptionMatches.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyErr_ExceptionMatches(err) __Pyx_PyErr_ExceptionMatchesInState(__pyx_tstate, err)
-static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err);
-#else
-#define __Pyx_PyErr_ExceptionMatches(err)  PyErr_ExceptionMatches(err)
-#endif
-
-/* PyThreadStateGet.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
-#define __Pyx_PyThreadState_assign  __pyx_tstate = __Pyx_PyThreadState_Current;
-#if PY_VERSION_HEX >= 0x030C00A6
-#define __Pyx_PyErr_Occurred()  (__pyx_tstate->current_exception != NULL)
-#define __Pyx_PyErr_CurrentExceptionType()  (__pyx_tstate->current_exception ? (PyObject*) Py_TYPE(__pyx_tstate->current_exception) : (PyObject*) NULL)
-#else
-#define __Pyx_PyErr_Occurred()  (__pyx_tstate->curexc_type != NULL)
-#define __Pyx_PyErr_CurrentExceptionType()  (__pyx_tstate->curexc_type)
-#endif
-#else
-#define __Pyx_PyThreadState_declare
-#define __Pyx_PyThreadState_assign
-#define __Pyx_PyErr_Occurred()  (PyErr_Occurred() != NULL)
-#define __Pyx_PyErr_CurrentExceptionType()  PyErr_Occurred()
-#endif
-
-/* PyErrFetchRestore.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyErr_Clear() __Pyx_ErrRestore(NULL, NULL, NULL)
-#define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
-#define __Pyx_ErrFetchWithState(type, value, tb)    __Pyx_ErrFetchInState(PyThreadState_GET(), type, value, tb)
-#define __Pyx_ErrRestore(type, value, tb)  __Pyx_ErrRestoreInState(__pyx_tstate, type, value, tb)
-#define __Pyx_ErrFetch(type, value, tb)    __Pyx_ErrFetchInState(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX < 0x030C00A6
-#define __Pyx_PyErr_SetNone(exc) (Py_INCREF(exc), __Pyx_ErrRestore((exc), NULL, NULL))
-#else
-#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
-#endif
-#else
-#define __Pyx_PyErr_Clear() PyErr_Clear()
-#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
-#define __Pyx_ErrRestoreWithState(type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetchWithState(type, value, tb)  PyErr_Fetch(type, value, tb)
-#define __Pyx_ErrRestoreInState(tstate, type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
-#define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
-#endif
-
-/* GetAttr3.proto */
-static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
-
 /* dict_setdefault.proto */
 static CYTHON_INLINE PyObject *__Pyx_PyDict_SetDefault(PyObject *d, PyObject *key, PyObject *default_value);
 
@@ -2069,6 +2012,57 @@ static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UIN
 #define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
 #endif
 
+/* PyErrExceptionMatches.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyErr_ExceptionMatches(err) __Pyx_PyErr_ExceptionMatchesInState(__pyx_tstate, err)
+static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err);
+#else
+#define __Pyx_PyErr_ExceptionMatches(err)  PyErr_ExceptionMatches(err)
+#endif
+
+/* PyThreadStateGet.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
+#define __Pyx_PyThreadState_assign  __pyx_tstate = __Pyx_PyThreadState_Current;
+#if PY_VERSION_HEX >= 0x030C00A6
+#define __Pyx_PyErr_Occurred()  (__pyx_tstate->current_exception != NULL)
+#define __Pyx_PyErr_CurrentExceptionType()  (__pyx_tstate->current_exception ? (PyObject*) Py_TYPE(__pyx_tstate->current_exception) : (PyObject*) NULL)
+#else
+#define __Pyx_PyErr_Occurred()  (__pyx_tstate->curexc_type != NULL)
+#define __Pyx_PyErr_CurrentExceptionType()  (__pyx_tstate->curexc_type)
+#endif
+#else
+#define __Pyx_PyThreadState_declare
+#define __Pyx_PyThreadState_assign
+#define __Pyx_PyErr_Occurred()  (PyErr_Occurred() != NULL)
+#define __Pyx_PyErr_CurrentExceptionType()  PyErr_Occurred()
+#endif
+
+/* PyErrFetchRestore.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyErr_Clear() __Pyx_ErrRestore(NULL, NULL, NULL)
+#define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
+#define __Pyx_ErrFetchWithState(type, value, tb)    __Pyx_ErrFetchInState(PyThreadState_GET(), type, value, tb)
+#define __Pyx_ErrRestore(type, value, tb)  __Pyx_ErrRestoreInState(__pyx_tstate, type, value, tb)
+#define __Pyx_ErrFetch(type, value, tb)    __Pyx_ErrFetchInState(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX < 0x030C00A6
+#define __Pyx_PyErr_SetNone(exc) (Py_INCREF(exc), __Pyx_ErrRestore((exc), NULL, NULL))
+#else
+#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
+#endif
+#else
+#define __Pyx_PyErr_Clear() PyErr_Clear()
+#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
+#define __Pyx_ErrRestoreWithState(type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetchWithState(type, value, tb)  PyErr_Fetch(type, value, tb)
+#define __Pyx_ErrRestoreInState(tstate, type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
+#define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
+#endif
+
 /* PyObjectGetAttrStrNoError.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, PyObject* attr_name);
 
@@ -2131,12 +2125,6 @@ static int __Pyx_VectorcallBuilder_AddArgStr(const char *key, PyObject *value, P
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyLong_From_long(long value);
 
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyLong_From_int(int value);
-
-/* CIntFromPy.proto */
-static CYTHON_INLINE int __Pyx_PyLong_As_int(PyObject *);
-
 /* FormatTypeName.proto */
 #if CYTHON_COMPILING_IN_LIMITED_API
 typedef PyObject *__Pyx_TypeName;
@@ -2156,6 +2144,9 @@ typedef const char *__Pyx_TypeName;
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyLong_As_long(PyObject *);
+
+/* CIntFromPy.proto */
+static CYTHON_INLINE int __Pyx_PyLong_As_int(PyObject *);
 
 /* FastTypeChecks.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -2284,7 +2275,7 @@ typedef struct {
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values;
   PyObject *__pyx_tuple[1];
   PyObject *__pyx_codeobj_tab[4];
-  PyObject *__pyx_string_tab[43];
+  PyObject *__pyx_string_tab[46];
   PyObject *__pyx_number_tab[1];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
@@ -2338,38 +2329,41 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_code_aerobench_visualize_raylib __pyx_string_tab[9]
 #define __pyx_n_u_func __pyx_string_tab[10]
 #define __pyx_n_u_get __pyx_string_tab[11]
-#define __pyx_n_u_i __pyx_string_tab[12]
-#define __pyx_n_u_is_coroutine __pyx_string_tab[13]
-#define __pyx_n_u_items __pyx_string_tab[14]
-#define __pyx_n_u_main __pyx_string_tab[15]
-#define __pyx_n_u_module __pyx_string_tab[16]
-#define __pyx_n_u_name __pyx_string_tab[17]
-#define __pyx_n_u_nz_g __pyx_string_tab[18]
-#define __pyx_n_u_phi_rad __pyx_string_tab[19]
-#define __pyx_n_u_pop __pyx_string_tab[20]
-#define __pyx_n_u_position_ft __pyx_string_tab[21]
-#define __pyx_n_u_ps_rad_s __pyx_string_tab[22]
-#define __pyx_n_u_psi_rad __pyx_string_tab[23]
-#define __pyx_n_u_qualname __pyx_string_tab[24]
-#define __pyx_n_u_render __pyx_string_tab[25]
-#define __pyx_n_u_set_name __pyx_string_tab[26]
-#define __pyx_n_u_setdefault __pyx_string_tab[27]
-#define __pyx_n_u_speed_fps __pyx_string_tab[28]
-#define __pyx_n_u_state __pyx_string_tab[29]
-#define __pyx_n_u_state_dict __pyx_string_tab[30]
-#define __pyx_n_u_test __pyx_string_tab[31]
-#define __pyx_n_u_theta_rad __pyx_string_tab[32]
-#define __pyx_n_u_time_sec __pyx_string_tab[33]
-#define __pyx_n_u_values __pyx_string_tab[34]
+#define __pyx_n_u_is_coroutine __pyx_string_tab[12]
+#define __pyx_n_u_items __pyx_string_tab[13]
+#define __pyx_n_u_main __pyx_string_tab[14]
+#define __pyx_n_u_module __pyx_string_tab[15]
+#define __pyx_n_u_name __pyx_string_tab[16]
+#define __pyx_n_u_nz_g __pyx_string_tab[17]
+#define __pyx_n_u_phi_rad __pyx_string_tab[18]
+#define __pyx_n_u_pop __pyx_string_tab[19]
+#define __pyx_n_u_position_ft __pyx_string_tab[20]
+#define __pyx_n_u_ps_rad_s __pyx_string_tab[21]
+#define __pyx_n_u_psi_rad __pyx_string_tab[22]
+#define __pyx_n_u_qualname __pyx_string_tab[23]
+#define __pyx_n_u_render __pyx_string_tab[24]
+#define __pyx_n_u_set_name __pyx_string_tab[25]
+#define __pyx_n_u_setdefault __pyx_string_tab[26]
+#define __pyx_n_u_speed_fps __pyx_string_tab[27]
+#define __pyx_n_u_state __pyx_string_tab[28]
+#define __pyx_n_u_state_dict __pyx_string_tab[29]
+#define __pyx_n_u_test __pyx_string_tab[30]
+#define __pyx_n_u_theta_rad __pyx_string_tab[31]
+#define __pyx_n_u_time_sec __pyx_string_tab[32]
+#define __pyx_n_u_values __pyx_string_tab[33]
+#define __pyx_n_u_waypoint __pyx_string_tab[34]
 #define __pyx_n_u_waypoint_radius __pyx_string_tab[35]
-#define __pyx_n_u_waypoints __pyx_string_tab[36]
-#define __pyx_n_u_waypoints_list __pyx_string_tab[37]
-#define __pyx_n_u_window_should_close __pyx_string_tab[38]
-#define __pyx_kp_b_iso88591__2 __pyx_string_tab[39]
-#define __pyx_kp_b_iso88591_q __pyx_string_tab[40]
-#define __pyx_kp_b_iso88591_q_2 __pyx_string_tab[41]
-#define __pyx_kp_b_iso88591_z_a_1A_AQ_AQ_1A_1_AQ_1_Yj_q_Yj __pyx_string_tab[42]
-#define __pyx_float_50_0 __pyx_number_tab[0]
+#define __pyx_n_u_window_should_close __pyx_string_tab[36]
+#define __pyx_n_u_world_bounds_alt_max __pyx_string_tab[37]
+#define __pyx_n_u_world_bounds_e_max __pyx_string_tab[38]
+#define __pyx_n_u_world_bounds_e_min __pyx_string_tab[39]
+#define __pyx_n_u_world_bounds_n_max __pyx_string_tab[40]
+#define __pyx_n_u_world_bounds_n_min __pyx_string_tab[41]
+#define __pyx_kp_b_iso88591_Zq_j_j_Zq_Jaq_j_Jaq_A_1A_A_1A_Z __pyx_string_tab[42]
+#define __pyx_kp_b_iso88591__2 __pyx_string_tab[43]
+#define __pyx_kp_b_iso88591_q __pyx_string_tab[44]
+#define __pyx_kp_b_iso88591_q_2 __pyx_string_tab[45]
+#define __pyx_float_500_0 __pyx_number_tab[0]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
 static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
@@ -2386,7 +2380,7 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   #endif
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_tuple[i]); }
   for (int i=0; i<4; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<43; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<46; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
@@ -2412,7 +2406,7 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_empty_unicode);
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_tuple[i]); }
   for (int i=0; i<4; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<43; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<46; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
@@ -2427,12 +2421,12 @@ return 0;
 #endif
 /* #### Code section: module_code ### */
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":29
+/* "code/aerobench/visualize/raylib_renderer_cy.pyx":33
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
- *     """Render a single frame of the simulation.
- * 
+ *     """Render a single frame of the simulation."""
+ *     cdef RenderState state
 */
 
 /* Python wrapper */
@@ -2443,7 +2437,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_render, "Render a single frame of the simulation.\n    \n    Args:\n        state_dict: Dict or object with attributes:\n            time_sec, speed_fps, alpha_rad, beta_rad, phi_rad, theta_rad, psi_rad,\n            position_ft (tuple of 3 floats: east, north, altitude),\n            nz_g, ps_rad_s, waypoints (list of 3-tuples)\n    ");
+PyDoc_STRVAR(__pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_render, "Render a single frame of the simulation.");
 static PyMethodDef __pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_1render = {"render", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_1render, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_render};
 static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_1render(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -2475,32 +2469,32 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_state_dict,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 29, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 33, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 29, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 33, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "render", 0) < (0)) __PYX_ERR(0, 29, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "render", 0) < (0)) __PYX_ERR(0, 33, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 1; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("render", 1, 1, 1, i); __PYX_ERR(0, 29, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("render", 1, 1, 1, i); __PYX_ERR(0, 33, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 29, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 33, __pyx_L3_error)
     }
     __pyx_v_state_dict = values[0];
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("render", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 29, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("render", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 33, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2523,605 +2517,316 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 
 static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_render(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_state_dict) {
   RenderState __pyx_v_state;
-  int __pyx_v_i;
-  PyObject *__pyx_v_waypoints_list = NULL;
+  PyObject *__pyx_v_waypoint = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  float __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  size_t __pyx_t_6;
-  long __pyx_t_7;
-  Py_ssize_t __pyx_t_8;
-  Py_ssize_t __pyx_t_9;
-  int __pyx_t_10;
-  int __pyx_t_11;
-  int __pyx_t_12;
+  PyObject *__pyx_t_1 = NULL;
+  float __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("render", 0);
 
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":38
+ * 
+ *     # Extract from dict
+ *     state.time_sec = state_dict['time_sec']             # <<<<<<<<<<<<<<
+ *     state.speed_fps = state_dict['speed_fps']
+ *     state.alpha_rad = state_dict['alpha_rad']
+*/
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_time_sec); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.time_sec = __pyx_t_2;
+
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":39
+ *     # Extract from dict
+ *     state.time_sec = state_dict['time_sec']
+ *     state.speed_fps = state_dict['speed_fps']             # <<<<<<<<<<<<<<
+ *     state.alpha_rad = state_dict['alpha_rad']
+ *     state.beta_rad = state_dict['beta_rad']
+*/
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_speed_fps); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.speed_fps = __pyx_t_2;
+
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":40
+ *     state.time_sec = state_dict['time_sec']
+ *     state.speed_fps = state_dict['speed_fps']
+ *     state.alpha_rad = state_dict['alpha_rad']             # <<<<<<<<<<<<<<
+ *     state.beta_rad = state_dict['beta_rad']
+ *     state.phi_rad = state_dict['phi_rad']
+*/
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_alpha_rad); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.alpha_rad = __pyx_t_2;
+
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":41
+ *     state.speed_fps = state_dict['speed_fps']
+ *     state.alpha_rad = state_dict['alpha_rad']
+ *     state.beta_rad = state_dict['beta_rad']             # <<<<<<<<<<<<<<
+ *     state.phi_rad = state_dict['phi_rad']
+ *     state.theta_rad = state_dict['theta_rad']
+*/
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_beta_rad); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.beta_rad = __pyx_t_2;
+
   /* "code/aerobench/visualize/raylib_renderer_cy.pyx":42
- * 
- *     # Extract from dict or object
- *     if isinstance(state_dict, dict):             # <<<<<<<<<<<<<<
- *         state.time_sec = state_dict['time_sec']
- *         state.speed_fps = state_dict['speed_fps']
+ *     state.alpha_rad = state_dict['alpha_rad']
+ *     state.beta_rad = state_dict['beta_rad']
+ *     state.phi_rad = state_dict['phi_rad']             # <<<<<<<<<<<<<<
+ *     state.theta_rad = state_dict['theta_rad']
+ *     state.psi_rad = state_dict['psi_rad']
 */
-  __pyx_t_1 = PyDict_Check(__pyx_v_state_dict); 
-  if (__pyx_t_1) {
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_phi_rad); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.phi_rad = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":43
- *     # Extract from dict or object
- *     if isinstance(state_dict, dict):
- *         state.time_sec = state_dict['time_sec']             # <<<<<<<<<<<<<<
- *         state.speed_fps = state_dict['speed_fps']
- *         state.alpha_rad = state_dict['alpha_rad']
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":43
+ *     state.beta_rad = state_dict['beta_rad']
+ *     state.phi_rad = state_dict['phi_rad']
+ *     state.theta_rad = state_dict['theta_rad']             # <<<<<<<<<<<<<<
+ *     state.psi_rad = state_dict['psi_rad']
+ *     state.pos_e = state_dict['position_ft'][0]
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_time_sec); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_state.time_sec = __pyx_t_3;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_theta_rad); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.theta_rad = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":44
- *     if isinstance(state_dict, dict):
- *         state.time_sec = state_dict['time_sec']
- *         state.speed_fps = state_dict['speed_fps']             # <<<<<<<<<<<<<<
- *         state.alpha_rad = state_dict['alpha_rad']
- *         state.beta_rad = state_dict['beta_rad']
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":44
+ *     state.phi_rad = state_dict['phi_rad']
+ *     state.theta_rad = state_dict['theta_rad']
+ *     state.psi_rad = state_dict['psi_rad']             # <<<<<<<<<<<<<<
+ *     state.pos_e = state_dict['position_ft'][0]
+ *     state.pos_n = state_dict['position_ft'][1]
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_speed_fps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_state.speed_fps = __pyx_t_3;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_psi_rad); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.psi_rad = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":45
- *         state.time_sec = state_dict['time_sec']
- *         state.speed_fps = state_dict['speed_fps']
- *         state.alpha_rad = state_dict['alpha_rad']             # <<<<<<<<<<<<<<
- *         state.beta_rad = state_dict['beta_rad']
- *         state.phi_rad = state_dict['phi_rad']
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":45
+ *     state.theta_rad = state_dict['theta_rad']
+ *     state.psi_rad = state_dict['psi_rad']
+ *     state.pos_e = state_dict['position_ft'][0]             # <<<<<<<<<<<<<<
+ *     state.pos_n = state_dict['position_ft'][1]
+ *     state.altitude = state_dict['position_ft'][2]
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_alpha_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_state.alpha_rad = __pyx_t_3;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_state.pos_e = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":46
- *         state.speed_fps = state_dict['speed_fps']
- *         state.alpha_rad = state_dict['alpha_rad']
- *         state.beta_rad = state_dict['beta_rad']             # <<<<<<<<<<<<<<
- *         state.phi_rad = state_dict['phi_rad']
- *         state.theta_rad = state_dict['theta_rad']
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":46
+ *     state.psi_rad = state_dict['psi_rad']
+ *     state.pos_e = state_dict['position_ft'][0]
+ *     state.pos_n = state_dict['position_ft'][1]             # <<<<<<<<<<<<<<
+ *     state.altitude = state_dict['position_ft'][2]
+ *     state.nz_g = state_dict['nz_g']
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_beta_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_state.beta_rad = __pyx_t_3;
+  __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.pos_n = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":47
- *         state.alpha_rad = state_dict['alpha_rad']
- *         state.beta_rad = state_dict['beta_rad']
- *         state.phi_rad = state_dict['phi_rad']             # <<<<<<<<<<<<<<
- *         state.theta_rad = state_dict['theta_rad']
- *         state.psi_rad = state_dict['psi_rad']
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":47
+ *     state.pos_e = state_dict['position_ft'][0]
+ *     state.pos_n = state_dict['position_ft'][1]
+ *     state.altitude = state_dict['position_ft'][2]             # <<<<<<<<<<<<<<
+ *     state.nz_g = state_dict['nz_g']
+ *     state.ps_rad_s = state_dict['ps_rad_s']
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_phi_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_state.phi_rad = __pyx_t_3;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_state.altitude = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":48
- *         state.beta_rad = state_dict['beta_rad']
- *         state.phi_rad = state_dict['phi_rad']
- *         state.theta_rad = state_dict['theta_rad']             # <<<<<<<<<<<<<<
- *         state.psi_rad = state_dict['psi_rad']
- *         state.pos_e = state_dict['position_ft'][0]
-*/
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_theta_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_state.theta_rad = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":49
- *         state.phi_rad = state_dict['phi_rad']
- *         state.theta_rad = state_dict['theta_rad']
- *         state.psi_rad = state_dict['psi_rad']             # <<<<<<<<<<<<<<
- *         state.pos_e = state_dict['position_ft'][0]
- *         state.pos_n = state_dict['position_ft'][1]
-*/
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_psi_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_state.psi_rad = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":50
- *         state.theta_rad = state_dict['theta_rad']
- *         state.psi_rad = state_dict['psi_rad']
- *         state.pos_e = state_dict['position_ft'][0]             # <<<<<<<<<<<<<<
- *         state.pos_n = state_dict['position_ft'][1]
- *         state.altitude = state_dict['position_ft'][2]
-*/
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.pos_e = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":51
- *         state.psi_rad = state_dict['psi_rad']
- *         state.pos_e = state_dict['position_ft'][0]
- *         state.pos_n = state_dict['position_ft'][1]             # <<<<<<<<<<<<<<
- *         state.altitude = state_dict['position_ft'][2]
- *         state.nz_g = state_dict['nz_g']
-*/
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_state.pos_n = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":52
- *         state.pos_e = state_dict['position_ft'][0]
- *         state.pos_n = state_dict['position_ft'][1]
- *         state.altitude = state_dict['position_ft'][2]             # <<<<<<<<<<<<<<
- *         state.nz_g = state_dict['nz_g']
- *         state.ps_rad_s = state_dict['ps_rad_s']
-*/
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.altitude = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":53
- *         state.pos_n = state_dict['position_ft'][1]
- *         state.altitude = state_dict['position_ft'][2]
- *         state.nz_g = state_dict['nz_g']             # <<<<<<<<<<<<<<
- *         state.ps_rad_s = state_dict['ps_rad_s']
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":48
+ *     state.pos_n = state_dict['position_ft'][1]
+ *     state.altitude = state_dict['position_ft'][2]
+ *     state.nz_g = state_dict['nz_g']             # <<<<<<<<<<<<<<
+ *     state.ps_rad_s = state_dict['ps_rad_s']
  * 
 */
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_nz_g); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.nz_g = __pyx_t_3;
+  __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_nz_g); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_state.nz_g = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":54
- *         state.altitude = state_dict['position_ft'][2]
- *         state.nz_g = state_dict['nz_g']
- *         state.ps_rad_s = state_dict['ps_rad_s']             # <<<<<<<<<<<<<<
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":49
+ *     state.altitude = state_dict['position_ft'][2]
+ *     state.nz_g = state_dict['nz_g']
+ *     state.ps_rad_s = state_dict['ps_rad_s']             # <<<<<<<<<<<<<<
  * 
- *         # Handle waypoints
+ *     # Single waypoint
 */
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_ps_rad_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.ps_rad_s = __pyx_t_3;
+  __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_ps_rad_s); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_state.ps_rad_s = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":57
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":52
  * 
- *         # Handle waypoints
- *         waypoints_list = state_dict.get('waypoints', [])             # <<<<<<<<<<<<<<
- *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
- *         for i in range(state.num_waypoints):
+ *     # Single waypoint
+ *     waypoint = state_dict['waypoint']             # <<<<<<<<<<<<<<
+ *     state.waypoint_e = waypoint[0]
+ *     state.waypoint_n = waypoint[1]
 */
-    __pyx_t_2 = __pyx_v_state_dict;
-    __Pyx_INCREF(__pyx_t_2);
-    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = 0;
-    {
-      PyObject *__pyx_callargs[3] = {__pyx_t_2, __pyx_mstate_global->__pyx_n_u_waypoints, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_get, __pyx_callargs+__pyx_t_6, (3-__pyx_t_6) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-    }
-    __pyx_v_waypoints_list = __pyx_t_4;
-    __pyx_t_4 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_waypoint); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_v_waypoint = __pyx_t_3;
+  __pyx_t_3 = 0;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":58
- *         # Handle waypoints
- *         waypoints_list = state_dict.get('waypoints', [])
- *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS             # <<<<<<<<<<<<<<
- *         for i in range(state.num_waypoints):
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":53
+ *     # Single waypoint
+ *     waypoint = state_dict['waypoint']
+ *     state.waypoint_e = waypoint[0]             # <<<<<<<<<<<<<<
+ *     state.waypoint_n = waypoint[1]
+ *     state.waypoint_alt = waypoint[2]
 */
-    __pyx_t_7 = 10;
-    __pyx_t_8 = PyObject_Length(__pyx_v_waypoints_list); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 58, __pyx_L1_error)
-    __pyx_t_1 = (__pyx_t_7 < __pyx_t_8);
-    if (__pyx_t_1) {
-      __pyx_t_9 = __pyx_t_7;
-    } else {
-      __pyx_t_9 = __pyx_t_8;
-    }
-    __pyx_v_state.num_waypoints = __pyx_t_9;
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_waypoint, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_state.waypoint_e = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":59
- *         waypoints_list = state_dict.get('waypoints', [])
- *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
- *         for i in range(state.num_waypoints):             # <<<<<<<<<<<<<<
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east
- *             state.waypoints[i][1] = waypoints_list[i][1]  # north
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":54
+ *     waypoint = state_dict['waypoint']
+ *     state.waypoint_e = waypoint[0]
+ *     state.waypoint_n = waypoint[1]             # <<<<<<<<<<<<<<
+ *     state.waypoint_alt = waypoint[2]
+ *     state.waypoint_radius = state_dict.get('waypoint_radius', 500.0)
 */
-    __pyx_t_10 = __pyx_v_state.num_waypoints;
-    __pyx_t_11 = __pyx_t_10;
-    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
-      __pyx_v_i = __pyx_t_12;
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_waypoint, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_state.waypoint_n = __pyx_t_2;
 
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":60
- *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
- *         for i in range(state.num_waypoints):
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east             # <<<<<<<<<<<<<<
- *             state.waypoints[i][1] = waypoints_list[i][1]  # north
- *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
-*/
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      ((__pyx_v_state.waypoints[__pyx_v_i])[0]) = __pyx_t_3;
-
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":61
- *         for i in range(state.num_waypoints):
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east
- *             state.waypoints[i][1] = waypoints_list[i][1]  # north             # <<<<<<<<<<<<<<
- *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":55
+ *     state.waypoint_e = waypoint[0]
+ *     state.waypoint_n = waypoint[1]
+ *     state.waypoint_alt = waypoint[2]             # <<<<<<<<<<<<<<
+ *     state.waypoint_radius = state_dict.get('waypoint_radius', 500.0)
  * 
 */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      ((__pyx_v_state.waypoints[__pyx_v_i])[1]) = __pyx_t_3;
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_waypoint, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_state.waypoint_alt = __pyx_t_2;
 
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":62
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east
- *             state.waypoints[i][1] = waypoints_list[i][1]  # north
- *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude             # <<<<<<<<<<<<<<
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":56
+ *     state.waypoint_n = waypoint[1]
+ *     state.waypoint_alt = waypoint[2]
+ *     state.waypoint_radius = state_dict.get('waypoint_radius', 500.0)             # <<<<<<<<<<<<<<
  * 
- *         # Handle waypoint radius
+ *     # World bounds
 */
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      ((__pyx_v_state.waypoints[__pyx_v_i])[2]) = __pyx_t_3;
-    }
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_mstate_global->__pyx_tuple[0], NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.waypoint_radius = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":65
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":59
  * 
- *         # Handle waypoint radius
- *         state.waypoint_radius = state_dict.get('waypoint_radius', 50.0)             # <<<<<<<<<<<<<<
- *     else:
- *         state.time_sec = state_dict.time_sec
+ *     # World bounds
+ *     state.world_bounds_e_min = state_dict['world_bounds_e_min']             # <<<<<<<<<<<<<<
+ *     state.world_bounds_e_max = state_dict['world_bounds_e_max']
+ *     state.world_bounds_n_min = state_dict['world_bounds_n_min']
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_get); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_mstate_global->__pyx_tuple[0], NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 65, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.waypoint_radius = __pyx_t_3;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_world_bounds_e_min); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.world_bounds_e_min = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":42
- * 
- *     # Extract from dict or object
- *     if isinstance(state_dict, dict):             # <<<<<<<<<<<<<<
- *         state.time_sec = state_dict['time_sec']
- *         state.speed_fps = state_dict['speed_fps']
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":60
+ *     # World bounds
+ *     state.world_bounds_e_min = state_dict['world_bounds_e_min']
+ *     state.world_bounds_e_max = state_dict['world_bounds_e_max']             # <<<<<<<<<<<<<<
+ *     state.world_bounds_n_min = state_dict['world_bounds_n_min']
+ *     state.world_bounds_n_max = state_dict['world_bounds_n_max']
 */
-    goto __pyx_L3;
-  }
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_world_bounds_e_max); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.world_bounds_e_max = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
- *         state.waypoint_radius = state_dict.get('waypoint_radius', 50.0)
- *     else:
- *         state.time_sec = state_dict.time_sec             # <<<<<<<<<<<<<<
- *         state.speed_fps = state_dict.speed_fps
- *         state.alpha_rad = state_dict.alpha_rad
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":61
+ *     state.world_bounds_e_min = state_dict['world_bounds_e_min']
+ *     state.world_bounds_e_max = state_dict['world_bounds_e_max']
+ *     state.world_bounds_n_min = state_dict['world_bounds_n_min']             # <<<<<<<<<<<<<<
+ *     state.world_bounds_n_max = state_dict['world_bounds_n_max']
+ *     state.world_bounds_alt_max = state_dict['world_bounds_alt_max']
 */
-  /*else*/ {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_time_sec); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.time_sec = __pyx_t_3;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_world_bounds_n_min); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.world_bounds_n_min = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":68
- *     else:
- *         state.time_sec = state_dict.time_sec
- *         state.speed_fps = state_dict.speed_fps             # <<<<<<<<<<<<<<
- *         state.alpha_rad = state_dict.alpha_rad
- *         state.beta_rad = state_dict.beta_rad
-*/
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_speed_fps); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.speed_fps = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":69
- *         state.time_sec = state_dict.time_sec
- *         state.speed_fps = state_dict.speed_fps
- *         state.alpha_rad = state_dict.alpha_rad             # <<<<<<<<<<<<<<
- *         state.beta_rad = state_dict.beta_rad
- *         state.phi_rad = state_dict.phi_rad
-*/
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_alpha_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.alpha_rad = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":70
- *         state.speed_fps = state_dict.speed_fps
- *         state.alpha_rad = state_dict.alpha_rad
- *         state.beta_rad = state_dict.beta_rad             # <<<<<<<<<<<<<<
- *         state.phi_rad = state_dict.phi_rad
- *         state.theta_rad = state_dict.theta_rad
-*/
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_beta_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.beta_rad = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
- *         state.alpha_rad = state_dict.alpha_rad
- *         state.beta_rad = state_dict.beta_rad
- *         state.phi_rad = state_dict.phi_rad             # <<<<<<<<<<<<<<
- *         state.theta_rad = state_dict.theta_rad
- *         state.psi_rad = state_dict.psi_rad
-*/
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_phi_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.phi_rad = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":72
- *         state.beta_rad = state_dict.beta_rad
- *         state.phi_rad = state_dict.phi_rad
- *         state.theta_rad = state_dict.theta_rad             # <<<<<<<<<<<<<<
- *         state.psi_rad = state_dict.psi_rad
- *         state.pos_e = state_dict.position_ft[0]
-*/
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_theta_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.theta_rad = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":73
- *         state.phi_rad = state_dict.phi_rad
- *         state.theta_rad = state_dict.theta_rad
- *         state.psi_rad = state_dict.psi_rad             # <<<<<<<<<<<<<<
- *         state.pos_e = state_dict.position_ft[0]
- *         state.pos_n = state_dict.position_ft[1]
-*/
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_psi_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.psi_rad = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":74
- *         state.theta_rad = state_dict.theta_rad
- *         state.psi_rad = state_dict.psi_rad
- *         state.pos_e = state_dict.position_ft[0]             # <<<<<<<<<<<<<<
- *         state.pos_n = state_dict.position_ft[1]
- *         state.altitude = state_dict.position_ft[2]
-*/
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_state.pos_e = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":75
- *         state.psi_rad = state_dict.psi_rad
- *         state.pos_e = state_dict.position_ft[0]
- *         state.pos_n = state_dict.position_ft[1]             # <<<<<<<<<<<<<<
- *         state.altitude = state_dict.position_ft[2]
- *         state.nz_g = state_dict.nz_g
-*/
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_state.pos_n = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":76
- *         state.pos_e = state_dict.position_ft[0]
- *         state.pos_n = state_dict.position_ft[1]
- *         state.altitude = state_dict.position_ft[2]             # <<<<<<<<<<<<<<
- *         state.nz_g = state_dict.nz_g
- *         state.ps_rad_s = state_dict.ps_rad_s
-*/
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 76, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_state.altitude = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":77
- *         state.pos_n = state_dict.position_ft[1]
- *         state.altitude = state_dict.position_ft[2]
- *         state.nz_g = state_dict.nz_g             # <<<<<<<<<<<<<<
- *         state.ps_rad_s = state_dict.ps_rad_s
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":62
+ *     state.world_bounds_e_max = state_dict['world_bounds_e_max']
+ *     state.world_bounds_n_min = state_dict['world_bounds_n_min']
+ *     state.world_bounds_n_max = state_dict['world_bounds_n_max']             # <<<<<<<<<<<<<<
+ *     state.world_bounds_alt_max = state_dict['world_bounds_alt_max']
  * 
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_nz_g); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_state.nz_g = __pyx_t_3;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_world_bounds_n_max); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.world_bounds_n_max = __pyx_t_2;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":78
- *         state.altitude = state_dict.position_ft[2]
- *         state.nz_g = state_dict.nz_g
- *         state.ps_rad_s = state_dict.ps_rad_s             # <<<<<<<<<<<<<<
- * 
- *         # Handle waypoints
-*/
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_ps_rad_s); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_state.ps_rad_s = __pyx_t_3;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":81
- * 
- *         # Handle waypoints
- *         waypoints_list = getattr(state_dict, 'waypoints', [])             # <<<<<<<<<<<<<<
- *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
- *         for i in range(state.num_waypoints):
-*/
-    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_waypoints, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_waypoints_list = __pyx_t_4;
-    __pyx_t_4 = 0;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":82
- *         # Handle waypoints
- *         waypoints_list = getattr(state_dict, 'waypoints', [])
- *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS             # <<<<<<<<<<<<<<
- *         for i in range(state.num_waypoints):
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east
-*/
-    __pyx_t_7 = 10;
-    __pyx_t_9 = PyObject_Length(__pyx_v_waypoints_list); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 82, __pyx_L1_error)
-    __pyx_t_1 = (__pyx_t_7 < __pyx_t_9);
-    if (__pyx_t_1) {
-      __pyx_t_8 = __pyx_t_7;
-    } else {
-      __pyx_t_8 = __pyx_t_9;
-    }
-    __pyx_v_state.num_waypoints = __pyx_t_8;
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":83
- *         waypoints_list = getattr(state_dict, 'waypoints', [])
- *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
- *         for i in range(state.num_waypoints):             # <<<<<<<<<<<<<<
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east
- *             state.waypoints[i][1] = waypoints_list[i][1]  # north
-*/
-    __pyx_t_10 = __pyx_v_state.num_waypoints;
-    __pyx_t_11 = __pyx_t_10;
-    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
-      __pyx_v_i = __pyx_t_12;
-
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":84
- *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
- *         for i in range(state.num_waypoints):
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east             # <<<<<<<<<<<<<<
- *             state.waypoints[i][1] = waypoints_list[i][1]  # north
- *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
-*/
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      ((__pyx_v_state.waypoints[__pyx_v_i])[0]) = __pyx_t_3;
-
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":85
- *         for i in range(state.num_waypoints):
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east
- *             state.waypoints[i][1] = waypoints_list[i][1]  # north             # <<<<<<<<<<<<<<
- *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
- * 
-*/
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 85, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      ((__pyx_v_state.waypoints[__pyx_v_i])[1]) = __pyx_t_3;
-
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":86
- *             state.waypoints[i][0] = waypoints_list[i][0]  # east
- *             state.waypoints[i][1] = waypoints_list[i][1]  # north
- *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude             # <<<<<<<<<<<<<<
- * 
- *         # Handle waypoint radius
-*/
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      ((__pyx_v_state.waypoints[__pyx_v_i])[2]) = __pyx_t_3;
-    }
-
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":89
- * 
- *         # Handle waypoint radius
- *         state.waypoint_radius = getattr(state_dict, 'waypoint_radius', 50.0)             # <<<<<<<<<<<<<<
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":63
+ *     state.world_bounds_n_min = state_dict['world_bounds_n_min']
+ *     state.world_bounds_n_max = state_dict['world_bounds_n_max']
+ *     state.world_bounds_alt_max = state_dict['world_bounds_alt_max']             # <<<<<<<<<<<<<<
  * 
  *     raylib_renderer_render(&state)
 */
-    __pyx_t_5 = __Pyx_GetAttr3(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_waypoint_radius, __pyx_mstate_global->__pyx_float_50_0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 89, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_state.waypoint_radius = __pyx_t_3;
-  }
-  __pyx_L3:;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_world_bounds_alt_max); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_state.world_bounds_alt_max = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":91
- *         state.waypoint_radius = getattr(state_dict, 'waypoint_radius', 50.0)
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":65
+ *     state.world_bounds_alt_max = state_dict['world_bounds_alt_max']
  * 
  *     raylib_renderer_render(&state)             # <<<<<<<<<<<<<<
  * 
@@ -3129,31 +2834,30 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
 */
   raylib_renderer_render((&__pyx_v_state));
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":29
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":33
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
- *     """Render a single frame of the simulation.
- * 
+ *     """Render a single frame of the simulation."""
+ *     cdef RenderState state
 */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("code.aerobench.visualize.raylib_renderer_cy.render", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_waypoints_list);
+  __Pyx_XDECREF(__pyx_v_waypoint);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":93
+/* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
@@ -3183,7 +2887,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("close", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":95
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":69
  * def close():
  *     """Close the renderer window."""
  *     raylib_renderer_close()             # <<<<<<<<<<<<<<
@@ -3192,7 +2896,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
 */
   raylib_renderer_close();
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":93
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
@@ -3207,7 +2911,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
+/* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
  *     raylib_renderer_close()
  * 
  * def clear_trail():             # <<<<<<<<<<<<<<
@@ -3237,7 +2941,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clea
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("clear_trail", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":99
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":73
  * def clear_trail():
  *     """Clear trail/ribbon only (for episode boundaries without full reset)."""
  *     raylib_renderer_clear_trail()             # <<<<<<<<<<<<<<
@@ -3246,7 +2950,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clea
 */
   raylib_renderer_clear_trail();
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
  *     raylib_renderer_close()
  * 
  * def clear_trail():             # <<<<<<<<<<<<<<
@@ -3261,7 +2965,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clea
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
+/* "code/aerobench/visualize/raylib_renderer_cy.pyx":75
  *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
@@ -3295,19 +2999,19 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6wind
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("window_should_close", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":103
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":77
  * def window_should_close():
  *     """Check if window should close."""
  *     return raylib_renderer_should_close()             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(raylib_renderer_should_close()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(raylib_renderer_should_close()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":75
  *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
@@ -3674,64 +3378,64 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   (void)__Pyx_modinit_function_import_code(__pyx_mstate);
   /*--- Execution code ---*/
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":29
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":33
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
- *     """Render a single frame of the simulation.
- * 
+ *     """Render a single frame of the simulation."""
+ *     cdef RenderState state
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_1render, 0, __pyx_mstate_global->__pyx_n_u_render, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_1render, 0, __pyx_mstate_global->__pyx_n_u_render, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_render, __pyx_t_2) < (0)) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_render, __pyx_t_2) < (0)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":93
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
  *     """Close the renderer window."""
  *     raylib_renderer_close()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_3close, 0, __pyx_mstate_global->__pyx_n_u_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_3close, 0, __pyx_mstate_global->__pyx_n_u_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_close, __pyx_t_2) < (0)) __PYX_ERR(0, 93, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_close, __pyx_t_2) < (0)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
  *     raylib_renderer_close()
  * 
  * def clear_trail():             # <<<<<<<<<<<<<<
  *     """Clear trail/ribbon only (for episode boundaries without full reset)."""
  *     raylib_renderer_clear_trail()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail, 0, __pyx_mstate_global->__pyx_n_u_clear_trail, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail, 0, __pyx_mstate_global->__pyx_n_u_clear_trail, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_clear_trail, __pyx_t_2) < (0)) __PYX_ERR(0, 97, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_clear_trail, __pyx_t_2) < (0)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":75
  *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
  *     """Check if window should close."""
  *     return raylib_renderer_should_close()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close, 0, __pyx_mstate_global->__pyx_n_u_window_should_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close, 0, __pyx_mstate_global->__pyx_n_u_window_should_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_window_should_close, __pyx_t_2) < (0)) __PYX_ERR(0, 101, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_window_should_close, __pyx_t_2) < (0)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "code/aerobench/visualize/raylib_renderer_cy.pyx":1
@@ -3797,14 +3501,14 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":65
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":56
+ *     state.waypoint_n = waypoint[1]
+ *     state.waypoint_alt = waypoint[2]
+ *     state.waypoint_radius = state_dict.get('waypoint_radius', 500.0)             # <<<<<<<<<<<<<<
  * 
- *         # Handle waypoint radius
- *         state.waypoint_radius = state_dict.get('waypoint_radius', 50.0)             # <<<<<<<<<<<<<<
- *     else:
- *         state.time_sec = state_dict.time_sec
+ *     # World bounds
 */
-  __pyx_mstate_global->__pyx_tuple[0] = PyTuple_Pack(2, __pyx_mstate_global->__pyx_n_u_waypoint_radius, __pyx_mstate_global->__pyx_float_50_0); if (unlikely(!__pyx_mstate_global->__pyx_tuple[0])) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_mstate_global->__pyx_tuple[0] = PyTuple_Pack(2, __pyx_mstate_global->__pyx_n_u_waypoint_radius, __pyx_mstate_global->__pyx_float_500_0); if (unlikely(!__pyx_mstate_global->__pyx_tuple[0])) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_mstate_global->__pyx_tuple[0]);
   __Pyx_GIVEREF(__pyx_mstate_global->__pyx_tuple[0]);
   #if CYTHON_IMMORTAL_CONSTANTS
@@ -3830,31 +3534,31 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 10; } index[] = {{1},{47},{20},{9},{18},{8},{11},{18},{5},{43},{8},{3},{1},{13},{5},{8},{10},{8},{4},{7},{3},{11},{8},{7},{12},{6},{12},{10},{9},{5},{10},{8},{9},{8},{6},{15},{9},{14},{19},{7},{7},{10},{554}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (621 bytes) */
-const char* const cstring = "BZh91AY&SY\t\241\335^\000\000l\377\377\347\377\"\265\355\225\264\204\266\201p~\277\377\377\360@@@@@@@@@\000@@@\000@\000@\002\034;qW.\031(\032\t\264\243\301O(\310\3654\000\000\000\000\000\003M\032zj\r\010\t\225<(\3654\362\21544\000\000\014\200\000\000\000\000j\247\2315\023$\030\0021\0314a20\232\r4\311\246\t\220a2z\214\t$\215 \236\223i\000\000\000h\001\246\200\000\320\003FLM\224\250\360\254[W\006o\300\224'L\017\231\001\013\010\215\341x\0376\014B\220\204\276\360\200\004\3460\211\330\242\2778b\n\024\242\035\010\241@\365\0069\003\020\022$\304\2638\216\221\223<TlY\276\357i\316\035\022T\0026C\t\356\2525w\271F2\0343\013~\214\305l\330\222c\000N'\260\314\353\261\nA\204\017\210\206W&b\335G~\036/\245<\247\340\214\301\223M\215\307\251\243m@\21382Y\350\010\261\271\305\207\035\344p-\324'\237\031\214\030M\373\037+\206\000\333\241f\201l\032\023\034\031C\365\t\341\235\n.\272\350w\311*\210Z\203\334\244(\212bMZ\030\\p\214\337Q=\310\2533\210\376\372\301\362a\212\311f\014L\030\301f\016\264\237\236\211(\244\204\342x\033\020\337@\362\236v\234\226\232\261`\242\214^(\226\362\013\030\200>\272B[\007\t\211\001\254\324d\315\210\244\306\2505\315\022\0314\211gP\200\246R\3222\036\014J\340\213\021\271\355\026\225\024\212\313\267\025Y\310\202\351\272\031\324\230\321\003\244\246k\354\226\001(\252\247P\3064\214\324\213R\226(i#+\216V\010sm\230@l|\020\325b@\311\233\016\320\217\033\031\211\350\035y\241pL\n\344\225\273F:Dj\373HC\210Y\2325\216\031\036\350b\275s\210\005V\321\022W\016\362\350H\177\007\227u\364\231\232Q|\270V\365F\025\341~\331\224\214_S\031\026\207\021\237*\310c\024\302\026f\013\252\233\014\314H/\322\302\273{\302!j\240\340\277\373^\000\243\336N)?\300\347\330\016\021UV^\260((U\034\"\233\210\213A\020\032\332`46(\221D\262 \200 E0\2020\367\213\271\"\234(H\004\320\356\257\000";
-    PyObject *data = __Pyx_DecompressString(cstring, 621, 2);
+    const struct { const unsigned int length: 9; } index[] = {{1},{47},{20},{9},{18},{8},{11},{18},{5},{43},{8},{3},{13},{5},{8},{10},{8},{4},{7},{3},{11},{8},{7},{12},{6},{12},{10},{9},{5},{10},{8},{9},{8},{6},{8},{15},{19},{20},{18},{18},{18},{18},{281},{7},{7},{10}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (540 bytes) */
+const char* const cstring = "BZh91AY&SY\374E\036\201\000\000F\377\373\3479`\177\240\231\240\001\244\021P\021\277\377\377\360@@@@@@\000@@@@\000@\000@\001\334al\230JJ\236\3254\361F\303E<\241\210\315!\221\221\221\210\311\223\003\nz\203D\322i\2024\223bj144\000\000\000h\r\036\220\346\004\304\320a2d\311\221\204\3014\323#\023\000C\000\224\324\322dS\312\031\r\000\000\000\000\000\0322<\222T\033\346&l,\225\254\301pM\262\031\031\253f\010X;\322\366\220\270\023Z\350\242\362\272\210\215\024\304`\024)B\210\006t\312\273\276-\207\232\025E-\301\205\331\322%P\370\033\023\203\216=\260d\217\272\347\351\215\375\2265Q\030\214\242F\003\316\222\352&\346\245\231\260\"\307\302{\005\242\227\240N\241{\324\035\n\336\024\323\"\354\355V\237\342\372}\360*h\210cI\302\221h\273V\020\374\202\311\020\246\303#\225\367\314\335\n\266\001h\0338$Q@a\2011j3 k\334\216\301\233\253'5\301\027\216\241\035Z`\347\344\027\022\314\030\250M0\307|\033\262\241\246\201\200\204\204\236l\023\324?%)\315\331X\261h\254E\031\230SD\0343\223u\355c\000\373\242\274\310C\253\0014\240tX\367\242B5\274\344T\232N\302\032(tt\2021jb\013\035\032\216D\033!e\211_\026\334=}\023\\\270\311\221&Q\"v9\316\204y\332\2050\201\003\0061S\210\300\224\3230\214\321NDX\224\341WGv\340\311\254<\306\020\033\032\365\035\017\013\255a\316p\336I9\355B\0161\034\032\311\202\002U\nN\320\221,\247M*hmCQ\270\361\216P\216\2156=\204\320\244M:\277\r\207\350mM\302\362+wW\016i\347\024\344\005$\365\027E\026\206\202\264\224H\250G\237v\246\007\242\302\262&'\363\365\332-\240\374\314\276h\331}@x<P\230DUH\377\027rE8P\220\374E\036\201";
+    PyObject *data = __Pyx_DecompressString(cstring, 540, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (528 bytes) */
-const char* const cstring = "x\332\275P\277o\0231\024n\244\002\245M\2202 D\204\200\023\010$\204\022\005UbABW\201\330\252\206\211_\325\223\343s\032S\307\276;\373\232^\246\216\035o\364\350\361\306\033\031\373'\334\2301\177B\377\004\354K{\244-\013\013\036\236\277\367\276\367\353{\357\261\010H\017\221X\014\t\307\343\336\021\225\tbtFz1J\031\035BLx@b\022\003N\273az\014\260g\315^\372\201b\005\273\344X}&#\304\3021\202\030\005H\246\034S\321\305\"\026\211\242\234\310!Q\025\203\031A1\250\030Q\206\231%\200r\347a2D\370\0203!\211\333\243[\357\321\255\367\350\336\334\003`\224p\014p@\024\005*\241\036G\025\231H\200\t\262\335\355\233\210 a\304!\216&\366\34738\010\307\324\355\023\2120\024\222**8\214T(]\014d(+\022 \262\263\2275\313\261\000\222\250\213.\026\005Vs\302\224\014\t\t`\024J\251\220\"\225\201\300\335\005\234g\355\370B\275\242\266\320J<B,!r\212\322PP\256\034C\223\332\375\003\200Q\251\246\224\007b\nr,\022\026@u\242\223\306b\375\241n\273\357\211\216\334\267Un\2754\026\235w\326nm\234\314\262v\366Z\243\371F\353\364\207\356\230\276\361\035\334\327\257\214o\006\327\340J\302w\275i<\323\277\226\260\022\375\232\3754\r\3638\217\212\306_\334e\247\335\302+\252\344/\3317\035\231\025\306?\277\275v\267c\341\266\211\362V\341\232\227-\317\264\31533(_\274-\242\371F\363\364cv?CY\242\375y\263\235ut_\357h\244\223\252\353\233bP\240\177\013\273\211\367\312\326S\263\231?\317Q\331\3339\363\026\227\373\3242\257\200\232\252d_\241\352\210\323\335\314\375|p\303q\325\357.\357Q\035\240\356\271\024\377\300\036\354Q\276\377\313\373\237\342\357\330{7\313\355Og\321b\275\243=\233\351\377\006\344\033\221\010";
-    PyObject *data = __Pyx_DecompressString(cstring, 528, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (463 bytes) */
+const char* const cstring = "x\332\215P\275n\3330\020\216\000\247\200\035\240\250\266\330M\033x*\320\0022\362\002-\002t\312P\004\035;\364@\221\347\210-MR\"\025[\2362z\324\310Q\243\036\241\217\341\261c\036!\217PRj\\\347g(\007\336w\337}\307\373\216\237\250b8#X\250\024%\315f\327\334\224D\3605\316\nR\t\236B\201\222a\201\005\320*\321\325\n\340\322_\227\325gN-|\301\225\375\212s\"tF\240 \214\230JR\256\022\252\nUZ.\321\244h\273\n\025H\n\260\005\341\202\n_\000.CF1%\364'\025\312`\360\221\354|$;\037\311S\037\000\363RR\200+\264\300\r\354\246q\213\013\003\260 \376q\177\026\212\225\002\003\222d\341\243\\\303\225\316x\260\243\225\326\312p\313\225\204\271\325&p`\264\351\212\000\271\037\335\367\364S\001\214\037\3253\0361\277r)\254\321\210\014\346\332\030K,v\027\260\360-\0202\177g\177\227\267\3347\372\r\257\211(\321,I\245\025\227\366>\006\005/\315\222K\246\226`2U\n\006\335\227,U\341a\252J\311\014\020a\375f\253\007\034>\307p\371\200\221O42hn\242\273\321\301\341hsR\177sy\023\375\036\0147o\352\037M\324\304\217\340\236\340u}\341\210\313\037\t\366\330q\375\336\235\273\357\355Y{\376L\332\277\364\262%m'>\256'\356\314\355U\242\273\027\007\207\2576k\027\273i`\337\326\253\373\311\377\340v8v\307M\334L;|\342.\032\326N\267\037>\376\"\241{\264\035\236\272u\033\267}\371\177\360\264\231\004\203\267\203\211\233\006?7\321\355`\354\342\020N]\036\302\321\366\350]\223\377\001E\334=\241";
+    PyObject *data = __Pyx_DecompressString(cstring, 463, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (1006 bytes) */
-const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx_PyDict_NextRefalpha_radasyncio.coroutinesbeta_radclear_trailcline_in_tracebackclosecode.aerobench.visualize.raylib_renderer_cy__func__geti_is_coroutineitems__main____module____name__nz_gphi_radpopposition_ftps_rad_spsi_rad__qualname__render__set_name__setdefaultspeed_fpsstatestate_dict__test__theta_radtime_secvalueswaypoint_radiuswaypointswaypoints_listwindow_should_close\200\001\340\004\031\230\021\200\001\340\004\037\230q\200\001\340\004\013\320\013'\240q\200\001\360\032\000\005\010\200z\220\021\220,\230a\330\010\r\210\\\230\032\2401\240A\330\010\r\210]\230*\240A\240Q\330\010\r\210]\230*\240A\240Q\330\010\r\210\\\230\032\2401\240A\330\010\r\210[\230\n\240!\2401\330\010\r\210]\230*\240A\240Q\330\010\r\210[\230\n\240!\2401\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210\\\230\032\2401\240N\260!\2601\330\010\r\210X\220Z\230q\240\001\330\010\r\210\\\230\032\2401\240A\360\006\000\t\032\230\032\2404\240q\250\r\260Q\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\360\006\000\t\016\320\r \240\n\250$\250a\320/B\300!\340\010\r\210\\\230\032\2401\330\010\r\210]\230*\240A\330\010\r\210]\230*\240A\330\010\r\210\\\230\032\2401\330\010\r\210[\230\n\240!\330\010\r\210]\230*\240A\330\010\r\210[\230\n\240!\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210\\\230\032\240<\250q\260\001\330\010\r\210X\220Z\230q\330\010\r\210\\\230\032\2401\360\006\000\t\032\230\027\240\001\240\034\250]\270!\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a""\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\360\006\000\t\016\320\r \240\007\240q\250\014\3204G\300q\340\004\032\230!\2301\230A";
+    #else /* compression: none (809 bytes) */
+const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx_PyDict_NextRefalpha_radasyncio.coroutinesbeta_radclear_trailcline_in_tracebackclosecode.aerobench.visualize.raylib_renderer_cy__func__get_is_coroutineitems__main____module____name__nz_gphi_radpopposition_ftps_rad_spsi_rad__qualname__render__set_name__setdefaultspeed_fpsstatestate_dict__test__theta_radtime_secvalueswaypointwaypoint_radiuswindow_should_closeworld_bounds_alt_maxworld_bounds_e_maxworld_bounds_e_minworld_bounds_n_maxworld_bounds_n_min\200\001\360\n\000\005\n\210\034\220Z\230q\240\001\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\034\220Z\230q\240\001\330\004\t\210\033\220J\230a\230q\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\033\220J\230a\230q\330\004\t\210\031\220*\230A\230^\2501\250A\330\004\t\210\031\220*\230A\230^\2501\250A\330\004\t\210\034\220Z\230q\240\016\250a\250q\330\004\t\210\030\220\032\2301\230A\330\004\t\210\034\220Z\230q\240\001\360\006\000\005\020\210z\230\021\230!\330\004\t\210\036\220x\230q\240\001\330\004\t\210\036\220x\230q\240\001\330\004\t\320\t\031\230\030\240\021\240!\330\004\t\320\t\034\230J\240d\250!\320+>\270a\360\006\000\005\n\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t!\240\032\2501\250A\340\004\032\230!\2301\230A\200\001\340\004\031\230\021\200\001\340\004\037\230q\200\001\340\004\013\320\013'\240q";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
     PyObject **stringtab = __pyx_mstate->__pyx_string_tab;
     Py_ssize_t pos = 0;
-    for (int i = 0; i < 39; i++) {
+    for (int i = 0; i < 42; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyUnicode_DecodeUTF8(bytes + pos, bytes_length, NULL);
       if (likely(string) && i >= 2) PyUnicode_InternInPlace(&string);
@@ -3865,7 +3569,7 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 39; i < 43; i++) {
+    for (int i = 42; i < 46; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -3876,14 +3580,14 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 43; i++) {
+    for (Py_ssize_t i = 0; i < 46; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
     }
     #if CYTHON_IMMORTAL_CONSTANTS
     {
-      PyObject **table = stringtab + 39;
+      PyObject **table = stringtab + 42;
       for (Py_ssize_t i=0; i<4; ++i) {
         #if CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
         Py_SET_REFCNT(table[i], _Py_IMMORTAL_REFCNT_LOCAL);
@@ -3896,7 +3600,7 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
   }
   {
     PyObject **numbertab = __pyx_mstate->__pyx_number_tab;
-    double const c_constants[] = {50.0};
+    double const c_constants[] = {500.0};
     for (int i = 0; i < 1; i++) {
       numbertab[i] = PyFloat_FromDouble(c_constants[i]);
       if (unlikely(!numbertab[i])) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -3923,7 +3627,7 @@ typedef struct {
     unsigned int argcount : 1;
     unsigned int num_posonly_args : 1;
     unsigned int num_kwonly_args : 1;
-    unsigned int nlocals : 3;
+    unsigned int nlocals : 2;
     unsigned int flags : 10;
     unsigned int first_line : 7;
 } __Pyx_PyCode_New_function_description;
@@ -3942,22 +3646,22 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 4, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 29};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_state_dict, __pyx_mstate->__pyx_n_u_state, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_waypoints_list};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_render, __pyx_mstate->__pyx_kp_b_iso88591_z_a_1A_AQ_AQ_1A_1_AQ_1_Yj_q_Yj, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 3, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 33};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_state_dict, __pyx_mstate->__pyx_n_u_state, __pyx_mstate->__pyx_n_u_waypoint};
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_render, __pyx_mstate->__pyx_kp_b_iso88591_Zq_j_j_Zq_Jaq_j_Jaq_A_1A_A_1A_Z, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 93};
+    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 67};
     PyObject* const varnames[] = {0};
     __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_close, __pyx_mstate->__pyx_kp_b_iso88591__2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 97};
+    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 71};
     PyObject* const varnames[] = {0};
     __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_clear_trail, __pyx_mstate->__pyx_kp_b_iso88591_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 101};
+    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 75};
     PyObject* const varnames[] = {0};
     __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_window_should_close, __pyx_mstate->__pyx_kp_b_iso88591_q_2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
   }
@@ -5197,151 +4901,6 @@ static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, 
     (void)wraparound;
     (void)boundscheck;
     return __Pyx_GetItemInt_Generic(o, PyLong_FromSsize_t(i));
-}
-
-/* PyObjectFastCallMethod */
-#if !CYTHON_VECTORCALL || PY_VERSION_HEX < 0x03090000
-static PyObject *__Pyx_PyObject_FastCallMethod(PyObject *name, PyObject *const *args, size_t nargsf) {
-    PyObject *result;
-    PyObject *attr = PyObject_GetAttr(args[0], name);
-    if (unlikely(!attr))
-        return NULL;
-    result = __Pyx_PyObject_FastCall(attr, args+1, nargsf - 1);
-    Py_DECREF(attr);
-    return result;
-}
-#endif
-
-/* PyErrExceptionMatches */
-#if CYTHON_FAST_THREAD_STATE
-static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
-    Py_ssize_t i, n;
-    n = PyTuple_GET_SIZE(tuple);
-    for (i=0; i<n; i++) {
-        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
-    }
-    for (i=0; i<n; i++) {
-        if (__Pyx_PyErr_GivenExceptionMatches(exc_type, PyTuple_GET_ITEM(tuple, i))) return 1;
-    }
-    return 0;
-}
-static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
-    int result;
-    PyObject *exc_type;
-#if PY_VERSION_HEX >= 0x030C00A6
-    PyObject *current_exception = tstate->current_exception;
-    if (unlikely(!current_exception)) return 0;
-    exc_type = (PyObject*) Py_TYPE(current_exception);
-    if (exc_type == err) return 1;
-#else
-    exc_type = tstate->curexc_type;
-    if (exc_type == err) return 1;
-    if (unlikely(!exc_type)) return 0;
-#endif
-    #if CYTHON_AVOID_BORROWED_REFS
-    Py_INCREF(exc_type);
-    #endif
-    if (unlikely(PyTuple_Check(err))) {
-        result = __Pyx_PyErr_ExceptionMatchesTuple(exc_type, err);
-    } else {
-        result = __Pyx_PyErr_GivenExceptionMatches(exc_type, err);
-    }
-    #if CYTHON_AVOID_BORROWED_REFS
-    Py_DECREF(exc_type);
-    #endif
-    return result;
-}
-#endif
-
-/* PyErrFetchRestore */
-#if CYTHON_FAST_THREAD_STATE
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
-#if PY_VERSION_HEX >= 0x030C00A6
-    PyObject *tmp_value;
-    assert(type == NULL || (value != NULL && type == (PyObject*) Py_TYPE(value)));
-    if (value) {
-        #if CYTHON_COMPILING_IN_CPYTHON
-        if (unlikely(((PyBaseExceptionObject*) value)->traceback != tb))
-        #endif
-            PyException_SetTraceback(value, tb);
-    }
-    tmp_value = tstate->current_exception;
-    tstate->current_exception = value;
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(type);
-    Py_XDECREF(tb);
-#else
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-#endif
-}
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
-#if PY_VERSION_HEX >= 0x030C00A6
-    PyObject* exc_value;
-    exc_value = tstate->current_exception;
-    tstate->current_exception = 0;
-    *value = exc_value;
-    *type = NULL;
-    *tb = NULL;
-    if (exc_value) {
-        *type = (PyObject*) Py_TYPE(exc_value);
-        Py_INCREF(*type);
-        #if CYTHON_COMPILING_IN_CPYTHON
-        *tb = ((PyBaseExceptionObject*) exc_value)->traceback;
-        Py_XINCREF(*tb);
-        #else
-        *tb = PyException_GetTraceback(exc_value);
-        #endif
-    }
-#else
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-#endif
-}
-#endif
-
-/* GetAttr3 */
-#if __PYX_LIMITED_VERSION_HEX < 0x030d0000
-static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
-        return NULL;
-    __Pyx_PyErr_Clear();
-    Py_INCREF(d);
-    return d;
-}
-#endif
-static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
-    PyObject *r;
-#if __PYX_LIMITED_VERSION_HEX >= 0x030d0000
-    int res = PyObject_GetOptionalAttr(o, n, &r);
-    return (res != 0) ? r : __Pyx_NewRef(d);
-#else
-  #if CYTHON_USE_TYPE_SLOTS
-    if (likely(PyUnicode_Check(n))) {
-        r = __Pyx_PyObject_GetAttrStrNoError(o, n);
-        if (unlikely(!r) && likely(!PyErr_Occurred())) {
-            r = __Pyx_NewRef(d);
-        }
-        return r;
-    }
-  #endif
-    r = PyObject_GetAttr(o, n);
-    return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
-#endif
 }
 
 /* dict_setdefault */
@@ -6909,6 +6468,106 @@ static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UIN
 }
 #endif
 
+/* PyErrExceptionMatches */
+#if CYTHON_FAST_THREAD_STATE
+static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
+    Py_ssize_t i, n;
+    n = PyTuple_GET_SIZE(tuple);
+    for (i=0; i<n; i++) {
+        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
+    }
+    for (i=0; i<n; i++) {
+        if (__Pyx_PyErr_GivenExceptionMatches(exc_type, PyTuple_GET_ITEM(tuple, i))) return 1;
+    }
+    return 0;
+}
+static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
+    int result;
+    PyObject *exc_type;
+#if PY_VERSION_HEX >= 0x030C00A6
+    PyObject *current_exception = tstate->current_exception;
+    if (unlikely(!current_exception)) return 0;
+    exc_type = (PyObject*) Py_TYPE(current_exception);
+    if (exc_type == err) return 1;
+#else
+    exc_type = tstate->curexc_type;
+    if (exc_type == err) return 1;
+    if (unlikely(!exc_type)) return 0;
+#endif
+    #if CYTHON_AVOID_BORROWED_REFS
+    Py_INCREF(exc_type);
+    #endif
+    if (unlikely(PyTuple_Check(err))) {
+        result = __Pyx_PyErr_ExceptionMatchesTuple(exc_type, err);
+    } else {
+        result = __Pyx_PyErr_GivenExceptionMatches(exc_type, err);
+    }
+    #if CYTHON_AVOID_BORROWED_REFS
+    Py_DECREF(exc_type);
+    #endif
+    return result;
+}
+#endif
+
+/* PyErrFetchRestore */
+#if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+#if PY_VERSION_HEX >= 0x030C00A6
+    PyObject *tmp_value;
+    assert(type == NULL || (value != NULL && type == (PyObject*) Py_TYPE(value)));
+    if (value) {
+        #if CYTHON_COMPILING_IN_CPYTHON
+        if (unlikely(((PyBaseExceptionObject*) value)->traceback != tb))
+        #endif
+            PyException_SetTraceback(value, tb);
+    }
+    tmp_value = tstate->current_exception;
+    tstate->current_exception = value;
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(type);
+    Py_XDECREF(tb);
+#else
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+#endif
+}
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+#if PY_VERSION_HEX >= 0x030C00A6
+    PyObject* exc_value;
+    exc_value = tstate->current_exception;
+    tstate->current_exception = 0;
+    *value = exc_value;
+    *type = NULL;
+    *tb = NULL;
+    if (exc_value) {
+        *type = (PyObject*) Py_TYPE(exc_value);
+        Py_INCREF(*type);
+        #if CYTHON_COMPILING_IN_CPYTHON
+        *tb = ((PyBaseExceptionObject*) exc_value)->traceback;
+        Py_XINCREF(*tb);
+        #else
+        *tb = PyException_GetTraceback(exc_value);
+        #endif
+    }
+#else
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+#endif
+}
+#endif
+
 /* PyObjectGetAttrStrNoError */
 #if __PYX_LIMITED_VERSION_HEX < 0x030d0000
 static void __Pyx_PyObject_GetAttrStr_ClearAttributeError(void) {
@@ -7232,28 +6891,6 @@ bad:
 }
 #endif
 
-/* CIntFromPyVerify */
-#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
-#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
-#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
-    {\
-        func_type value = func_value;\
-        if (sizeof(target_type) < sizeof(func_type)) {\
-            if (unlikely(value != (func_type) (target_type) value)) {\
-                func_type zero = 0;\
-                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
-                    return (target_type) -1;\
-                if (is_unsigned && unlikely(value < zero))\
-                    goto raise_neg_overflow;\
-                else\
-                    goto raise_overflow;\
-            }\
-        }\
-        return (target_type) value;\
-    }
-
 /* PyObjectVectorCallKwBuilder */
 #if CYTHON_VECTORCALL
 static int __Pyx_VectorcallBuilder_AddArg(PyObject *key, PyObject *value, PyObject *builder, PyObject **args, int n) {
@@ -7355,73 +6992,315 @@ static CYTHON_INLINE PyObject* __Pyx_PyLong_From_long(long value) {
     }
 }
 
-/* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyLong_From_int(int value) {
+/* FormatTypeName */
+#if CYTHON_COMPILING_IN_LIMITED_API && __PYX_LIMITED_VERSION_HEX < 0x030d0000
+static __Pyx_TypeName
+__Pyx_PyType_GetFullyQualifiedName(PyTypeObject* tp)
+{
+    PyObject *module = NULL, *name = NULL, *result = NULL;
+    #if __PYX_LIMITED_VERSION_HEX < 0x030b0000
+    name = __Pyx_PyObject_GetAttrStr((PyObject *)tp,
+                                               __pyx_mstate_global->__pyx_n_u_qualname);
+    #else
+    name = PyType_GetQualName(tp);
+    #endif
+    if (unlikely(name == NULL) || unlikely(!PyUnicode_Check(name))) goto bad;
+    module = __Pyx_PyObject_GetAttrStr((PyObject *)tp,
+                                               __pyx_mstate_global->__pyx_n_u_module);
+    if (unlikely(module == NULL) || unlikely(!PyUnicode_Check(module))) goto bad;
+    if (PyUnicode_CompareWithASCIIString(module, "builtins") == 0) {
+        result = name;
+        name = NULL;
+        goto done;
+    }
+    result = PyUnicode_FromFormat("%U.%U", module, name);
+    if (unlikely(result == NULL)) goto bad;
+  done:
+    Py_XDECREF(name);
+    Py_XDECREF(module);
+    return result;
+  bad:
+    PyErr_Clear();
+    if (name) {
+        result = name;
+        name = NULL;
+    } else {
+        result = __Pyx_NewRef(__pyx_mstate_global->__pyx_kp_u_);
+    }
+    goto done;
+}
+#endif
+
+/* CIntFromPyVerify */
+#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
+#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
+#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
+    {\
+        func_type value = func_value;\
+        if (sizeof(target_type) < sizeof(func_type)) {\
+            if (unlikely(value != (func_type) (target_type) value)) {\
+                func_type zero = 0;\
+                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
+                    return (target_type) -1;\
+                if (is_unsigned && unlikely(value < zero))\
+                    goto raise_neg_overflow;\
+                else\
+                    goto raise_overflow;\
+            }\
+        }\
+        return (target_type) value;\
+    }
+
+/* CIntFromPy */
+static CYTHON_INLINE long __Pyx_PyLong_As_long(PyObject *x) {
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"
 #endif
-    const int neg_one = (int) -1, const_zero = (int) 0;
+    const long neg_one = (long) -1, const_zero = (long) 0;
 #ifdef __Pyx_HAS_GCC_DIAGNOSTIC
 #pragma GCC diagnostic pop
 #endif
     const int is_unsigned = neg_one > const_zero;
+    if (unlikely(!PyLong_Check(x))) {
+        long val;
+        PyObject *tmp = __Pyx_PyNumber_Long(x);
+        if (!tmp) return (long) -1;
+        val = __Pyx_PyLong_As_long(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
     if (is_unsigned) {
-        if (sizeof(int) < sizeof(long)) {
-            return PyLong_FromLong((long) value);
-        } else if (sizeof(int) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#if !CYTHON_COMPILING_IN_PYPY
-        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#if CYTHON_USE_PYLONG_INTERNALS
+        if (unlikely(__Pyx_PyLong_IsNeg(x))) {
+            goto raise_neg_overflow;
+        } else if (__Pyx_PyLong_IsCompact(x)) {
+            __PYX_VERIFY_RETURN_INT(long, __Pyx_compact_upylong, __Pyx_PyLong_CompactValueUnsigned(x))
+        } else {
+            const digit* digits = __Pyx_PyLong_Digits(x);
+            assert(__Pyx_PyLong_DigitCount(x) > 1);
+            switch (__Pyx_PyLong_DigitCount(x)) {
+                case 2:
+                    if ((8 * sizeof(long) > 1 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) >= 2 * PyLong_SHIFT)) {
+                            return (long) (((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if ((8 * sizeof(long) > 2 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) >= 3 * PyLong_SHIFT)) {
+                            return (long) (((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if ((8 * sizeof(long) > 3 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) >= 4 * PyLong_SHIFT)) {
+                            return (long) (((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
+                        }
+                    }
+                    break;
+            }
+        }
 #endif
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX < 0x030C00A7
+        if (unlikely(Py_SIZE(x) < 0)) {
+            goto raise_neg_overflow;
+        }
+#else
+        {
+            int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+            if (unlikely(result < 0))
+                return (long) -1;
+            if (unlikely(result == 1))
+                goto raise_neg_overflow;
+        }
+#endif
+        if ((sizeof(long) <= sizeof(unsigned long))) {
+            __PYX_VERIFY_RETURN_INT_EXC(long, unsigned long, PyLong_AsUnsignedLong(x))
+        } else if ((sizeof(long) <= sizeof(unsigned PY_LONG_LONG))) {
+            __PYX_VERIFY_RETURN_INT_EXC(long, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
         }
     } else {
-        if (sizeof(int) <= sizeof(long)) {
-            return PyLong_FromLong((long) value);
-        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#if CYTHON_USE_PYLONG_INTERNALS
+        if (__Pyx_PyLong_IsCompact(x)) {
+            __PYX_VERIFY_RETURN_INT(long, __Pyx_compact_pylong, __Pyx_PyLong_CompactValue(x))
+        } else {
+            const digit* digits = __Pyx_PyLong_Digits(x);
+            assert(__Pyx_PyLong_DigitCount(x) > 1);
+            switch (__Pyx_PyLong_SignedDigitCount(x)) {
+                case -2:
+                    if ((8 * sizeof(long) - 1 > 1 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) - 1 > 2 * PyLong_SHIFT)) {
+                            return (long) (((long)-1)*(((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if ((8 * sizeof(long) > 1 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) - 1 > 2 * PyLong_SHIFT)) {
+                            return (long) ((((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if ((8 * sizeof(long) - 1 > 2 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) - 1 > 3 * PyLong_SHIFT)) {
+                            return (long) (((long)-1)*(((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if ((8 * sizeof(long) > 2 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) - 1 > 3 * PyLong_SHIFT)) {
+                            return (long) ((((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if ((8 * sizeof(long) - 1 > 3 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) - 1 > 4 * PyLong_SHIFT)) {
+                            return (long) (((long)-1)*(((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if ((8 * sizeof(long) > 3 * PyLong_SHIFT)) {
+                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
+                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if ((8 * sizeof(long) - 1 > 4 * PyLong_SHIFT)) {
+                            return (long) ((((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
+                        }
+                    }
+                    break;
+            }
+        }
+#endif
+        if ((sizeof(long) <= sizeof(long))) {
+            __PYX_VERIFY_RETURN_INT_EXC(long, long, PyLong_AsLong(x))
+        } else if ((sizeof(long) <= sizeof(PY_LONG_LONG))) {
+            __PYX_VERIFY_RETURN_INT_EXC(long, PY_LONG_LONG, PyLong_AsLongLong(x))
         }
     }
     {
-        unsigned char *bytes = (unsigned char *)&value;
-#if !CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX >= 0x030d00A4
-        if (is_unsigned) {
-            return PyLong_FromUnsignedNativeBytes(bytes, sizeof(value), -1);
+        long val;
+        int ret = -1;
+#if PY_VERSION_HEX >= 0x030d00A6 && !CYTHON_COMPILING_IN_LIMITED_API
+        Py_ssize_t bytes_copied = PyLong_AsNativeBytes(
+            x, &val, sizeof(val), Py_ASNATIVEBYTES_NATIVE_ENDIAN | (is_unsigned ? Py_ASNATIVEBYTES_UNSIGNED_BUFFER | Py_ASNATIVEBYTES_REJECT_NEGATIVE : 0));
+        if (unlikely(bytes_copied == -1)) {
+        } else if (unlikely(bytes_copied > (Py_ssize_t) sizeof(val))) {
+            goto raise_overflow;
         } else {
-            return PyLong_FromNativeBytes(bytes, sizeof(value), -1);
+            ret = 0;
         }
-#elif !CYTHON_COMPILING_IN_LIMITED_API && PY_VERSION_HEX < 0x030d0000
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        return _PyLong_FromByteArray(bytes, sizeof(int),
-                                     little, !is_unsigned);
+#elif PY_VERSION_HEX < 0x030d0000 && !(CYTHON_COMPILING_IN_PYPY || CYTHON_COMPILING_IN_LIMITED_API) || defined(_PyLong_AsByteArray)
+        int one = 1; int is_little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&val;
+        ret = _PyLong_AsByteArray((PyLongObject *)x,
+                                    bytes, sizeof(val),
+                                    is_little, !is_unsigned);
 #else
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        PyObject *from_bytes, *result = NULL, *kwds = NULL;
-        PyObject *py_bytes = NULL, *order_str = NULL;
-        from_bytes = PyObject_GetAttrString((PyObject*)&PyLong_Type, "from_bytes");
-        if (!from_bytes) return NULL;
-        py_bytes = PyBytes_FromStringAndSize((char*)bytes, sizeof(int));
-        if (!py_bytes) goto limited_bad;
-        order_str = PyUnicode_FromString(little ? "little" : "big");
-        if (!order_str) goto limited_bad;
-        {
-            PyObject *args[3+(CYTHON_VECTORCALL ? 1 : 0)] = { NULL, py_bytes, order_str };
-            if (!is_unsigned) {
-                kwds = __Pyx_MakeVectorcallBuilderKwds(1);
-                if (!kwds) goto limited_bad;
-                if (__Pyx_VectorcallBuilder_AddArgStr("signed", __Pyx_NewRef(Py_True), kwds, args+3, 0) < 0) goto limited_bad;
-            }
-            result = __Pyx_Object_Vectorcall_CallFromBuilder(from_bytes, args+1, 2 | __Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET, kwds);
+        PyObject *v;
+        PyObject *stepval = NULL, *mask = NULL, *shift = NULL;
+        int bits, remaining_bits, is_negative = 0;
+        int chunk_size = (sizeof(long) < 8) ? 30 : 62;
+        if (likely(PyLong_CheckExact(x))) {
+            v = __Pyx_NewRef(x);
+        } else {
+            v = PyNumber_Long(x);
+            if (unlikely(!v)) return (long) -1;
+            assert(PyLong_CheckExact(v));
         }
-        limited_bad:
-        Py_XDECREF(kwds);
-        Py_XDECREF(order_str);
-        Py_XDECREF(py_bytes);
-        Py_XDECREF(from_bytes);
-        return result;
+        {
+            int result = PyObject_RichCompareBool(v, Py_False, Py_LT);
+            if (unlikely(result < 0)) {
+                Py_DECREF(v);
+                return (long) -1;
+            }
+            is_negative = result == 1;
+        }
+        if (is_unsigned && unlikely(is_negative)) {
+            Py_DECREF(v);
+            goto raise_neg_overflow;
+        } else if (is_negative) {
+            stepval = PyNumber_Invert(v);
+            Py_DECREF(v);
+            if (unlikely(!stepval))
+                return (long) -1;
+        } else {
+            stepval = v;
+        }
+        v = NULL;
+        val = (long) 0;
+        mask = PyLong_FromLong((1L << chunk_size) - 1); if (unlikely(!mask)) goto done;
+        shift = PyLong_FromLong(chunk_size); if (unlikely(!shift)) goto done;
+        for (bits = 0; bits < (int) sizeof(long) * 8 - chunk_size; bits += chunk_size) {
+            PyObject *tmp, *digit;
+            long idigit;
+            digit = PyNumber_And(stepval, mask);
+            if (unlikely(!digit)) goto done;
+            idigit = PyLong_AsLong(digit);
+            Py_DECREF(digit);
+            if (unlikely(idigit < 0)) goto done;
+            val |= ((long) idigit) << bits;
+            tmp = PyNumber_Rshift(stepval, shift);
+            if (unlikely(!tmp)) goto done;
+            Py_DECREF(stepval); stepval = tmp;
+        }
+        Py_DECREF(shift); shift = NULL;
+        Py_DECREF(mask); mask = NULL;
+        {
+            long idigit = PyLong_AsLong(stepval);
+            if (unlikely(idigit < 0)) goto done;
+            remaining_bits = ((int) sizeof(long) * 8) - bits - (is_unsigned ? 0 : 1);
+            if (unlikely(idigit >= (1L << remaining_bits)))
+                goto raise_overflow;
+            val |= ((long) idigit) << bits;
+        }
+        if (!is_unsigned) {
+            if (unlikely(val & (((long) 1) << (sizeof(long) * 8 - 1))))
+                goto raise_overflow;
+            if (is_negative)
+                val = ~val;
+        }
+        ret = 0;
+    done:
+        Py_XDECREF(shift);
+        Py_XDECREF(mask);
+        Py_XDECREF(stepval);
 #endif
+        if (unlikely(ret))
+            return (long) -1;
+        return val;
     }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to long");
+    return (long) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to long");
+    return (long) -1;
 }
 
 /* CIntFromPy */
@@ -7672,295 +7551,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to int");
     return (int) -1;
-}
-
-/* FormatTypeName */
-#if CYTHON_COMPILING_IN_LIMITED_API && __PYX_LIMITED_VERSION_HEX < 0x030d0000
-static __Pyx_TypeName
-__Pyx_PyType_GetFullyQualifiedName(PyTypeObject* tp)
-{
-    PyObject *module = NULL, *name = NULL, *result = NULL;
-    #if __PYX_LIMITED_VERSION_HEX < 0x030b0000
-    name = __Pyx_PyObject_GetAttrStr((PyObject *)tp,
-                                               __pyx_mstate_global->__pyx_n_u_qualname);
-    #else
-    name = PyType_GetQualName(tp);
-    #endif
-    if (unlikely(name == NULL) || unlikely(!PyUnicode_Check(name))) goto bad;
-    module = __Pyx_PyObject_GetAttrStr((PyObject *)tp,
-                                               __pyx_mstate_global->__pyx_n_u_module);
-    if (unlikely(module == NULL) || unlikely(!PyUnicode_Check(module))) goto bad;
-    if (PyUnicode_CompareWithASCIIString(module, "builtins") == 0) {
-        result = name;
-        name = NULL;
-        goto done;
-    }
-    result = PyUnicode_FromFormat("%U.%U", module, name);
-    if (unlikely(result == NULL)) goto bad;
-  done:
-    Py_XDECREF(name);
-    Py_XDECREF(module);
-    return result;
-  bad:
-    PyErr_Clear();
-    if (name) {
-        result = name;
-        name = NULL;
-    } else {
-        result = __Pyx_NewRef(__pyx_mstate_global->__pyx_kp_u_);
-    }
-    goto done;
-}
-#endif
-
-/* CIntFromPy */
-static CYTHON_INLINE long __Pyx_PyLong_As_long(PyObject *x) {
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wconversion"
-#endif
-    const long neg_one = (long) -1, const_zero = (long) 0;
-#ifdef __Pyx_HAS_GCC_DIAGNOSTIC
-#pragma GCC diagnostic pop
-#endif
-    const int is_unsigned = neg_one > const_zero;
-    if (unlikely(!PyLong_Check(x))) {
-        long val;
-        PyObject *tmp = __Pyx_PyNumber_Long(x);
-        if (!tmp) return (long) -1;
-        val = __Pyx_PyLong_As_long(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-    if (is_unsigned) {
-#if CYTHON_USE_PYLONG_INTERNALS
-        if (unlikely(__Pyx_PyLong_IsNeg(x))) {
-            goto raise_neg_overflow;
-        } else if (__Pyx_PyLong_IsCompact(x)) {
-            __PYX_VERIFY_RETURN_INT(long, __Pyx_compact_upylong, __Pyx_PyLong_CompactValueUnsigned(x))
-        } else {
-            const digit* digits = __Pyx_PyLong_Digits(x);
-            assert(__Pyx_PyLong_DigitCount(x) > 1);
-            switch (__Pyx_PyLong_DigitCount(x)) {
-                case 2:
-                    if ((8 * sizeof(long) > 1 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) >= 2 * PyLong_SHIFT)) {
-                            return (long) (((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
-                        }
-                    }
-                    break;
-                case 3:
-                    if ((8 * sizeof(long) > 2 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) >= 3 * PyLong_SHIFT)) {
-                            return (long) (((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
-                        }
-                    }
-                    break;
-                case 4:
-                    if ((8 * sizeof(long) > 3 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) >= 4 * PyLong_SHIFT)) {
-                            return (long) (((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0]));
-                        }
-                    }
-                    break;
-            }
-        }
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX < 0x030C00A7
-        if (unlikely(Py_SIZE(x) < 0)) {
-            goto raise_neg_overflow;
-        }
-#else
-        {
-            int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
-            if (unlikely(result < 0))
-                return (long) -1;
-            if (unlikely(result == 1))
-                goto raise_neg_overflow;
-        }
-#endif
-        if ((sizeof(long) <= sizeof(unsigned long))) {
-            __PYX_VERIFY_RETURN_INT_EXC(long, unsigned long, PyLong_AsUnsignedLong(x))
-        } else if ((sizeof(long) <= sizeof(unsigned PY_LONG_LONG))) {
-            __PYX_VERIFY_RETURN_INT_EXC(long, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
-        }
-    } else {
-#if CYTHON_USE_PYLONG_INTERNALS
-        if (__Pyx_PyLong_IsCompact(x)) {
-            __PYX_VERIFY_RETURN_INT(long, __Pyx_compact_pylong, __Pyx_PyLong_CompactValue(x))
-        } else {
-            const digit* digits = __Pyx_PyLong_Digits(x);
-            assert(__Pyx_PyLong_DigitCount(x) > 1);
-            switch (__Pyx_PyLong_SignedDigitCount(x)) {
-                case -2:
-                    if ((8 * sizeof(long) - 1 > 1 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) - 1 > 2 * PyLong_SHIFT)) {
-                            return (long) (((long)-1)*(((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case 2:
-                    if ((8 * sizeof(long) > 1 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 2 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) - 1 > 2 * PyLong_SHIFT)) {
-                            return (long) ((((((long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case -3:
-                    if ((8 * sizeof(long) - 1 > 2 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) - 1 > 3 * PyLong_SHIFT)) {
-                            return (long) (((long)-1)*(((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case 3:
-                    if ((8 * sizeof(long) > 2 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 3 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) - 1 > 3 * PyLong_SHIFT)) {
-                            return (long) ((((((((long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case -4:
-                    if ((8 * sizeof(long) - 1 > 3 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) - 1 > 4 * PyLong_SHIFT)) {
-                            return (long) (((long)-1)*(((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-                case 4:
-                    if ((8 * sizeof(long) > 3 * PyLong_SHIFT)) {
-                        if ((8 * sizeof(unsigned long) > 4 * PyLong_SHIFT)) {
-                            __PYX_VERIFY_RETURN_INT(long, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
-                        } else if ((8 * sizeof(long) - 1 > 4 * PyLong_SHIFT)) {
-                            return (long) ((((((((((long)digits[3]) << PyLong_SHIFT) | (long)digits[2]) << PyLong_SHIFT) | (long)digits[1]) << PyLong_SHIFT) | (long)digits[0])));
-                        }
-                    }
-                    break;
-            }
-        }
-#endif
-        if ((sizeof(long) <= sizeof(long))) {
-            __PYX_VERIFY_RETURN_INT_EXC(long, long, PyLong_AsLong(x))
-        } else if ((sizeof(long) <= sizeof(PY_LONG_LONG))) {
-            __PYX_VERIFY_RETURN_INT_EXC(long, PY_LONG_LONG, PyLong_AsLongLong(x))
-        }
-    }
-    {
-        long val;
-        int ret = -1;
-#if PY_VERSION_HEX >= 0x030d00A6 && !CYTHON_COMPILING_IN_LIMITED_API
-        Py_ssize_t bytes_copied = PyLong_AsNativeBytes(
-            x, &val, sizeof(val), Py_ASNATIVEBYTES_NATIVE_ENDIAN | (is_unsigned ? Py_ASNATIVEBYTES_UNSIGNED_BUFFER | Py_ASNATIVEBYTES_REJECT_NEGATIVE : 0));
-        if (unlikely(bytes_copied == -1)) {
-        } else if (unlikely(bytes_copied > (Py_ssize_t) sizeof(val))) {
-            goto raise_overflow;
-        } else {
-            ret = 0;
-        }
-#elif PY_VERSION_HEX < 0x030d0000 && !(CYTHON_COMPILING_IN_PYPY || CYTHON_COMPILING_IN_LIMITED_API) || defined(_PyLong_AsByteArray)
-        int one = 1; int is_little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&val;
-        ret = _PyLong_AsByteArray((PyLongObject *)x,
-                                    bytes, sizeof(val),
-                                    is_little, !is_unsigned);
-#else
-        PyObject *v;
-        PyObject *stepval = NULL, *mask = NULL, *shift = NULL;
-        int bits, remaining_bits, is_negative = 0;
-        int chunk_size = (sizeof(long) < 8) ? 30 : 62;
-        if (likely(PyLong_CheckExact(x))) {
-            v = __Pyx_NewRef(x);
-        } else {
-            v = PyNumber_Long(x);
-            if (unlikely(!v)) return (long) -1;
-            assert(PyLong_CheckExact(v));
-        }
-        {
-            int result = PyObject_RichCompareBool(v, Py_False, Py_LT);
-            if (unlikely(result < 0)) {
-                Py_DECREF(v);
-                return (long) -1;
-            }
-            is_negative = result == 1;
-        }
-        if (is_unsigned && unlikely(is_negative)) {
-            Py_DECREF(v);
-            goto raise_neg_overflow;
-        } else if (is_negative) {
-            stepval = PyNumber_Invert(v);
-            Py_DECREF(v);
-            if (unlikely(!stepval))
-                return (long) -1;
-        } else {
-            stepval = v;
-        }
-        v = NULL;
-        val = (long) 0;
-        mask = PyLong_FromLong((1L << chunk_size) - 1); if (unlikely(!mask)) goto done;
-        shift = PyLong_FromLong(chunk_size); if (unlikely(!shift)) goto done;
-        for (bits = 0; bits < (int) sizeof(long) * 8 - chunk_size; bits += chunk_size) {
-            PyObject *tmp, *digit;
-            long idigit;
-            digit = PyNumber_And(stepval, mask);
-            if (unlikely(!digit)) goto done;
-            idigit = PyLong_AsLong(digit);
-            Py_DECREF(digit);
-            if (unlikely(idigit < 0)) goto done;
-            val |= ((long) idigit) << bits;
-            tmp = PyNumber_Rshift(stepval, shift);
-            if (unlikely(!tmp)) goto done;
-            Py_DECREF(stepval); stepval = tmp;
-        }
-        Py_DECREF(shift); shift = NULL;
-        Py_DECREF(mask); mask = NULL;
-        {
-            long idigit = PyLong_AsLong(stepval);
-            if (unlikely(idigit < 0)) goto done;
-            remaining_bits = ((int) sizeof(long) * 8) - bits - (is_unsigned ? 0 : 1);
-            if (unlikely(idigit >= (1L << remaining_bits)))
-                goto raise_overflow;
-            val |= ((long) idigit) << bits;
-        }
-        if (!is_unsigned) {
-            if (unlikely(val & (((long) 1) << (sizeof(long) * 8 - 1))))
-                goto raise_overflow;
-            if (is_negative)
-                val = ~val;
-        }
-        ret = 0;
-    done:
-        Py_XDECREF(shift);
-        Py_XDECREF(mask);
-        Py_XDECREF(stepval);
-#endif
-        if (unlikely(ret))
-            return (long) -1;
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to long");
-    return (long) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to long");
-    return (long) -1;
 }
 
 /* FastTypeChecks */
