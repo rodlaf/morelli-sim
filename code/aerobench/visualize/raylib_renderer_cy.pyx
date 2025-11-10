@@ -19,6 +19,7 @@ cdef extern from "raylib_renderer.h":
         float ps_rad_s
         int num_waypoints
         float waypoints[10][3]  # MAX_WAYPOINTS
+        float waypoint_radius
     
     void raylib_renderer_render(RenderState* state)
     void raylib_renderer_close()
@@ -59,6 +60,9 @@ def render(state_dict):
             state.waypoints[i][0] = waypoints_list[i][0]  # east
             state.waypoints[i][1] = waypoints_list[i][1]  # north
             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
+        
+        # Handle waypoint radius
+        state.waypoint_radius = state_dict.get('waypoint_radius', 50.0)
     else:
         state.time_sec = state_dict.time_sec
         state.speed_fps = state_dict.speed_fps
@@ -80,6 +84,9 @@ def render(state_dict):
             state.waypoints[i][0] = waypoints_list[i][0]  # east
             state.waypoints[i][1] = waypoints_list[i][1]  # north
             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
+        
+        # Handle waypoint radius
+        state.waypoint_radius = getattr(state_dict, 'waypoint_radius', 50.0)
     
     raylib_renderer_render(&state)
 

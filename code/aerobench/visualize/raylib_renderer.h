@@ -54,6 +54,7 @@ typedef struct {
     float ps_rad_s;
     int num_waypoints;
     float waypoints[MAX_WAYPOINTS][3];  /* [east, north, altitude] */
+    float waypoint_radius;  /* Capture radius for waypoint visualization */
 } RenderState;
 
 /* Trail marker structure */
@@ -368,10 +369,10 @@ void raylib_renderer_render(RenderState* state) {
     /* Current position marker */
     DrawLine3D((Vector3){position.x, 0.0f, position.z}, position, ALTITUDE_MARKER_COLOR);
     
-    /* Draw waypoints from render state */
+    /* Draw waypoints from render state with configurable radius */
     for (int i = 0; i < state->num_waypoints; i++) {
         Vector3 wp_pos = {state->waypoints[i][0], state->waypoints[i][2], state->waypoints[i][1]};  /* [east, altitude, north] */
-        DrawSphere(wp_pos, 50.0f, PURPLE);
+        DrawSphere(wp_pos, state->waypoint_radius, PURPLE);
         DrawLine3D((Vector3){wp_pos.x, 0.0f, wp_pos.z}, wp_pos, PURPLE);
     }
     

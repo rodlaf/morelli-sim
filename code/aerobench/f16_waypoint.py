@@ -13,7 +13,10 @@ The environment terminates when:
 The environment truncates when:
   - Time limit is exceeded (default 150 seconds)
 
-Note: Waypoint completion is handled by the autopilot agent, not the environment.
+The task is continuous waypoint reaching - when a waypoint is reached
+(within WAYPOINT_CAPTURE_RADIUS), a new random waypoint is automatically
+generated and the episode continues indefinitely until physics bounds are
+violated or time limit is reached.
 """
 
 import time
@@ -38,43 +41,38 @@ class F16Waypoint:
     ALTITUDE_MIN = -10000.0  # ft
     ALTITUDE_MAX = 100000.0  # ft
     
-    # Waypoint generation center (east, north) in feet
-    WAYPOINT_CENTER = (10000.0, 10000.0)
+    # Waypoint generation bounds (east, north, altitude)
+    WAYPOINT_MIN = np.array([-3000.0, 15000.0, 1000.0])
+    WAYPOINT_MAX = np.array([3000.0, 20000.0, 4000.0])
+    
+    # Waypoint capture radius
+    WAYPOINT_CAPTURE_RADIUS = 500.0  # ft
     
     def __init__(self, 
-                 num_waypoints: int = 3,
                  initial_state: np.ndarray = None,
                  step_size: float = 1/30,
                  time_limit: float = 200.0,
                  extended_states: bool = True,
-                 waypoint_radius: float = 5000.0,
-                 altitude_range: tuple = (1000.0, 4000.0),
                  random_seed: int = None):
         """
         Initialize F-16 waypoint environment with random waypoint generation
         
         Args:
-            num_waypoints: Number of waypoints to generate
             initial_state: Initial state vector (13+ elements), generated if None
             step_size: Simulation time step in seconds
             time_limit: Maximum simulation time
             extended_states: Whether to compute extended states
-            waypoint_radius: Maximum distance from origin for waypoints (ft)
-            altitude_range: (min_alt, max_alt) in feet
             random_seed: Random seed for reproducibility (None for random)
         """
         if random_seed is not None:
             np.random.seed(random_seed)
         
-        self.num_waypoints = num_waypoints
-        self.waypoint_radius = waypoint_radius
-        self.altitude_range = altitude_range
         self.step_size = step_size
         self.time_limit = time_limit
         self.extended_states = extended_states
         
-        # Generate random waypoints
-        self.waypoints = self._generate_waypoints()
+        # Generate single random waypoint
+        self.waypoint = self._generate_waypoint()
         
         # Generate or use provided initial state
         if initial_state is None:
@@ -106,21 +104,9 @@ class F16Waypoint:
         self.integrator_class = Euler
         self.wall_time_start = None
     
-    def _generate_waypoints(self) -> list:
-        """Generate random waypoints within specified constraints"""
-        waypoints = []
-        for _ in range(self.num_waypoints):
-            # Random position within circular region centered at WAYPOINT_CENTER
-            angle = np.random.uniform(0, 2 * np.pi)
-            radius = np.random.uniform(0, self.waypoint_radius)
-            
-            east = self.WAYPOINT_CENTER[0] + radius * np.cos(angle)
-            north = self.WAYPOINT_CENTER[1] + radius * np.sin(angle)
-            altitude = np.random.uniform(self.altitude_range[0], self.altitude_range[1])
-            
-            waypoints.append([east, north, altitude])
-        
-        return waypoints
+    def _generate_waypoint(self) -> np.ndarray:
+        """Generate a single random waypoint within specified bounds"""
+        return np.random.uniform(self.WAYPOINT_MIN, self.WAYPOINT_MAX)
     
     def _generate_initial_state(self) -> np.ndarray:
         """Generate a reasonable initial state for F-16"""
@@ -169,7 +155,8 @@ class F16Waypoint:
             ),
             'nz_g': nz_g,
             'ps_rad_s': ps_rad_s,
-            'waypoints': self.waypoints
+            'waypoints': [self.waypoint],  # Wrap single waypoint in list for renderer
+            'waypoint_radius': float(self.WAYPOINT_CAPTURE_RADIUS)
         }
         
         raylib_renderer.render(render_state)
@@ -187,9 +174,9 @@ class F16Waypoint:
         raylib_renderer.reset()
         
     def reset(self, initial_time: float = 0.0) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """Reset to initial state and generate new waypoints"""
-        # Generate new random waypoints
-        self.waypoints = self._generate_waypoints()
+        """Reset to initial state and generate new waypoint"""
+        # Generate new random waypoint
+        self.waypoint = self._generate_waypoint()
         
         self.state = self.initial_state.copy()
         self.time = initial_time
@@ -274,6 +261,22 @@ class F16Waypoint:
         if not self.ALTITUDE_MIN < alt < self.ALTITUDE_MAX:
             return True
         
+        # Check if waypoint reached
+        pos_e = self.state[StateIndex.POSE]
+        pos_n = self.state[StateIndex.POSN]
+        pos_alt = self.state[StateIndex.ALT]
+        
+        distance = np.linalg.norm([
+            pos_e - self.waypoint[0],
+            pos_n - self.waypoint[1],
+            pos_alt - self.waypoint[2]
+        ])
+        
+        if distance < self.WAYPOINT_CAPTURE_RADIUS:
+            # Waypoint reached, generate new one and continue
+            self.waypoint = self._generate_waypoint()
+            return False  # Don't terminate, continue with new waypoint
+        
         return False
     
     def _get_info(self) -> Dict[str, Any]:
@@ -281,6 +284,8 @@ class F16Waypoint:
         info = {
             'time': self.time,
             'wall_time': time.perf_counter() - self.wall_time_start if self.wall_time_start else 0.0,
+            'waypoint': self.waypoint.copy(),
+            'waypoint_radius': self.WAYPOINT_CAPTURE_RADIUS,
         }
         
         if self.extended_states and len(self.xd_list) > 0:

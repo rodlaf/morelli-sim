@@ -8,18 +8,14 @@
         ],
         "include_dirs": [
             "code/aerobench/visualize",
-            "/usr/local/include",
-            "/opt/homebrew/include"
+            "/opt/homebrew/Cellar/raylib/5.5/include"
         ],
         "language": "c",
         "libraries": [
             "raylib"
         ],
         "library_dirs": [
-            "/Users/rodney/workspace/AeroBenchVVPython/.venv/lib/python3.11/site-packages/pyray",
-            "/usr/local/lib",
-            "/opt/homebrew/lib",
-            "/usr/lib"
+            "/opt/homebrew/Cellar/raylib/5.5/lib"
         ],
         "name": "code.aerobench.visualize.raylib_renderer_cy",
         "sources": [
@@ -2286,8 +2282,10 @@ typedef struct {
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_items;
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_pop;
   __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values;
+  PyObject *__pyx_tuple[1];
   PyObject *__pyx_codeobj_tab[4];
-  PyObject *__pyx_string_tab[41];
+  PyObject *__pyx_string_tab[42];
+  PyObject *__pyx_number_tab[1];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
 PyTypeObject *__pyx_CommonTypesMetaclassType;
@@ -2363,12 +2361,14 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_theta_rad __pyx_string_tab[32]
 #define __pyx_n_u_time_sec __pyx_string_tab[33]
 #define __pyx_n_u_values __pyx_string_tab[34]
-#define __pyx_n_u_waypoints __pyx_string_tab[35]
-#define __pyx_n_u_waypoints_list __pyx_string_tab[36]
-#define __pyx_n_u_window_should_close __pyx_string_tab[37]
-#define __pyx_kp_b_iso88591__2 __pyx_string_tab[38]
-#define __pyx_kp_b_iso88591_q __pyx_string_tab[39]
-#define __pyx_kp_b_iso88591_z_a_1A_AQ_AQ_1A_1_AQ_1_Yj_q_Yj __pyx_string_tab[40]
+#define __pyx_n_u_waypoint_radius __pyx_string_tab[35]
+#define __pyx_n_u_waypoints __pyx_string_tab[36]
+#define __pyx_n_u_waypoints_list __pyx_string_tab[37]
+#define __pyx_n_u_window_should_close __pyx_string_tab[38]
+#define __pyx_kp_b_iso88591__2 __pyx_string_tab[39]
+#define __pyx_kp_b_iso88591_q __pyx_string_tab[40]
+#define __pyx_kp_b_iso88591_z_a_1A_AQ_AQ_1A_1_AQ_1_Yj_q_Yj __pyx_string_tab[41]
+#define __pyx_float_50_0 __pyx_number_tab[0]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
 static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
@@ -2383,8 +2383,10 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   __Pyx_State_RemoveModule(NULL);
   #endif
+  for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_tuple[i]); }
   for (int i=0; i<4; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<41; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<42; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
 Py_CLEAR(clear_module_state->__pyx_CommonTypesMetaclassType);
@@ -2407,8 +2409,10 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_empty_tuple);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_empty_bytes);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_empty_unicode);
+  for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_tuple[i]); }
   for (int i=0; i<4; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<41; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<42; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
 Py_VISIT(traverse_module_state->__pyx_CommonTypesMetaclassType);
@@ -2422,7 +2426,7 @@ return 0;
 #endif
 /* #### Code section: module_code ### */
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":28
+/* "code/aerobench/visualize/raylib_renderer_cy.pyx":29
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
@@ -2470,32 +2474,32 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_state_dict,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 28, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 29, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 28, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 29, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "render", 0) < (0)) __PYX_ERR(0, 28, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "render", 0) < (0)) __PYX_ERR(0, 29, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 1; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("render", 1, 1, 1, i); __PYX_ERR(0, 28, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("render", 1, 1, 1, i); __PYX_ERR(0, 29, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 28, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 29, __pyx_L3_error)
     }
     __pyx_v_state_dict = values[0];
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("render", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 28, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("render", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 29, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2539,7 +2543,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("render", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":41
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":42
  * 
  *     # Extract from dict or object
  *     if isinstance(state_dict, dict):             # <<<<<<<<<<<<<<
@@ -2549,172 +2553,172 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __pyx_t_1 = PyDict_Check(__pyx_v_state_dict); 
   if (__pyx_t_1) {
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":42
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":43
  *     # Extract from dict or object
  *     if isinstance(state_dict, dict):
  *         state.time_sec = state_dict['time_sec']             # <<<<<<<<<<<<<<
  *         state.speed_fps = state_dict['speed_fps']
  *         state.alpha_rad = state_dict['alpha_rad']
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_time_sec); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_time_sec); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_state.time_sec = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":43
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":44
  *     if isinstance(state_dict, dict):
  *         state.time_sec = state_dict['time_sec']
  *         state.speed_fps = state_dict['speed_fps']             # <<<<<<<<<<<<<<
  *         state.alpha_rad = state_dict['alpha_rad']
  *         state.beta_rad = state_dict['beta_rad']
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_speed_fps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_speed_fps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_state.speed_fps = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":44
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":45
  *         state.time_sec = state_dict['time_sec']
  *         state.speed_fps = state_dict['speed_fps']
  *         state.alpha_rad = state_dict['alpha_rad']             # <<<<<<<<<<<<<<
  *         state.beta_rad = state_dict['beta_rad']
  *         state.phi_rad = state_dict['phi_rad']
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_alpha_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_alpha_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_state.alpha_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":45
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":46
  *         state.speed_fps = state_dict['speed_fps']
  *         state.alpha_rad = state_dict['alpha_rad']
  *         state.beta_rad = state_dict['beta_rad']             # <<<<<<<<<<<<<<
  *         state.phi_rad = state_dict['phi_rad']
  *         state.theta_rad = state_dict['theta_rad']
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_beta_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_beta_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_state.beta_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":46
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":47
  *         state.alpha_rad = state_dict['alpha_rad']
  *         state.beta_rad = state_dict['beta_rad']
  *         state.phi_rad = state_dict['phi_rad']             # <<<<<<<<<<<<<<
  *         state.theta_rad = state_dict['theta_rad']
  *         state.psi_rad = state_dict['psi_rad']
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_phi_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_phi_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_state.phi_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":47
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":48
  *         state.beta_rad = state_dict['beta_rad']
  *         state.phi_rad = state_dict['phi_rad']
  *         state.theta_rad = state_dict['theta_rad']             # <<<<<<<<<<<<<<
  *         state.psi_rad = state_dict['psi_rad']
  *         state.pos_e = state_dict['position_ft'][0]
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_theta_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_theta_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_state.theta_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":48
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":49
  *         state.phi_rad = state_dict['phi_rad']
  *         state.theta_rad = state_dict['theta_rad']
  *         state.psi_rad = state_dict['psi_rad']             # <<<<<<<<<<<<<<
  *         state.pos_e = state_dict['position_ft'][0]
  *         state.pos_n = state_dict['position_ft'][1]
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_psi_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_psi_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_state.psi_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":49
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":50
  *         state.theta_rad = state_dict['theta_rad']
  *         state.psi_rad = state_dict['psi_rad']
  *         state.pos_e = state_dict['position_ft'][0]             # <<<<<<<<<<<<<<
  *         state.pos_n = state_dict['position_ft'][1]
  *         state.altitude = state_dict['position_ft'][2]
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.pos_e = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":50
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":51
  *         state.psi_rad = state_dict['psi_rad']
  *         state.pos_e = state_dict['position_ft'][0]
  *         state.pos_n = state_dict['position_ft'][1]             # <<<<<<<<<<<<<<
  *         state.altitude = state_dict['position_ft'][2]
  *         state.nz_g = state_dict['nz_g']
 */
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_2); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_state.pos_n = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":51
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":52
  *         state.pos_e = state_dict['position_ft'][0]
  *         state.pos_n = state_dict['position_ft'][1]
  *         state.altitude = state_dict['position_ft'][2]             # <<<<<<<<<<<<<<
  *         state.nz_g = state_dict['nz_g']
  *         state.ps_rad_s = state_dict['ps_rad_s']
 */
-    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.altitude = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":52
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":53
  *         state.pos_n = state_dict['position_ft'][1]
  *         state.altitude = state_dict['position_ft'][2]
  *         state.nz_g = state_dict['nz_g']             # <<<<<<<<<<<<<<
  *         state.ps_rad_s = state_dict['ps_rad_s']
  * 
 */
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_nz_g); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_nz_g); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.nz_g = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":53
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":54
  *         state.altitude = state_dict['position_ft'][2]
  *         state.nz_g = state_dict['nz_g']
  *         state.ps_rad_s = state_dict['ps_rad_s']             # <<<<<<<<<<<<<<
  * 
  *         # Handle waypoints
 */
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_ps_rad_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_ps_rad_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.ps_rad_s = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":56
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":57
  * 
  *         # Handle waypoints
  *         waypoints_list = state_dict.get('waypoints', [])             # <<<<<<<<<<<<<<
@@ -2723,7 +2727,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
 */
     __pyx_t_2 = __pyx_v_state_dict;
     __Pyx_INCREF(__pyx_t_2);
-    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 56, __pyx_L1_error)
+    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = 0;
     {
@@ -2731,13 +2735,13 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
       __pyx_t_4 = __Pyx_PyObject_FastCallMethod((PyObject*)__pyx_mstate_global->__pyx_n_u_get, __pyx_callargs+__pyx_t_6, (3-__pyx_t_6) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 56, __pyx_L1_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
     }
     __pyx_v_waypoints_list = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":57
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":58
  *         # Handle waypoints
  *         waypoints_list = state_dict.get('waypoints', [])
  *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS             # <<<<<<<<<<<<<<
@@ -2745,7 +2749,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
  *             state.waypoints[i][0] = waypoints_list[i][0]  # east
 */
     __pyx_t_7 = 10;
-    __pyx_t_8 = PyObject_Length(__pyx_v_waypoints_list); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_8 = PyObject_Length(__pyx_v_waypoints_list); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 58, __pyx_L1_error)
     __pyx_t_1 = (__pyx_t_7 < __pyx_t_8);
     if (__pyx_t_1) {
       __pyx_t_9 = __pyx_t_7;
@@ -2754,7 +2758,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
     }
     __pyx_v_state.num_waypoints = __pyx_t_9;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":58
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":59
  *         waypoints_list = state_dict.get('waypoints', [])
  *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
  *         for i in range(state.num_waypoints):             # <<<<<<<<<<<<<<
@@ -2766,56 +2770,72 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
     for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
       __pyx_v_i = __pyx_t_12;
 
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":59
+      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":60
  *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
  *         for i in range(state.num_waypoints):
  *             state.waypoints[i][0] = waypoints_list[i][0]  # east             # <<<<<<<<<<<<<<
  *             state.waypoints[i][1] = waypoints_list[i][1]  # north
  *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
 */
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       ((__pyx_v_state.waypoints[__pyx_v_i])[0]) = __pyx_t_3;
 
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":60
+      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":61
  *         for i in range(state.num_waypoints):
  *             state.waypoints[i][0] = waypoints_list[i][0]  # east
  *             state.waypoints[i][1] = waypoints_list[i][1]  # north             # <<<<<<<<<<<<<<
  *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
- *     else:
+ * 
 */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 60, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       ((__pyx_v_state.waypoints[__pyx_v_i])[1]) = __pyx_t_3;
 
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":61
+      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":62
  *             state.waypoints[i][0] = waypoints_list[i][0]  # east
  *             state.waypoints[i][1] = waypoints_list[i][1]  # north
  *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude             # <<<<<<<<<<<<<<
- *     else:
- *         state.time_sec = state_dict.time_sec
+ * 
+ *         # Handle waypoint radius
 */
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       ((__pyx_v_state.waypoints[__pyx_v_i])[2]) = __pyx_t_3;
     }
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":41
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":65
+ * 
+ *         # Handle waypoint radius
+ *         state.waypoint_radius = state_dict.get('waypoint_radius', 50.0)             # <<<<<<<<<<<<<<
+ *     else:
+ *         state.time_sec = state_dict.time_sec
+*/
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_get); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_mstate_global->__pyx_tuple[0], NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 65, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_v_state.waypoint_radius = __pyx_t_3;
+
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":42
  * 
  *     # Extract from dict or object
  *     if isinstance(state_dict, dict):             # <<<<<<<<<<<<<<
@@ -2825,188 +2845,188 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
     goto __pyx_L3;
   }
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":63
- *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
+ *         state.waypoint_radius = state_dict.get('waypoint_radius', 50.0)
  *     else:
  *         state.time_sec = state_dict.time_sec             # <<<<<<<<<<<<<<
  *         state.speed_fps = state_dict.speed_fps
  *         state.alpha_rad = state_dict.alpha_rad
 */
   /*else*/ {
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_time_sec); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_time_sec); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.time_sec = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":64
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":68
  *     else:
  *         state.time_sec = state_dict.time_sec
  *         state.speed_fps = state_dict.speed_fps             # <<<<<<<<<<<<<<
  *         state.alpha_rad = state_dict.alpha_rad
  *         state.beta_rad = state_dict.beta_rad
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_speed_fps); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_speed_fps); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.speed_fps = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":65
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":69
  *         state.time_sec = state_dict.time_sec
  *         state.speed_fps = state_dict.speed_fps
  *         state.alpha_rad = state_dict.alpha_rad             # <<<<<<<<<<<<<<
  *         state.beta_rad = state_dict.beta_rad
  *         state.phi_rad = state_dict.phi_rad
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_alpha_rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 65, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_alpha_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.alpha_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":66
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":70
  *         state.speed_fps = state_dict.speed_fps
  *         state.alpha_rad = state_dict.alpha_rad
  *         state.beta_rad = state_dict.beta_rad             # <<<<<<<<<<<<<<
  *         state.phi_rad = state_dict.phi_rad
  *         state.theta_rad = state_dict.theta_rad
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_beta_rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 66, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_beta_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.beta_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
  *         state.alpha_rad = state_dict.alpha_rad
  *         state.beta_rad = state_dict.beta_rad
  *         state.phi_rad = state_dict.phi_rad             # <<<<<<<<<<<<<<
  *         state.theta_rad = state_dict.theta_rad
  *         state.psi_rad = state_dict.psi_rad
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_phi_rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_phi_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.phi_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":68
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":72
  *         state.beta_rad = state_dict.beta_rad
  *         state.phi_rad = state_dict.phi_rad
  *         state.theta_rad = state_dict.theta_rad             # <<<<<<<<<<<<<<
  *         state.psi_rad = state_dict.psi_rad
  *         state.pos_e = state_dict.position_ft[0]
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_theta_rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_theta_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.theta_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":69
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":73
  *         state.phi_rad = state_dict.phi_rad
  *         state.theta_rad = state_dict.theta_rad
  *         state.psi_rad = state_dict.psi_rad             # <<<<<<<<<<<<<<
  *         state.pos_e = state_dict.position_ft[0]
  *         state.pos_n = state_dict.position_ft[1]
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_psi_rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_psi_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.psi_rad = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":70
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":74
  *         state.theta_rad = state_dict.theta_rad
  *         state.psi_rad = state_dict.psi_rad
  *         state.pos_e = state_dict.position_ft[0]             # <<<<<<<<<<<<<<
  *         state.pos_n = state_dict.position_ft[1]
  *         state.altitude = state_dict.position_ft[2]
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 70, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_state.pos_e = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":75
  *         state.psi_rad = state_dict.psi_rad
  *         state.pos_e = state_dict.position_ft[0]
  *         state.pos_n = state_dict.position_ft[1]             # <<<<<<<<<<<<<<
  *         state.altitude = state_dict.position_ft[2]
  *         state.nz_g = state_dict.nz_g
 */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_state.pos_n = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":72
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":76
  *         state.pos_e = state_dict.position_ft[0]
  *         state.pos_n = state_dict.position_ft[1]
  *         state.altitude = state_dict.position_ft[2]             # <<<<<<<<<<<<<<
  *         state.nz_g = state_dict.nz_g
  *         state.ps_rad_s = state_dict.ps_rad_s
 */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_position_ft); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_state.altitude = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":73
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":77
  *         state.pos_n = state_dict.position_ft[1]
  *         state.altitude = state_dict.position_ft[2]
  *         state.nz_g = state_dict.nz_g             # <<<<<<<<<<<<<<
  *         state.ps_rad_s = state_dict.ps_rad_s
  * 
 */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_nz_g); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_nz_g); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_state.nz_g = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":74
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":78
  *         state.altitude = state_dict.position_ft[2]
  *         state.nz_g = state_dict.nz_g
  *         state.ps_rad_s = state_dict.ps_rad_s             # <<<<<<<<<<<<<<
  * 
  *         # Handle waypoints
 */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_ps_rad_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_ps_rad_s); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_state.ps_rad_s = __pyx_t_3;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":77
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":81
  * 
  *         # Handle waypoints
  *         waypoints_list = getattr(state_dict, 'waypoints', [])             # <<<<<<<<<<<<<<
  *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
  *         for i in range(state.num_waypoints):
 */
-    __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetAttr3(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_waypoints, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_v_waypoints_list = __pyx_t_5;
-    __pyx_t_5 = 0;
+    __pyx_t_4 = __Pyx_GetAttr3(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_waypoints, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_v_waypoints_list = __pyx_t_4;
+    __pyx_t_4 = 0;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":78
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":82
  *         # Handle waypoints
  *         waypoints_list = getattr(state_dict, 'waypoints', [])
  *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS             # <<<<<<<<<<<<<<
@@ -3014,7 +3034,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
  *             state.waypoints[i][0] = waypoints_list[i][0]  # east
 */
     __pyx_t_7 = 10;
-    __pyx_t_9 = PyObject_Length(__pyx_v_waypoints_list); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_9 = PyObject_Length(__pyx_v_waypoints_list); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 82, __pyx_L1_error)
     __pyx_t_1 = (__pyx_t_7 < __pyx_t_9);
     if (__pyx_t_1) {
       __pyx_t_8 = __pyx_t_7;
@@ -3023,7 +3043,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
     }
     __pyx_v_state.num_waypoints = __pyx_t_8;
 
-    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":79
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":83
  *         waypoints_list = getattr(state_dict, 'waypoints', [])
  *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
  *         for i in range(state.num_waypoints):             # <<<<<<<<<<<<<<
@@ -3035,59 +3055,72 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
     for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
       __pyx_v_i = __pyx_t_12;
 
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":80
+      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":84
  *         state.num_waypoints = min(len(waypoints_list), 10)  # MAX_WAYPOINTS
  *         for i in range(state.num_waypoints):
  *             state.waypoints[i][0] = waypoints_list[i][0]  # east             # <<<<<<<<<<<<<<
  *             state.waypoints[i][1] = waypoints_list[i][1]  # north
  *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
 */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 80, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       ((__pyx_v_state.waypoints[__pyx_v_i])[0]) = __pyx_t_3;
 
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":81
+      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":85
  *         for i in range(state.num_waypoints):
  *             state.waypoints[i][0] = waypoints_list[i][0]  # east
  *             state.waypoints[i][1] = waypoints_list[i][1]  # north             # <<<<<<<<<<<<<<
  *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
  * 
 */
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 85, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       ((__pyx_v_state.waypoints[__pyx_v_i])[1]) = __pyx_t_3;
 
-      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":82
+      /* "code/aerobench/visualize/raylib_renderer_cy.pyx":86
  *             state.waypoints[i][0] = waypoints_list[i][0]  # east
  *             state.waypoints[i][1] = waypoints_list[i][1]  # north
  *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude             # <<<<<<<<<<<<<<
  * 
- *     raylib_renderer_render(&state)
+ *         # Handle waypoint radius
 */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_waypoints_list, __pyx_v_i, int, 1, __Pyx_PyLong_From_int, 0, 1, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyLong_From_long, 0, 0, 1, 1, __Pyx_ReferenceSharing_OwnStrongReference); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 86, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       ((__pyx_v_state.waypoints[__pyx_v_i])[2]) = __pyx_t_3;
     }
+
+    /* "code/aerobench/visualize/raylib_renderer_cy.pyx":89
+ * 
+ *         # Handle waypoint radius
+ *         state.waypoint_radius = getattr(state_dict, 'waypoint_radius', 50.0)             # <<<<<<<<<<<<<<
+ * 
+ *     raylib_renderer_render(&state)
+*/
+    __pyx_t_5 = __Pyx_GetAttr3(__pyx_v_state_dict, __pyx_mstate_global->__pyx_n_u_waypoint_radius, __pyx_mstate_global->__pyx_float_50_0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_3 = __Pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_3 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 89, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_v_state.waypoint_radius = __pyx_t_3;
   }
   __pyx_L3:;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":84
- *             state.waypoints[i][2] = waypoints_list[i][2]  # altitude
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":91
+ *         state.waypoint_radius = getattr(state_dict, 'waypoint_radius', 50.0)
  * 
  *     raylib_renderer_render(&state)             # <<<<<<<<<<<<<<
  * 
@@ -3095,7 +3128,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
 */
   raylib_renderer_render((&__pyx_v_state));
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":28
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":29
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
@@ -3119,7 +3152,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":86
+/* "code/aerobench/visualize/raylib_renderer_cy.pyx":93
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
@@ -3149,7 +3182,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("close", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":88
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":95
  * def close():
  *     """Close the renderer window."""
  *     raylib_renderer_close()             # <<<<<<<<<<<<<<
@@ -3158,7 +3191,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
 */
   raylib_renderer_close();
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":86
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":93
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
@@ -3173,7 +3206,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":90
+/* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
  *     raylib_renderer_close()
  * 
  * def reset():             # <<<<<<<<<<<<<<
@@ -3203,7 +3236,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4rese
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":92
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":99
  * def reset():
  *     """Reset trail and markers (for animation loops)."""
  *     raylib_renderer_reset()             # <<<<<<<<<<<<<<
@@ -3212,7 +3245,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4rese
 */
   raylib_renderer_reset();
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":90
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
  *     raylib_renderer_close()
  * 
  * def reset():             # <<<<<<<<<<<<<<
@@ -3227,7 +3260,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4rese
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":94
+/* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
  *     raylib_renderer_reset()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
@@ -3261,19 +3294,19 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6wind
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("window_should_close", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":96
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":103
  * def window_should_close():
  *     """Check if window should close."""
  *     return raylib_renderer_should_close()             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(raylib_renderer_should_close()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(raylib_renderer_should_close()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":94
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
  *     raylib_renderer_reset()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
@@ -3640,64 +3673,64 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   (void)__Pyx_modinit_function_import_code(__pyx_mstate);
   /*--- Execution code ---*/
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":28
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":29
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
  *     """Render a single frame of the simulation.
  * 
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_1render, 0, __pyx_mstate_global->__pyx_n_u_render, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_1render, 0, __pyx_mstate_global->__pyx_n_u_render, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_render, __pyx_t_2) < (0)) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_render, __pyx_t_2) < (0)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":86
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":93
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
  *     """Close the renderer window."""
  *     raylib_renderer_close()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_3close, 0, __pyx_mstate_global->__pyx_n_u_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_3close, 0, __pyx_mstate_global->__pyx_n_u_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_close, __pyx_t_2) < (0)) __PYX_ERR(0, 86, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_close, __pyx_t_2) < (0)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":90
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":97
  *     raylib_renderer_close()
  * 
  * def reset():             # <<<<<<<<<<<<<<
  *     """Reset trail and markers (for animation loops)."""
  *     raylib_renderer_reset()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5reset, 0, __pyx_mstate_global->__pyx_n_u_reset, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5reset, 0, __pyx_mstate_global->__pyx_n_u_reset, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_reset, __pyx_t_2) < (0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_reset, __pyx_t_2) < (0)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":94
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":101
  *     raylib_renderer_reset()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
  *     """Check if window should close."""
  *     return raylib_renderer_should_close()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close, 0, __pyx_mstate_global->__pyx_n_u_window_should_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close, 0, __pyx_mstate_global->__pyx_n_u_window_should_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_window_should_close, __pyx_t_2) < (0)) __PYX_ERR(0, 94, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_window_should_close, __pyx_t_2) < (0)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "code/aerobench/visualize/raylib_renderer_cy.pyx":1
@@ -3762,39 +3795,65 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
   __Pyx_RefNannyDeclarations
   CYTHON_UNUSED_VAR(__pyx_mstate);
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
+
+  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":65
+ * 
+ *         # Handle waypoint radius
+ *         state.waypoint_radius = state_dict.get('waypoint_radius', 50.0)             # <<<<<<<<<<<<<<
+ *     else:
+ *         state.time_sec = state_dict.time_sec
+*/
+  __pyx_mstate_global->__pyx_tuple[0] = PyTuple_Pack(2, __pyx_mstate_global->__pyx_n_u_waypoint_radius, __pyx_mstate_global->__pyx_float_50_0); if (unlikely(!__pyx_mstate_global->__pyx_tuple[0])) __PYX_ERR(0, 65, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_mstate_global->__pyx_tuple[0]);
+  __Pyx_GIVEREF(__pyx_mstate_global->__pyx_tuple[0]);
+  #if CYTHON_IMMORTAL_CONSTANTS
+  {
+    PyObject **table = __pyx_mstate->__pyx_tuple;
+    for (Py_ssize_t i=0; i<1; ++i) {
+      #if CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
+      Py_SET_REFCNT(table[i], _Py_IMMORTAL_REFCNT_LOCAL);
+      #else
+      Py_SET_REFCNT(table[i], _Py_IMMORTAL_INITIAL_REFCNT);
+      #endif
+    }
+  }
+  #endif
   __Pyx_RefNannyFinishContext();
   return 0;
+  __pyx_L1_error:;
+  __Pyx_RefNannyFinishContext();
+  return -1;
 }
 /* #### Code section: init_constants ### */
 
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 10; } index[] = {{1},{47},{20},{9},{18},{8},{18},{5},{43},{8},{3},{1},{13},{5},{8},{10},{8},{4},{7},{3},{11},{8},{7},{12},{6},{5},{12},{10},{9},{5},{10},{8},{9},{8},{6},{9},{14},{19},{7},{10},{516}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (578 bytes) */
-const char* const cstring = "BZh91AY&SY0\211Z!\000\000a\377\373\347~\"\265)\225\264\204\266\001p~\277\377\377\360@@@@@@@@@@@\000@\000@\001\3740\021\034h\311\221\204b\001\204\320`\023A\240d\311\243&C\010\0144\010&\204\365G\204\t\251\247\251\246\206\214\0022\014A\204\304\321\201\250q\243&F\021\210\006\023A\200M\006\201\223&\214\231\014 0\221I\240\2464\232\217$\365\006@\323\004\031\r\240\021\243\324\0324\332=OM\252\232\263\233\347j\260o\261\\\251\221$\004\314F\010\226\204\260\316-R\371\022\000+\231FA]@\311\252\301\214\204E\024\023\247\342 bI\222f\003-\002\247\247\373\246\037\2269\322\250/41?`\3761\202\3064@lUH\362\305&T(\0241\270Y8\253\030\202z\010\335\004\331\243\r\357\327|\335N\246\310M\336Fjj$\335\260h\230U\353\010}\201\236cD\220K\024\205Q0\\_?\0172\377h\221U \324\n\3061\250E\224\025\242\315Q}W\231\035~8a\314\227\3102\210y*\025\"\312I\346\301\251\310g\034%\030&Y\212|\373e\010\352\014D\030`\006\345p\313!\014\311\345\374J\305\244&'#r\034t\307d\335\245Fg\260\274R\216mQ]J=\000B\301\234$j$\006\306\246Y7\344\225\232\311\360x\240\311\340\230\360\211\014\227\0065\024\004\271\342\335'a\2504'l3\346\237\263\324z\345\254\026\341C\301z\342\204\303L\305@\357\2763gA\014!\2522\253\t\274\234\270\365\361)\275\010\301\263\342\206\266\343\016\271\331\361\235\005\241gE1Q\230^\013\005\327\272\221fAd?\247QC&\326\360c8\37252f\314|\200[\332\nR\356:K\003\021h~>\332Rm\334/\344\005\243hb\264]\267\027\305\327#+/\035k\374\031\n\302-\260\261V\306\331\204]\306ue\265\354\021,\272\322u\235,)i\027\256B\221\257\331\022%G\207+z\2140\006L\256\014\366q\253\315QT<\007\203\016U\377\213\271\"\234(H\030D\255\020\200";
-    PyObject *data = __Pyx_DecompressString(cstring, 578, 2);
+    const struct { const unsigned int length: 10; } index[] = {{1},{47},{20},{9},{18},{8},{18},{5},{43},{8},{3},{1},{13},{5},{8},{10},{8},{4},{7},{3},{11},{8},{7},{12},{6},{5},{12},{10},{9},{5},{10},{8},{9},{8},{6},{15},{9},{14},{19},{7},{10},{554}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (617 bytes) */
+const char* const cstring = "BZh91AY&SY\rc\037;\000\000k\177\377\347\377\"\265m\225\264\204\266\201p~\277\377\377\360@@@@@@@@@\000@@@\000@\000@\002\034;sj\345\206R4jzS\332$\364\364\324M2a\032\000\014\215\000\000\000\000\311\265\006\2412eOj'\352\231\251\220\306\246\021\204\302d\030\000\000\002\r\030F\032\236\211\224\311@\003G\250hh\000\000\000\000\000\000\003A$\224\332\"m\023!\246\200\000\000\006\200\0004\3204\321\2016R\233\302\261q^\031\277T\212)A\362\240 a\021\2740\003\345\243\010\251\020\030^\023\000Nc\030\212\240\260\30412u\010G@(\020=U\034\303\212I1$\256#\240e\315\024\352\366\260\273\342'\016\205)\301\033!\204\367m\215\314\367(\306C\206ap\342JV\317\205&'\211\304\326\031\235~\021R\030@\370H$rf.S\237\363\201|L\211\010\277b+D\205\230\373Q\031\020\253\346\"\251\350\031\310\263J\npf-da\016Z\270\262\037\272\"1\304\022\260\303XX\006\262+\202\321R\330s\034\202\2111\325W{\316\210%\360\236M\030\213\016\254\215\234\305\007\\B\225]\204RM\025\201\177\337n%Q\207i\001\307H*\032@\212\340K\306\345\364g\341\322\006\0068T\030\252\200>\030\216\256\207\2338\204E\231\007\216\037\276p\343\274\005]\213\001'm\004\006%L*\330\264Kr\264\275\016&`\360\204MaH\252\366\021*&\021\260\211i\300\350\312U-E\\\261-\353\210\027M\320\376\264\342%\023\240\267\212D\310\014\010s\251SKP\204!T\212\254E\313\301\032\376\254\252\230\320\226\010@ZT\241Z\323\rY\245Q\234(~U\345RZE\220\340dl\360Ff\256&W\322\030!A~y\244\034\034\353n\034#\000\000\352\333\"J\361\346_\nG\360X\362\302\2233H+.\025\315q\205\200Wd'\213\356R\255\261\304\362\312\264\025\n!\0033\005\365E\206f1Et\256\257\333\261\212G\242B]\375\376\304\024{I\313'\0307\250\007 \265j\217\232\002\202\205\271\2303,\241\022B\032\022\362\240\tx\261W*\212\241\300p\354\241\331\277\305\334\221N\024$\003X\307\316\300";
+    PyObject *data = __Pyx_DecompressString(cstring, 617, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (488 bytes) */
-const char* const cstring = "x\332\275P=o\023A\020\215\245\200\014\261\013\027\010qBH\026\022H\010\3312B\242A\212\016A\033\305T|$\032\255\367\306\361\302yw\357v/\316\271r\231\362\312-\267ty%?\303\245\313\374\204\374\004v\317\311\341$44\\1\373\346\315\307\2737\373TD\330'\230\212\021r:\351\2372\225\221\230\315\261\237\222<f#H\221G\230b\n4\357\311\374\014\340\320\205\303\374#\243\032\016\360L\177\3061\211\345\204@J\"\242rN\231\350Q\221\212L3\216j\204\272\252\320\330e\3008\350\224P\034\021\372\223\306B\241\027\357\325\342\275Z\274wW\034`\234q\np\202\232\001SPk0\215S\0050%n\273\373\246\"\312b\364\210\223\251{\371\034N\344\204\371\237\220BJ\241\230f\202\303XK\3459PRUE\200\304iof6\262)*\324\000>lh\207\"\3476\213\265\222\210\021\214\245R\232h\254\002D\376\"\3403\027'W\2765s\203\316\347)\2113T3\222K\301\270\376\003 fJ\317\030\217\304\014\324Ddq\004\325a\026\215\213\335'\246\343\237\275\325\336K\233,\032\227\301\316\275\346b^t\212\327\206\254\233\355\363#\023\330\201\r=<6\257lh\207\267\340V\303w\363\320v\355\340V\303\026\373\265\370a\033\366\3312)\033\177I7\233\016\312nY5\177)\276\231\304nU\302\313\373;\017\002\007\337\332d\331.\375\362U\273k;\366\271\035\256^\274+\223u\263u\376\251xT\220\"3\341\272\325)\00230\037\0141Y\265\365M9,\311\277\321\027\327\342\265\247\033\240.U\036o\224j\306\233l-\303\345\360N\342\247\337_\233\257\334\326;7N\037\273\353<]\036\377\352\376\017\247\273\201\351::\374\r\363\331x\035";
-    PyObject *data = __Pyx_DecompressString(cstring, 488, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (521 bytes) */
+const char* const cstring = "x\332\275P=o\0231\030n\244\002\241M\2202 D\204\020'\020H\010%jU\211\005\t]\005b\253\032&\276\252W\216\317i\014\027\333w\3665\275L\031;\336\350\321\343\21572\366'\334\2301?\241?\001\373B\217\264ea\301\303\353\347\375\360\373\370y\336b\036\220>\"1\037\022\206\307\375\023*\023\024\322\031\351\307(\r\351\020b\302\002\022\223\030p\332\023\351)\300\241\r\207\351;\212\025\034\220S\365\221\214P(\306\010b\024 \2312Ly\017\363\230'\2122\"\207DU\035\034\332\014(\003\025#L\206\010\377\300!\227\304\221\367j\362^M\336\273I\0160J\030\0068&\212\002\225PsPE&\022`\202\354v{&<HB\342\020C\023{\263\031\034\2131u\237\020\\\010.\251\242\234\301H\t\351j \205\254\232\000\221\345^\275Y\321\306D\022\005\340\302\252lQ`\325&\241\222\202\220\000FBJ\205\024\251\002\004\316\021p\231\215\343\337\272\025\265\017\255\316\023\024&DNQ*8e\312uhR\247\177\000\204T\252)e\001\237\202\034\363$\014\240\362i\336Xn>\324\035wm\227\333/L4o\\t7n5\347\263\254\223\275\322h\321l\237}\323]\263c|\007\217\364K\343\233\3015\2706\360Uo\031\317\354\\\033X\253~\316\276\233\206y\234GE\343/\351j\323A\341\025\325\360\247\354\213\216\314Z\307\277\270\275q\267k\341\236\211\362v\341\226\227m\317t\314S3(\237\277.\242E\263u\366>\273\237\241,\321\376\242\325\311\272zG\357k\244\223j\353n1(\320\277\225\035\343\275\262\375\304l\345\317rT\366\367\317\275\345\345\177j\231W@\335\252d_i\325\025\247\273\225\373\371\340F\342^\277\271\364\2432\240\336\271\022\377\300\032\366(?\372\351\375O\361w\254\337\255r\357\303y\264\334\354j\317N\372\277\000\025\225\214\034";
+    PyObject *data = __Pyx_DecompressString(cstring, 521, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (940 bytes) */
-const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx_PyDict_NextRefalpha_radasyncio.coroutinesbeta_radcline_in_tracebackclosecode.aerobench.visualize.raylib_renderer_cy__func__geti_is_coroutineitems__main____module____name__nz_gphi_radpopposition_ftps_rad_spsi_rad__qualname__renderreset__set_name__setdefaultspeed_fpsstatestate_dict__test__theta_radtime_secvalueswaypointswaypoints_listwindow_should_close\200\001\340\004\031\230\021\200\001\340\004\013\320\013'\240q\200\001\360\032\000\005\010\200z\220\021\220,\230a\330\010\r\210\\\230\032\2401\240A\330\010\r\210]\230*\240A\240Q\330\010\r\210]\230*\240A\240Q\330\010\r\210\\\230\032\2401\240A\330\010\r\210[\230\n\240!\2401\330\010\r\210]\230*\240A\240Q\330\010\r\210[\230\n\240!\2401\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210\\\230\032\2401\240N\260!\2601\330\010\r\210X\220Z\230q\240\001\330\010\r\210\\\230\032\2401\240A\360\006\000\t\032\230\032\2404\240q\250\r\260Q\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\340\010\r\210\\\230\032\2401\330\010\r\210]\230*\240A\330\010\r\210]\230*\240A\330\010\r\210\\\230\032\2401\330\010\r\210[\230\n\240!\330\010\r\210]\230*\240A\330\010\r\210[\230\n\240!\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210\\\230\032\240<\250q\260\001\330\010\r\210X\220Z\230q\330\010\r\210\\\230\032\2401\360\006\000\t\032\230\027\240\001\240\034\250]\270!\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\340\004\032\230!\2301\230A";
+    #else /* compression: none (993 bytes) */
+const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx_PyDict_NextRefalpha_radasyncio.coroutinesbeta_radcline_in_tracebackclosecode.aerobench.visualize.raylib_renderer_cy__func__geti_is_coroutineitems__main____module____name__nz_gphi_radpopposition_ftps_rad_spsi_rad__qualname__renderreset__set_name__setdefaultspeed_fpsstatestate_dict__test__theta_radtime_secvalueswaypoint_radiuswaypointswaypoints_listwindow_should_close\200\001\340\004\031\230\021\200\001\340\004\013\320\013'\240q\200\001\360\032\000\005\010\200z\220\021\220,\230a\330\010\r\210\\\230\032\2401\240A\330\010\r\210]\230*\240A\240Q\330\010\r\210]\230*\240A\240Q\330\010\r\210\\\230\032\2401\240A\330\010\r\210[\230\n\240!\2401\330\010\r\210]\230*\240A\240Q\330\010\r\210[\230\n\240!\2401\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210Y\220j\240\001\240\036\250q\260\001\330\010\r\210\\\230\032\2401\240N\260!\2601\330\010\r\210X\220Z\230q\240\001\330\010\r\210\\\230\032\2401\240A\360\006\000\t\032\230\032\2404\240q\250\r\260Q\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\360\006\000\t\016\320\r \240\n\250$\250a\320/B\300!\340\010\r\210\\\230\032\2401\330\010\r\210]\230*\240A\330\010\r\210]\230*\240A\330\010\r\210\\\230\032\2401\330\010\r\210[\230\n\240!\330\010\r\210]\230*\240A\330\010\r\210[\230\n\240!\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210Y\220j\240\014\250A\250Q\330\010\r\210\\\230\032\240<\250q\260\001\330\010\r\210X\220Z\230q\330\010\r\210\\\230\032\2401\360\006\000\t\032\230\027\240\001\240\034\250]\270!\330\010\r\320\r!\240\021\240#\240Q\320&7\260q\330\010\014\210E\220\025\220a\220u\230A\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B\230a\230u\240N\260!\2602\260Q\260a\330\014\021\220\032\2301\230B""\230a\230u\240N\260!\2602\260Q\260a\360\006\000\t\016\320\r \240\007\240q\250\014\3204G\300q\340\004\032\230!\2301\230A";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
     PyObject **stringtab = __pyx_mstate->__pyx_string_tab;
     Py_ssize_t pos = 0;
-    for (int i = 0; i < 38; i++) {
+    for (int i = 0; i < 39; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyUnicode_DecodeUTF8(bytes + pos, bytes_length, NULL);
       if (likely(string) && i >= 2) PyUnicode_InternInPlace(&string);
@@ -3805,7 +3864,7 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 38; i < 41; i++) {
+    for (int i = 39; i < 42; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -3816,14 +3875,14 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 41; i++) {
+    for (Py_ssize_t i = 0; i < 42; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
     }
     #if CYTHON_IMMORTAL_CONSTANTS
     {
-      PyObject **table = stringtab + 38;
+      PyObject **table = stringtab + 39;
       for (Py_ssize_t i=0; i<3; ++i) {
         #if CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
         Py_SET_REFCNT(table[i], _Py_IMMORTAL_REFCNT_LOCAL);
@@ -3834,6 +3893,26 @@ const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx
     }
     #endif
   }
+  {
+    PyObject **numbertab = __pyx_mstate->__pyx_number_tab;
+    double const c_constants[] = {50.0};
+    for (int i = 0; i < 1; i++) {
+      numbertab[i] = PyFloat_FromDouble(c_constants[i]);
+      if (unlikely(!numbertab[i])) __PYX_ERR(0, 1, __pyx_L1_error)
+    }
+  }
+  #if CYTHON_IMMORTAL_CONSTANTS
+  {
+    PyObject **table = __pyx_mstate->__pyx_number_tab;
+    for (Py_ssize_t i=0; i<1; ++i) {
+      #if CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
+      Py_SET_REFCNT(table[i], _Py_IMMORTAL_REFCNT_LOCAL);
+      #else
+      Py_SET_REFCNT(table[i], _Py_IMMORTAL_INITIAL_REFCNT);
+      #endif
+    }
+  }
+  #endif
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -3862,22 +3941,22 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 4, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 28};
+    const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 4, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 29};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_state_dict, __pyx_mstate->__pyx_n_u_state, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_waypoints_list};
     __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_render, __pyx_mstate->__pyx_kp_b_iso88591_z_a_1A_AQ_AQ_1A_1_AQ_1_Yj_q_Yj, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 86};
+    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 93};
     PyObject* const varnames[] = {0};
     __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_close, __pyx_mstate->__pyx_kp_b_iso88591__2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 90};
+    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 97};
     PyObject* const varnames[] = {0};
     __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_reset, __pyx_mstate->__pyx_kp_b_iso88591__2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 94};
+    const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 101};
     PyObject* const varnames[] = {0};
     __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_window_should_close, __pyx_mstate->__pyx_kp_b_iso88591_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
   }
