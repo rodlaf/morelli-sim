@@ -28,8 +28,9 @@ def test_basic_binding():
     truncations = np.zeros(1, dtype=np.uint8)
     
     try:
-        env = binding.env_init(obs, actions, rewards, terminals, truncations, 
-                              seed=42, step_size=1/30, time_limit=100.0)
+        # env_init signature: (obs, actions, rewards, terminals, truncations, seed, **kwargs)
+        env = binding.env_init(obs, actions, rewards, terminals, truncations, 42,
+                              step_size=1/30, time_limit=100.0)
         print(f"✓ env_init succeeded, handle: {env}")
         
         binding.env_reset(env, 42)
@@ -61,6 +62,7 @@ def test_basic_binding():
     truncations_vec = np.zeros(num_envs, dtype=np.uint8)
     
     try:
+        # vec_init signature: (obs, actions, rewards, terminals, truncations, num_envs, seed, **kwargs)
         vec_env = binding.vec_init(obs_vec, actions_vec, rewards_vec, 
                                    terminals_vec, truncations_vec, num_envs, 42,
                                    step_size=1/30, time_limit=100.0)
