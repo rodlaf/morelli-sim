@@ -16,4 +16,4 @@ __pycache__/
 build/
 
 # Generated Cython files
-# aerobench/*_cy.c
+aerobench/*_cy.c
