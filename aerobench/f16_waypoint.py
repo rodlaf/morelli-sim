@@ -23,9 +23,9 @@ import time
 import numpy as np
 from typing import Tuple, Dict, Any
 
-from aerobench.highlevel import f16_model
+from aerobench import f16_model
 from aerobench.util import get_state_names, Euler, StateIndex
-from aerobench.visualize import raylib_renderer_cy as raylib_renderer
+from aerobench import raylib_renderer_cy as raylib_renderer
 
 
 class F16Waypoint:

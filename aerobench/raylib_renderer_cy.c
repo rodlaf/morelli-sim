@@ -4,29 +4,25 @@
 {
     "distutils": {
         "depends": [
-            "code/aerobench/visualize/raylib_renderer.h"
+            "aerobench/raylib_renderer.h"
         ],
         "include_dirs": [
-            "code/aerobench/visualize",
-            "/usr/local/include",
-            "/opt/homebrew/include"
+            "aerobench",
+            "/opt/homebrew/Cellar/raylib/5.5/include"
         ],
         "language": "c",
         "libraries": [
             "raylib"
         ],
         "library_dirs": [
-            "/Users/rodney/workspace/AeroBenchVVPython/.venv/lib/python3.11/site-packages/pyray",
-            "/usr/local/lib",
-            "/opt/homebrew/lib",
-            "/usr/lib"
+            "/opt/homebrew/Cellar/raylib/5.5/lib"
         ],
-        "name": "code.aerobench.visualize.raylib_renderer_cy",
+        "name": "aerobench.raylib_renderer_cy",
         "sources": [
-            "code/aerobench/visualize/raylib_renderer_cy.pyx"
+            "aerobench/raylib_renderer_cy.pyx"
         ]
     },
-    "module_name": "code.aerobench.visualize.raylib_renderer_cy"
+    "module_name": "aerobench.raylib_renderer_cy"
 }
 END: Cython Metadata */
 
@@ -1144,8 +1140,8 @@ static int __Pyx_init_co_variables(void) {
   #endif
 #endif
 
-#define __PYX_HAVE__code__aerobench__visualize__raylib_renderer_cy
-#define __PYX_HAVE_API__code__aerobench__visualize__raylib_renderer_cy
+#define __PYX_HAVE__aerobench__raylib_renderer_cy
+#define __PYX_HAVE_API__aerobench__raylib_renderer_cy
 /* Early includes */
 #include "raylib_renderer.h"
 #ifdef _OPENMP
@@ -1355,7 +1351,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char* const __pyx_f[] = {
-  "code/aerobench/visualize/raylib_renderer_cy.pyx",
+  "aerobench/raylib_renderer_cy.pyx",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* Atomics.proto */
@@ -2235,21 +2231,21 @@ static int __Pyx_State_RemoveModule(void*);
 #define __PYX_TYPE_MODULE_PREFIX __PYX_ABI_MODULE_NAME "."
 
 
-/* Module declarations from "code.aerobench.visualize.raylib_renderer_cy" */
+/* Module declarations from "aerobench.raylib_renderer_cy" */
 /* #### Code section: typeinfo ### */
 /* #### Code section: before_global_var ### */
-#define __Pyx_MODULE_NAME "code.aerobench.visualize.raylib_renderer_cy"
-extern int __pyx_module_is_main_code__aerobench__visualize__raylib_renderer_cy;
-int __pyx_module_is_main_code__aerobench__visualize__raylib_renderer_cy = 0;
+#define __Pyx_MODULE_NAME "aerobench.raylib_renderer_cy"
+extern int __pyx_module_is_main_aerobench__raylib_renderer_cy;
+int __pyx_module_is_main_aerobench__raylib_renderer_cy = 0;
 
-/* Implementation of "code.aerobench.visualize.raylib_renderer_cy" */
+/* Implementation of "aerobench.raylib_renderer_cy" */
 /* #### Code section: global_var ### */
 /* #### Code section: string_decls ### */
 /* #### Code section: decls ### */
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_render(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_state_dict); /* proto */
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2close(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6window_should_close(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_9aerobench_18raylib_renderer_cy_render(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_state_dict); /* proto */
+static PyObject *__pyx_pf_9aerobench_18raylib_renderer_cy_2close(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_9aerobench_18raylib_renderer_cy_4clear_trail(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_9aerobench_18raylib_renderer_cy_6window_should_close(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 /* #### Code section: late_includes ### */
 /* #### Code section: module_state ### */
 /* SmallCodeConfig */
@@ -2318,15 +2314,15 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #endif
 /* #### Code section: constant_name_defines ### */
 #define __pyx_kp_u_ __pyx_string_tab[0]
-#define __pyx_kp_u_code_aerobench_visualize_raylib_2 __pyx_string_tab[1]
+#define __pyx_kp_u_aerobench_raylib_renderer_cy_pyx __pyx_string_tab[1]
 #define __pyx_n_u_Pyx_PyDict_NextRef __pyx_string_tab[2]
-#define __pyx_n_u_alpha_rad __pyx_string_tab[3]
-#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[4]
-#define __pyx_n_u_beta_rad __pyx_string_tab[5]
-#define __pyx_n_u_clear_trail __pyx_string_tab[6]
-#define __pyx_n_u_cline_in_traceback __pyx_string_tab[7]
-#define __pyx_n_u_close __pyx_string_tab[8]
-#define __pyx_n_u_code_aerobench_visualize_raylib __pyx_string_tab[9]
+#define __pyx_n_u_aerobench_raylib_renderer_cy __pyx_string_tab[3]
+#define __pyx_n_u_alpha_rad __pyx_string_tab[4]
+#define __pyx_n_u_asyncio_coroutines __pyx_string_tab[5]
+#define __pyx_n_u_beta_rad __pyx_string_tab[6]
+#define __pyx_n_u_clear_trail __pyx_string_tab[7]
+#define __pyx_n_u_cline_in_traceback __pyx_string_tab[8]
+#define __pyx_n_u_close __pyx_string_tab[9]
 #define __pyx_n_u_func __pyx_string_tab[10]
 #define __pyx_n_u_get __pyx_string_tab[11]
 #define __pyx_n_u_is_coroutine __pyx_string_tab[12]
@@ -2421,7 +2417,7 @@ return 0;
 #endif
 /* #### Code section: module_code ### */
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":33
+/* "aerobench/raylib_renderer_cy.pyx":33
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
@@ -2430,16 +2426,16 @@ return 0;
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_1render(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_9aerobench_18raylib_renderer_cy_1render(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_render, "Render a single frame of the simulation.");
-static PyMethodDef __pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_1render = {"render", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_1render, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_render};
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_1render(PyObject *__pyx_self, 
+PyDoc_STRVAR(__pyx_doc_9aerobench_18raylib_renderer_cy_render, "Render a single frame of the simulation.");
+static PyMethodDef __pyx_mdef_9aerobench_18raylib_renderer_cy_1render = {"render", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_9aerobench_18raylib_renderer_cy_1render, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_9aerobench_18raylib_renderer_cy_render};
+static PyObject *__pyx_pw_9aerobench_18raylib_renderer_cy_1render(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -2501,11 +2497,11 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
     Py_XDECREF(values[__pyx_temp]);
   }
-  __Pyx_AddTraceback("code.aerobench.visualize.raylib_renderer_cy.render", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("aerobench.raylib_renderer_cy.render", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_render(__pyx_self, __pyx_v_state_dict);
+  __pyx_r = __pyx_pf_9aerobench_18raylib_renderer_cy_render(__pyx_self, __pyx_v_state_dict);
 
   /* function exit code */
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
@@ -2515,7 +2511,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_render(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_state_dict) {
+static PyObject *__pyx_pf_9aerobench_18raylib_renderer_cy_render(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_state_dict) {
   RenderState __pyx_v_state;
   PyObject *__pyx_v_waypoint = NULL;
   PyObject *__pyx_r = NULL;
@@ -2528,7 +2524,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("render", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":38
+  /* "aerobench/raylib_renderer_cy.pyx":38
  * 
  *     # Extract from dict
  *     state.time_sec = state_dict['time_sec']             # <<<<<<<<<<<<<<
@@ -2541,7 +2537,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.time_sec = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":39
+  /* "aerobench/raylib_renderer_cy.pyx":39
  *     # Extract from dict
  *     state.time_sec = state_dict['time_sec']
  *     state.speed_fps = state_dict['speed_fps']             # <<<<<<<<<<<<<<
@@ -2554,7 +2550,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.speed_fps = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":40
+  /* "aerobench/raylib_renderer_cy.pyx":40
  *     state.time_sec = state_dict['time_sec']
  *     state.speed_fps = state_dict['speed_fps']
  *     state.alpha_rad = state_dict['alpha_rad']             # <<<<<<<<<<<<<<
@@ -2567,7 +2563,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.alpha_rad = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":41
+  /* "aerobench/raylib_renderer_cy.pyx":41
  *     state.speed_fps = state_dict['speed_fps']
  *     state.alpha_rad = state_dict['alpha_rad']
  *     state.beta_rad = state_dict['beta_rad']             # <<<<<<<<<<<<<<
@@ -2580,7 +2576,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.beta_rad = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":42
+  /* "aerobench/raylib_renderer_cy.pyx":42
  *     state.alpha_rad = state_dict['alpha_rad']
  *     state.beta_rad = state_dict['beta_rad']
  *     state.phi_rad = state_dict['phi_rad']             # <<<<<<<<<<<<<<
@@ -2593,7 +2589,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.phi_rad = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":43
+  /* "aerobench/raylib_renderer_cy.pyx":43
  *     state.beta_rad = state_dict['beta_rad']
  *     state.phi_rad = state_dict['phi_rad']
  *     state.theta_rad = state_dict['theta_rad']             # <<<<<<<<<<<<<<
@@ -2606,7 +2602,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.theta_rad = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":44
+  /* "aerobench/raylib_renderer_cy.pyx":44
  *     state.phi_rad = state_dict['phi_rad']
  *     state.theta_rad = state_dict['theta_rad']
  *     state.psi_rad = state_dict['psi_rad']             # <<<<<<<<<<<<<<
@@ -2619,7 +2615,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.psi_rad = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":45
+  /* "aerobench/raylib_renderer_cy.pyx":45
  *     state.theta_rad = state_dict['theta_rad']
  *     state.psi_rad = state_dict['psi_rad']
  *     state.pos_e = state_dict['position_ft'][0]             # <<<<<<<<<<<<<<
@@ -2635,7 +2631,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_state.pos_e = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":46
+  /* "aerobench/raylib_renderer_cy.pyx":46
  *     state.psi_rad = state_dict['psi_rad']
  *     state.pos_e = state_dict['position_ft'][0]
  *     state.pos_n = state_dict['position_ft'][1]             # <<<<<<<<<<<<<<
@@ -2651,7 +2647,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.pos_n = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":47
+  /* "aerobench/raylib_renderer_cy.pyx":47
  *     state.pos_e = state_dict['position_ft'][0]
  *     state.pos_n = state_dict['position_ft'][1]
  *     state.altitude = state_dict['position_ft'][2]             # <<<<<<<<<<<<<<
@@ -2667,7 +2663,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_state.altitude = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":48
+  /* "aerobench/raylib_renderer_cy.pyx":48
  *     state.pos_n = state_dict['position_ft'][1]
  *     state.altitude = state_dict['position_ft'][2]
  *     state.nz_g = state_dict['nz_g']             # <<<<<<<<<<<<<<
@@ -2680,7 +2676,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_state.nz_g = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":49
+  /* "aerobench/raylib_renderer_cy.pyx":49
  *     state.altitude = state_dict['position_ft'][2]
  *     state.nz_g = state_dict['nz_g']
  *     state.ps_rad_s = state_dict['ps_rad_s']             # <<<<<<<<<<<<<<
@@ -2693,7 +2689,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_state.ps_rad_s = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":52
+  /* "aerobench/raylib_renderer_cy.pyx":52
  * 
  *     # Single waypoint
  *     waypoint = state_dict['waypoint']             # <<<<<<<<<<<<<<
@@ -2705,7 +2701,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __pyx_v_waypoint = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":53
+  /* "aerobench/raylib_renderer_cy.pyx":53
  *     # Single waypoint
  *     waypoint = state_dict['waypoint']
  *     state.waypoint_e = waypoint[0]             # <<<<<<<<<<<<<<
@@ -2718,7 +2714,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_state.waypoint_e = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":54
+  /* "aerobench/raylib_renderer_cy.pyx":54
  *     waypoint = state_dict['waypoint']
  *     state.waypoint_e = waypoint[0]
  *     state.waypoint_n = waypoint[1]             # <<<<<<<<<<<<<<
@@ -2731,7 +2727,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_state.waypoint_n = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":55
+  /* "aerobench/raylib_renderer_cy.pyx":55
  *     state.waypoint_e = waypoint[0]
  *     state.waypoint_n = waypoint[1]
  *     state.waypoint_alt = waypoint[2]             # <<<<<<<<<<<<<<
@@ -2744,7 +2740,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_state.waypoint_alt = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":56
+  /* "aerobench/raylib_renderer_cy.pyx":56
  *     state.waypoint_n = waypoint[1]
  *     state.waypoint_alt = waypoint[2]
  *     state.waypoint_radius = state_dict.get('waypoint_radius', 500.0)             # <<<<<<<<<<<<<<
@@ -2760,7 +2756,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.waypoint_radius = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":59
+  /* "aerobench/raylib_renderer_cy.pyx":59
  * 
  *     # World bounds
  *     state.world_bounds_e_min = state_dict['world_bounds_e_min']             # <<<<<<<<<<<<<<
@@ -2773,7 +2769,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.world_bounds_e_min = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":60
+  /* "aerobench/raylib_renderer_cy.pyx":60
  *     # World bounds
  *     state.world_bounds_e_min = state_dict['world_bounds_e_min']
  *     state.world_bounds_e_max = state_dict['world_bounds_e_max']             # <<<<<<<<<<<<<<
@@ -2786,7 +2782,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.world_bounds_e_max = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":61
+  /* "aerobench/raylib_renderer_cy.pyx":61
  *     state.world_bounds_e_min = state_dict['world_bounds_e_min']
  *     state.world_bounds_e_max = state_dict['world_bounds_e_max']
  *     state.world_bounds_n_min = state_dict['world_bounds_n_min']             # <<<<<<<<<<<<<<
@@ -2799,7 +2795,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.world_bounds_n_min = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":62
+  /* "aerobench/raylib_renderer_cy.pyx":62
  *     state.world_bounds_e_max = state_dict['world_bounds_e_max']
  *     state.world_bounds_n_min = state_dict['world_bounds_n_min']
  *     state.world_bounds_n_max = state_dict['world_bounds_n_max']             # <<<<<<<<<<<<<<
@@ -2812,7 +2808,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.world_bounds_n_max = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":63
+  /* "aerobench/raylib_renderer_cy.pyx":63
  *     state.world_bounds_n_min = state_dict['world_bounds_n_min']
  *     state.world_bounds_n_max = state_dict['world_bounds_n_max']
  *     state.world_bounds_alt_max = state_dict['world_bounds_alt_max']             # <<<<<<<<<<<<<<
@@ -2825,7 +2821,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_state.world_bounds_alt_max = __pyx_t_2;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":65
+  /* "aerobench/raylib_renderer_cy.pyx":65
  *     state.world_bounds_alt_max = state_dict['world_bounds_alt_max']
  * 
  *     raylib_renderer_render(&state)             # <<<<<<<<<<<<<<
@@ -2834,7 +2830,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
 */
   raylib_renderer_render((&__pyx_v_state));
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":33
+  /* "aerobench/raylib_renderer_cy.pyx":33
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
@@ -2848,7 +2844,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("code.aerobench.visualize.raylib_renderer_cy.render", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("aerobench.raylib_renderer_cy.render", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_waypoint);
@@ -2857,7 +2853,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
+/* "aerobench/raylib_renderer_cy.pyx":67
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
@@ -2866,28 +2862,28 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_rende
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_3close(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-PyDoc_STRVAR(__pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_2close, "Close the renderer window.");
-static PyMethodDef __pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_3close = {"close", (PyCFunction)__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_3close, METH_NOARGS, __pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_2close};
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_3close(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_9aerobench_18raylib_renderer_cy_3close(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+PyDoc_STRVAR(__pyx_doc_9aerobench_18raylib_renderer_cy_2close, "Close the renderer window.");
+static PyMethodDef __pyx_mdef_9aerobench_18raylib_renderer_cy_3close = {"close", (PyCFunction)__pyx_pw_9aerobench_18raylib_renderer_cy_3close, METH_NOARGS, __pyx_doc_9aerobench_18raylib_renderer_cy_2close};
+static PyObject *__pyx_pw_9aerobench_18raylib_renderer_cy_3close(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("close (wrapper)", 0);
   __pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
-  __pyx_r = __pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2close(__pyx_self);
+  __pyx_r = __pyx_pf_9aerobench_18raylib_renderer_cy_2close(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2close(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_9aerobench_18raylib_renderer_cy_2close(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("close", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":69
+  /* "aerobench/raylib_renderer_cy.pyx":69
  * def close():
  *     """Close the renderer window."""
  *     raylib_renderer_close()             # <<<<<<<<<<<<<<
@@ -2896,7 +2892,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
 */
   raylib_renderer_close();
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
+  /* "aerobench/raylib_renderer_cy.pyx":67
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
@@ -2911,7 +2907,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
+/* "aerobench/raylib_renderer_cy.pyx":71
  *     raylib_renderer_close()
  * 
  * def clear_trail():             # <<<<<<<<<<<<<<
@@ -2920,28 +2916,28 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_2clos
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-PyDoc_STRVAR(__pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail, "Clear trail/ribbon only (for episode boundaries without full reset).");
-static PyMethodDef __pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail = {"clear_trail", (PyCFunction)__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail, METH_NOARGS, __pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail};
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_9aerobench_18raylib_renderer_cy_5clear_trail(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+PyDoc_STRVAR(__pyx_doc_9aerobench_18raylib_renderer_cy_4clear_trail, "Clear trail/ribbon only (for episode boundaries without full reset).");
+static PyMethodDef __pyx_mdef_9aerobench_18raylib_renderer_cy_5clear_trail = {"clear_trail", (PyCFunction)__pyx_pw_9aerobench_18raylib_renderer_cy_5clear_trail, METH_NOARGS, __pyx_doc_9aerobench_18raylib_renderer_cy_4clear_trail};
+static PyObject *__pyx_pw_9aerobench_18raylib_renderer_cy_5clear_trail(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("clear_trail (wrapper)", 0);
   __pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
-  __pyx_r = __pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail(__pyx_self);
+  __pyx_r = __pyx_pf_9aerobench_18raylib_renderer_cy_4clear_trail(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clear_trail(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_9aerobench_18raylib_renderer_cy_4clear_trail(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("clear_trail", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":73
+  /* "aerobench/raylib_renderer_cy.pyx":73
  * def clear_trail():
  *     """Clear trail/ribbon only (for episode boundaries without full reset)."""
  *     raylib_renderer_clear_trail()             # <<<<<<<<<<<<<<
@@ -2950,7 +2946,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clea
 */
   raylib_renderer_clear_trail();
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
+  /* "aerobench/raylib_renderer_cy.pyx":71
  *     raylib_renderer_close()
  * 
  * def clear_trail():             # <<<<<<<<<<<<<<
@@ -2965,7 +2961,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clea
   return __pyx_r;
 }
 
-/* "code/aerobench/visualize/raylib_renderer_cy.pyx":75
+/* "aerobench/raylib_renderer_cy.pyx":75
  *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
@@ -2974,23 +2970,23 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_4clea
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-PyDoc_STRVAR(__pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_6window_should_close, "Check if window should close.");
-static PyMethodDef __pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close = {"window_should_close", (PyCFunction)__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close, METH_NOARGS, __pyx_doc_4code_9aerobench_9visualize_18raylib_renderer_cy_6window_should_close};
-static PyObject *__pyx_pw_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_9aerobench_18raylib_renderer_cy_7window_should_close(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+PyDoc_STRVAR(__pyx_doc_9aerobench_18raylib_renderer_cy_6window_should_close, "Check if window should close.");
+static PyMethodDef __pyx_mdef_9aerobench_18raylib_renderer_cy_7window_should_close = {"window_should_close", (PyCFunction)__pyx_pw_9aerobench_18raylib_renderer_cy_7window_should_close, METH_NOARGS, __pyx_doc_9aerobench_18raylib_renderer_cy_6window_should_close};
+static PyObject *__pyx_pw_9aerobench_18raylib_renderer_cy_7window_should_close(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("window_should_close (wrapper)", 0);
   __pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
-  __pyx_r = __pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6window_should_close(__pyx_self);
+  __pyx_r = __pyx_pf_9aerobench_18raylib_renderer_cy_6window_should_close(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6window_should_close(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_9aerobench_18raylib_renderer_cy_6window_should_close(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2999,7 +2995,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6wind
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("window_should_close", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":77
+  /* "aerobench/raylib_renderer_cy.pyx":77
  * def window_should_close():
  *     """Check if window should close."""
  *     return raylib_renderer_should_close()             # <<<<<<<<<<<<<<
@@ -3011,7 +3007,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6wind
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":75
+  /* "aerobench/raylib_renderer_cy.pyx":75
  *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
@@ -3022,7 +3018,7 @@ static PyObject *__pyx_pf_4code_9aerobench_9visualize_18raylib_renderer_cy_6wind
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("code.aerobench.visualize.raylib_renderer_cy.window_should_close", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("aerobench.raylib_renderer_cy.window_should_close", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3354,13 +3350,13 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   if (__Pyx_InitConstants(__pyx_mstate) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   stringtab_initialized = 1;
   if (__Pyx_InitGlobals() < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__pyx_module_is_main_code__aerobench__visualize__raylib_renderer_cy) {
+  if (__pyx_module_is_main_aerobench__raylib_renderer_cy) {
     if (PyObject_SetAttr(__pyx_m, __pyx_mstate_global->__pyx_n_u_name, __pyx_mstate_global->__pyx_n_u_main) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "code.aerobench.visualize.raylib_renderer_cy")) {
-      if (unlikely((PyDict_SetItemString(modules, "code.aerobench.visualize.raylib_renderer_cy", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "aerobench.raylib_renderer_cy")) {
+      if (unlikely((PyDict_SetItemString(modules, "aerobench.raylib_renderer_cy", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   /*--- Builtin init code ---*/
@@ -3378,14 +3374,14 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   (void)__Pyx_modinit_function_import_code(__pyx_mstate);
   /*--- Execution code ---*/
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":33
+  /* "aerobench/raylib_renderer_cy.pyx":33
  *     bint raylib_renderer_should_close()
  * 
  * def render(state_dict):             # <<<<<<<<<<<<<<
  *     """Render a single frame of the simulation."""
  *     cdef RenderState state
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_1render, 0, __pyx_mstate_global->__pyx_n_u_render, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_18raylib_renderer_cy_1render, 0, __pyx_mstate_global->__pyx_n_u_render, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_raylib_renderer_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
@@ -3393,14 +3389,14 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_render, __pyx_t_2) < (0)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":67
+  /* "aerobench/raylib_renderer_cy.pyx":67
  *     raylib_renderer_render(&state)
  * 
  * def close():             # <<<<<<<<<<<<<<
  *     """Close the renderer window."""
  *     raylib_renderer_close()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_3close, 0, __pyx_mstate_global->__pyx_n_u_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_18raylib_renderer_cy_3close, 0, __pyx_mstate_global->__pyx_n_u_close, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_raylib_renderer_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
@@ -3408,14 +3404,14 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_close, __pyx_t_2) < (0)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":71
+  /* "aerobench/raylib_renderer_cy.pyx":71
  *     raylib_renderer_close()
  * 
  * def clear_trail():             # <<<<<<<<<<<<<<
  *     """Clear trail/ribbon only (for episode boundaries without full reset)."""
  *     raylib_renderer_clear_trail()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_5clear_trail, 0, __pyx_mstate_global->__pyx_n_u_clear_trail, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_18raylib_renderer_cy_5clear_trail, 0, __pyx_mstate_global->__pyx_n_u_clear_trail, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_raylib_renderer_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
@@ -3423,14 +3419,14 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_clear_trail, __pyx_t_2) < (0)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":75
+  /* "aerobench/raylib_renderer_cy.pyx":75
  *     raylib_renderer_clear_trail()
  * 
  * def window_should_close():             # <<<<<<<<<<<<<<
  *     """Check if window should close."""
  *     return raylib_renderer_should_close()
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_4code_9aerobench_9visualize_18raylib_renderer_cy_7window_should_close, 0, __pyx_mstate_global->__pyx_n_u_window_should_close, NULL, __pyx_mstate_global->__pyx_n_u_code_aerobench_visualize_raylib, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_18raylib_renderer_cy_7window_should_close, 0, __pyx_mstate_global->__pyx_n_u_window_should_close, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_raylib_renderer_cy, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
@@ -3438,7 +3434,7 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_window_should_close, __pyx_t_2) < (0)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":1
+  /* "aerobench/raylib_renderer_cy.pyx":1
  * # cython: language_level=3             # <<<<<<<<<<<<<<
  * # Cython wrapper for raylib_renderer
  * 
@@ -3455,7 +3451,7 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_mstate->__pyx_d && stringtab_initialized) {
-      __Pyx_AddTraceback("init code.aerobench.visualize.raylib_renderer_cy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init aerobench.raylib_renderer_cy", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     #if !CYTHON_USE_MODULE_STATE
     Py_CLEAR(__pyx_m);
@@ -3469,7 +3465,7 @@ __Pyx_RefNannySetupContext("PyInit_raylib_renderer_cy", 0);
     }
     #endif
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init code.aerobench.visualize.raylib_renderer_cy");
+    PyErr_SetString(PyExc_ImportError, "init aerobench.raylib_renderer_cy");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -3501,7 +3497,7 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "code/aerobench/visualize/raylib_renderer_cy.pyx":56
+  /* "aerobench/raylib_renderer_cy.pyx":56
  *     state.waypoint_n = waypoint[1]
  *     state.waypoint_alt = waypoint[2]
  *     state.waypoint_radius = state_dict.get('waypoint_radius', 500.0)             # <<<<<<<<<<<<<<
@@ -3534,25 +3530,25 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 9; } index[] = {{1},{47},{20},{9},{18},{8},{11},{18},{5},{43},{8},{3},{13},{5},{8},{10},{8},{4},{7},{3},{11},{8},{7},{12},{6},{12},{10},{9},{5},{10},{8},{9},{8},{6},{8},{15},{19},{20},{18},{18},{18},{18},{281},{7},{7},{10}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (540 bytes) */
-const char* const cstring = "BZh91AY&SY\374E\036\201\000\000F\377\373\3479`\177\240\231\240\001\244\021P\021\277\377\377\360@@@@@@\000@@@@\000@\000@\001\334al\230JJ\236\3254\361F\303E<\241\210\315!\221\221\221\210\311\223\003\nz\203D\322i\2024\223bj144\000\000\000h\r\036\220\346\004\304\320a2d\311\221\204\3014\323#\023\000C\000\224\324\322dS\312\031\r\000\000\000\000\000\0322<\222T\033\346&l,\225\254\301pM\262\031\031\253f\010X;\322\366\220\270\023Z\350\242\362\272\210\215\024\304`\024)B\210\006t\312\273\276-\207\232\025E-\301\205\331\322%P\370\033\023\203\216=\260d\217\272\347\351\215\375\2265Q\030\214\242F\003\316\222\352&\346\245\231\260\"\307\302{\005\242\227\240N\241{\324\035\n\336\024\323\"\354\355V\237\342\372}\360*h\210cI\302\221h\273V\020\374\202\311\020\246\303#\225\367\314\335\n\266\001h\0338$Q@a\2011j3 k\334\216\301\233\253'5\301\027\216\241\035Z`\347\344\027\022\314\030\250M0\307|\033\262\241\246\201\200\204\204\236l\023\324?%)\315\331X\261h\254E\031\230SD\0343\223u\355c\000\373\242\274\310C\253\0014\240tX\367\242B5\274\344T\232N\302\032(tt\2021jb\013\035\032\216D\033!e\211_\026\334=}\023\\\270\311\221&Q\"v9\316\204y\332\2050\201\003\0061S\210\300\224\3230\214\321NDX\224\341WGv\340\311\254<\306\020\033\032\365\035\017\013\255a\316p\336I9\355B\0161\034\032\311\202\002U\nN\320\221,\247M*hmCQ\270\361\216P\216\2156=\204\320\244M:\277\r\207\350mM\302\362+wW\016i\347\024\344\005$\365\027E\026\206\202\264\224H\250G\237v\246\007\242\302\262&'\363\365\332-\240\374\314\276h\331}@x<P\230DUH\377\027rE8P\220\374E\036\201";
-    PyObject *data = __Pyx_DecompressString(cstring, 540, 2);
+    const struct { const unsigned int length: 9; } index[] = {{1},{32},{20},{28},{9},{18},{8},{11},{18},{5},{8},{3},{13},{5},{8},{10},{8},{4},{7},{3},{11},{8},{7},{12},{6},{12},{10},{9},{5},{10},{8},{9},{8},{6},{8},{15},{19},{20},{18},{18},{18},{18},{281},{7},{7},{10}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (522 bytes) */
+const char* const cstring = "BZh91AY&SY?\345*@\000\000D\377\373\3479`\177\240\231\240\001\244\021P\021\277\377\377\360@@@@@@\000@@@@\000@\000@\001\334j[mCELG\244\003!\265\r4\365\000\000\000\000\323G\250\001\251\246\200\320\251\372\220\362\215\036\240\000\000\003 \r\007\250\365\0070&&\203\t\223&L\214&\t\246\231\030\230\002\030\004\212h\201L\312\236\322\236\210\310\003@4\001\204h4d~*UC\214\353K\2517\222A\230V\2644Ky \226\242\"\310\310\226`\326P\312v\236t\230\246\3219\005\035R\244\203\032\313\177\031t\026\025\256>\250P\331K\010\355\256\270\010 \214\244\233?\177c\353\331.\227\330\354'19\223\221\025VgJ\341\312l\234\r\2031\372\206\032\331\354\036\261\202,FV \\\tJ\315\340\273\377mL$\254\352LJ*\270\274\334pi\264\273\210\335\202/\334\323\303<\350t\334]\005u\n$\261\265R$\332\n[o\236\202\240\370\003m\316O\353\361E.\032Ja\002\025\rh\325\302P\327X\276\203=B\242\250N\017\304>\353W\224ns\005\242\3013u&\233\212v\235\252\026\003\331\005R\004\014\220\rU#\223z/\231)\341\025\324Z\325P\206)\262\343\r\244=\210\326\\F\335\310 8\354w\247\006P\345\031\n}\367TD\243\017\0256\332\"8\220\3014%\0200a3R`U\255r\210\215q3`\251c\236\3660\326\332[\004\014\023\250\213* e\214\021\216\372\353\013k\204X\315O\rf\273\315O|\213\227|\267\374\340\261\221\215\274\234\001\217\367\242\236\321r\264\\8\362\035\007P;\024!\235G\014\270\243-`\333\236=\205\374\n\006*\206\000\374I\005C\321_\205\331b\036\211\206\206\334Vxi\304w\230\177/\330o\352\330\344D\242lhd\335\254\177\027rE8P\220?\345*@";
+    PyObject *data = __Pyx_DecompressString(cstring, 522, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (463 bytes) */
-const char* const cstring = "x\332\215P\275n\3330\020\216\000\247\200\035\240\250\266\330M\033x*\320\0022\362\002-\002t\312P\004\035;\364@\221\347\210-MR\"\025[\2362z\324\310Q\243\036\241\217\341\261c\036!\217PRj\\\347g(\007\336w\337}\307\373\216\237\250b8#X\250\024%\315f\327\334\224D\3605\316\nR\t\236B\201\222a\201\005\320*\321\325\n\340\322_\227\325gN-|\301\225\375\212s\"tF\240 \214\230JR\256\022\252\nUZ.\321\244h\273\n\025H\n\260\005\341\202\n_\000.CF1%\364'\025\312`\360\221\354|$;\037\311S\037\000\363RR\200+\264\300\r\354\246q\213\013\003\260 \376q\177\026\212\225\002\003\222d\341\243\\\303\225\316x\260\243\225\326\312p\313\225\204\271\325&p`\264\351\212\000\271\037\335\367\364S\001\214\037\3253\0361\277r)\254\321\210\014\346\332\030K,v\027\260\360-\0202\177g\177\227\267\3347\372\r\257\211(\321,I\245\025\227\366>\006\005/\315\222K\246\226`2U\n\006\335\227,U\341a\252J\311\014\020a\375f\253\007\034>\307p\371\200\221O42hn\242\273\321\301\341hsR\177sy\023\375\036\0147o\352\037M\324\304\217\340\236\340u}\341\210\313\037\t\366\330q\375\336\235\273\357\355Y{\376L\332\277\364\262%m'>\256'\356\314\355U\242\273\027\007\207\2576k\027\273i`\337\326\253\373\311\377\340v8v\307M\334L;|\342.\032\326N\267\037>\376\"\241{\264\035\236\272u\033\267}\371\177\360\264\231\004\203\267\203\211\233\006?7\321\355`\354\342\020N]\036\302\321\366\350]\223\377\001E\334=\241";
-    PyObject *data = __Pyx_DecompressString(cstring, 463, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (446 bytes) */
+const char* const cstring = "x\332\215P\275n\3330\020\216\000\247\200\035\240\250\266\330M\032h*\320\002.\362\002-\002t\312P\004\035;\364@\221\347\210-M\322$U[\2362z\324\310Q\243\036\241\217\3411c\036!\217PRjR\347g\250\206\273\357\276\373>\336\235>\0214*GI\213\017\206T\202\347`P24h\200VS]\255\000.B\270\250>s\352\340\013\256\334W\234\335{\246O=D\350\202\200!\214\330JR\256\246T\031U:.\321\346\350\272\016\025H\0148C\270\240\"4\200\313XQ\314\t\375I\205\262\0100+%\005\270D\007\334\302\375\023\334\341\334\002\314Ip\204o\256X)0\"I\346!\3135\\\352\202\307\031Zi\255,w\\I\2309m#\007V\333\256\t\260(\211\350=\375\352\0006\214\352\231\200X\270\261\024\316jD\0063m\255#\016\273\000,\376\007\210U\210\305\337\213\034\017F\213\364\027\021%\332%\251\264\342\322\335\345\250\340\245]r\311\324\022l\241J\301\240\273s\251L\200\271*%\263@\204\013\227\255\036p\370\034\303\345\003F>\321\310\250\271JnG{\373\243\315Q\375\315/\232\344z0\334\034\327?\232\244I\037\301\035\301\353\372\334\023\277x$\330a\307\365;\177\346\277\267\247\355\3313e\377\322\313\226\264\235\370\260\236\370S\277\323In_\354\355\277\332\254}\352\263\310\276\251Ww\223\377\301\355p\354\017\233\264\311:|\344\317\033\326f\333\367\037\177\223\350\036m\207'~\335\246m\337\376\037\2345\223\270\340\315`\342\263\270\317Ur3\030\3734\246\023\277\210\351`{\360\266Y\374\001\374t1\371";
+    PyObject *data = __Pyx_DecompressString(cstring, 446, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (809 bytes) */
-const char* const bytes = "?code/aerobench/visualize/raylib_renderer_cy.pyx__Pyx_PyDict_NextRefalpha_radasyncio.coroutinesbeta_radclear_trailcline_in_tracebackclosecode.aerobench.visualize.raylib_renderer_cy__func__get_is_coroutineitems__main____module____name__nz_gphi_radpopposition_ftps_rad_spsi_rad__qualname__render__set_name__setdefaultspeed_fpsstatestate_dict__test__theta_radtime_secvalueswaypointwaypoint_radiuswindow_should_closeworld_bounds_alt_maxworld_bounds_e_maxworld_bounds_e_minworld_bounds_n_maxworld_bounds_n_min\200\001\360\n\000\005\n\210\034\220Z\230q\240\001\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\034\220Z\230q\240\001\330\004\t\210\033\220J\230a\230q\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\033\220J\230a\230q\330\004\t\210\031\220*\230A\230^\2501\250A\330\004\t\210\031\220*\230A\230^\2501\250A\330\004\t\210\034\220Z\230q\240\016\250a\250q\330\004\t\210\030\220\032\2301\230A\330\004\t\210\034\220Z\230q\240\001\360\006\000\005\020\210z\230\021\230!\330\004\t\210\036\220x\230q\240\001\330\004\t\210\036\220x\230q\240\001\330\004\t\320\t\031\230\030\240\021\240!\330\004\t\320\t\034\230J\240d\250!\320+>\270a\360\006\000\005\n\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t!\240\032\2501\250A\340\004\032\230!\2301\230A\200\001\340\004\031\230\021\200\001\340\004\037\230q\200\001\340\004\013\320\013'\240q";
+    #else /* compression: none (779 bytes) */
+const char* const bytes = "?aerobench/raylib_renderer_cy.pyx__Pyx_PyDict_NextRefaerobench.raylib_renderer_cyalpha_radasyncio.coroutinesbeta_radclear_trailcline_in_tracebackclose__func__get_is_coroutineitems__main____module____name__nz_gphi_radpopposition_ftps_rad_spsi_rad__qualname__render__set_name__setdefaultspeed_fpsstatestate_dict__test__theta_radtime_secvalueswaypointwaypoint_radiuswindow_should_closeworld_bounds_alt_maxworld_bounds_e_maxworld_bounds_e_minworld_bounds_n_maxworld_bounds_n_min\200\001\360\n\000\005\n\210\034\220Z\230q\240\001\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\034\220Z\230q\240\001\330\004\t\210\033\220J\230a\230q\330\004\t\210\035\220j\240\001\240\021\330\004\t\210\033\220J\230a\230q\330\004\t\210\031\220*\230A\230^\2501\250A\330\004\t\210\031\220*\230A\230^\2501\250A\330\004\t\210\034\220Z\230q\240\016\250a\250q\330\004\t\210\030\220\032\2301\230A\330\004\t\210\034\220Z\230q\240\001\360\006\000\005\020\210z\230\021\230!\330\004\t\210\036\220x\230q\240\001\330\004\t\210\036\220x\230q\240\001\330\004\t\320\t\031\230\030\240\021\240!\330\004\t\320\t\034\230J\240d\250!\320+>\270a\360\006\000\005\n\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t\037\230z\250\021\250!\330\004\t\320\t!\240\032\2501\250A\340\004\032\230!\2301\230A\200\001\340\004\031\230\021\200\001\340\004\037\230q\200\001\340\004\013\320\013'\240q";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
@@ -3648,22 +3644,22 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   {
     const __Pyx_PyCode_New_function_description descr = {1, 0, 0, 3, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 33};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_state_dict, __pyx_mstate->__pyx_n_u_state, __pyx_mstate->__pyx_n_u_waypoint};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_render, __pyx_mstate->__pyx_kp_b_iso88591_Zq_j_j_Zq_Jaq_j_Jaq_A_1A_A_1A_Z, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_raylib_renderer_cy_pyx, __pyx_mstate->__pyx_n_u_render, __pyx_mstate->__pyx_kp_b_iso88591_Zq_j_j_Zq_Jaq_j_Jaq_A_1A_A_1A_Z, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   {
     const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 67};
     PyObject* const varnames[] = {0};
-    __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_close, __pyx_mstate->__pyx_kp_b_iso88591__2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_raylib_renderer_cy_pyx, __pyx_mstate->__pyx_n_u_close, __pyx_mstate->__pyx_kp_b_iso88591__2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
   {
     const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 71};
     PyObject* const varnames[] = {0};
-    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_clear_trail, __pyx_mstate->__pyx_kp_b_iso88591_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_raylib_renderer_cy_pyx, __pyx_mstate->__pyx_n_u_clear_trail, __pyx_mstate->__pyx_kp_b_iso88591_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
   }
   {
     const __Pyx_PyCode_New_function_description descr = {0, 0, 0, 0, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 75};
     PyObject* const varnames[] = {0};
-    __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_visualize_raylib_2, __pyx_mstate->__pyx_n_u_window_should_close, __pyx_mstate->__pyx_kp_b_iso88591_q_2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_raylib_renderer_cy_pyx, __pyx_mstate->__pyx_n_u_window_should_close, __pyx_mstate->__pyx_kp_b_iso88591_q_2, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;

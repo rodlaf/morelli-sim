@@ -9,19 +9,19 @@
             "/Users/rodney/workspace/AeroBenchVVPython/.venv/lib/python3.11/site-packages/numpy/_core/include/numpy/ndarrayobject.h",
             "/Users/rodney/workspace/AeroBenchVVPython/.venv/lib/python3.11/site-packages/numpy/_core/include/numpy/ndarraytypes.h",
             "/Users/rodney/workspace/AeroBenchVVPython/.venv/lib/python3.11/site-packages/numpy/_core/include/numpy/ufuncobject.h",
-            "code/aerobench/highlevel/f16_model.h"
+            "aerobench/f16_model.h"
         ],
         "include_dirs": [
-            "code/aerobench/highlevel",
+            "aerobench",
             "/Users/rodney/workspace/AeroBenchVVPython/.venv/lib/python3.11/site-packages/numpy/_core/include"
         ],
         "language": "c",
-        "name": "aerobench.highlevel.f16_model",
+        "name": "aerobench.f16_model",
         "sources": [
-            "code/aerobench/highlevel/f16_model.pyx"
+            "aerobench/f16_model.pyx"
         ]
     },
-    "module_name": "aerobench.highlevel.f16_model"
+    "module_name": "aerobench.f16_model"
 }
 END: Cython Metadata */
 
@@ -1139,8 +1139,8 @@ static int __Pyx_init_co_variables(void) {
   #endif
 #endif
 
-#define __PYX_HAVE__aerobench__highlevel__f16_model
-#define __PYX_HAVE_API__aerobench__highlevel__f16_model
+#define __PYX_HAVE__aerobench__f16_model
+#define __PYX_HAVE_API__aerobench__f16_model
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
@@ -1384,7 +1384,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char* const __pyx_f[] = {
-  "code/aerobench/highlevel/f16_model.pyx",
+  "aerobench/f16_model.pyx",
   "<stringsource>",
   ".venv/lib/python3.11/site-packages/numpy/__init__.cython-30.pxd",
   ".venv/lib/python3.11/site-packages/Cython/Includes/cpython/type.pxd",
@@ -3260,7 +3260,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy_7ndarray_4data_data(PyArrayObject *__p
 
 /* Module declarations from "numpy" */
 
-/* Module declarations from "aerobench.highlevel.f16_model" */
+/* Module declarations from "aerobench.f16_model" */
 static PyObject *__pyx_collections_abc_Sequence = 0;
 static PyObject *generic = 0;
 static PyObject *strided = 0;
@@ -3307,11 +3307,11 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, 
 static const __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t = { "float64_t", NULL, sizeof(__pyx_t_5numpy_float64_t), { 0 }, 0, 'R', 0, 0 };
 static const __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
 /* #### Code section: before_global_var ### */
-#define __Pyx_MODULE_NAME "aerobench.highlevel.f16_model"
-extern int __pyx_module_is_main_aerobench__highlevel__f16_model;
-int __pyx_module_is_main_aerobench__highlevel__f16_model = 0;
+#define __Pyx_MODULE_NAME "aerobench.f16_model"
+extern int __pyx_module_is_main_aerobench__f16_model;
+int __pyx_module_is_main_aerobench__f16_model = 0;
 
-/* Implementation of "aerobench.highlevel.f16_model" */
+/* Implementation of "aerobench.f16_model" */
 /* #### Code section: global_var ### */
 static PyObject *__pyx_builtin___import__;
 static PyObject *__pyx_builtin_enumerate;
@@ -3360,7 +3360,7 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrapper(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x_f16, PyArrayObject *__pyx_v_u_ref); /* proto */
+static PyObject *__pyx_pf_9aerobench_9f16_model_controlled_f16_wrapper(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x_f16, PyArrayObject *__pyx_v_u_ref); /* proto */
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -3482,9 +3482,9 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_kp_u__5 __pyx_string_tab[22]
 #define __pyx_kp_u__6 __pyx_string_tab[23]
 #define __pyx_kp_u_add_note __pyx_string_tab[24]
-#define __pyx_kp_u_and __pyx_string_tab[25]
-#define __pyx_kp_u_at_0x __pyx_string_tab[26]
-#define __pyx_kp_u_code_aerobench_highlevel_f16_mod __pyx_string_tab[27]
+#define __pyx_kp_u_aerobench_f16_model_pyx __pyx_string_tab[25]
+#define __pyx_kp_u_and __pyx_string_tab[26]
+#define __pyx_kp_u_at_0x __pyx_string_tab[27]
 #define __pyx_kp_u_collections_abc __pyx_string_tab[28]
 #define __pyx_kp_u_contiguous_and_direct __pyx_string_tab[29]
 #define __pyx_kp_u_contiguous_and_indirect __pyx_string_tab[30]
@@ -3515,7 +3515,7 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_Sequence __pyx_string_tab[55]
 #define __pyx_n_u_View_MemoryView __pyx_string_tab[56]
 #define __pyx_n_u_abc __pyx_string_tab[57]
-#define __pyx_n_u_aerobench_highlevel_f16_model __pyx_string_tab[58]
+#define __pyx_n_u_aerobench_f16_model __pyx_string_tab[58]
 #define __pyx_n_u_allocate_buffer __pyx_string_tab[59]
 #define __pyx_n_u_ascontiguousarray __pyx_string_tab[60]
 #define __pyx_n_u_asyncio_coroutines __pyx_string_tab[61]
@@ -18696,7 +18696,7 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
   return __pyx_r;
 }
 
-/* "aerobench/highlevel/f16_model.pyx":11
+/* "aerobench/f16_model.pyx":11
  * 
  * 
  * def controlled_f16_wrapper(np.ndarray[np.float64_t, ndim=1] x_f16,             # <<<<<<<<<<<<<<
@@ -18705,16 +18705,16 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9aerobench_9highlevel_9f16_model_1controlled_f16_wrapper(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_9aerobench_9f16_model_1controlled_f16_wrapper(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_9aerobench_9highlevel_9f16_model_controlled_f16_wrapper, "Call the C controlled_f16 implementation and return numpy outputs.");
-static PyMethodDef __pyx_mdef_9aerobench_9highlevel_9f16_model_1controlled_f16_wrapper = {"controlled_f16_wrapper", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_9aerobench_9highlevel_9f16_model_1controlled_f16_wrapper, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_9aerobench_9highlevel_9f16_model_controlled_f16_wrapper};
-static PyObject *__pyx_pw_9aerobench_9highlevel_9f16_model_1controlled_f16_wrapper(PyObject *__pyx_self, 
+PyDoc_STRVAR(__pyx_doc_9aerobench_9f16_model_controlled_f16_wrapper, "Call the C controlled_f16 implementation and return numpy outputs.");
+static PyMethodDef __pyx_mdef_9aerobench_9f16_model_1controlled_f16_wrapper = {"controlled_f16_wrapper", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_9aerobench_9f16_model_1controlled_f16_wrapper, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_9aerobench_9f16_model_controlled_f16_wrapper};
+static PyObject *__pyx_pw_9aerobench_9f16_model_1controlled_f16_wrapper(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -18784,13 +18784,13 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   for (Py_ssize_t __pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
     Py_XDECREF(values[__pyx_temp]);
   }
-  __Pyx_AddTraceback("aerobench.highlevel.f16_model.controlled_f16_wrapper", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("aerobench.f16_model.controlled_f16_wrapper", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x_f16), __pyx_mstate_global->__pyx_ptype_5numpy_ndarray, 1, "x_f16", 0))) __PYX_ERR(0, 11, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_u_ref), __pyx_mstate_global->__pyx_ptype_5numpy_ndarray, 1, "u_ref", 0))) __PYX_ERR(0, 12, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrapper(__pyx_self, __pyx_v_x_f16, __pyx_v_u_ref);
+  __pyx_r = __pyx_pf_9aerobench_9f16_model_controlled_f16_wrapper(__pyx_self, __pyx_v_x_f16, __pyx_v_u_ref);
 
   /* function exit code */
   goto __pyx_L0;
@@ -18809,7 +18809,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrapper(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x_f16, PyArrayObject *__pyx_v_u_ref) {
+static PyObject *__pyx_pf_9aerobench_9f16_model_controlled_f16_wrapper(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x_f16, PyArrayObject *__pyx_v_u_ref) {
   PyArrayObject *__pyx_v_x_arr = 0;
   PyArrayObject *__pyx_v_u_arr = 0;
   PyArrayObject *__pyx_v_xd_arr = 0;
@@ -18887,7 +18887,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   }
   __pyx_pybuffernd_u_ref.diminfo[0].strides = __pyx_pybuffernd_u_ref.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_u_ref.diminfo[0].shape = __pyx_pybuffernd_u_ref.rcbuffer->pybuffer.shape[0];
 
-  /* "aerobench/highlevel/f16_model.pyx":14
+  /* "aerobench/f16_model.pyx":14
  *                             np.ndarray[np.float64_t, ndim=1] u_ref):
  *     """Call the C controlled_f16 implementation and return numpy outputs."""
  *     if x_f16.size != 16:             # <<<<<<<<<<<<<<
@@ -18897,7 +18897,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_t_1 = (__pyx_f_5numpy_7ndarray_4size_size(((PyArrayObject *)__pyx_v_x_f16)) != 16);
   if (unlikely(__pyx_t_1)) {
 
-    /* "aerobench/highlevel/f16_model.pyx":15
+    /* "aerobench/f16_model.pyx":15
  *     """Call the C controlled_f16 implementation and return numpy outputs."""
  *     if x_f16.size != 16:
  *         raise ValueError("x_f16 must have length 16")             # <<<<<<<<<<<<<<
@@ -18917,7 +18917,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __PYX_ERR(0, 15, __pyx_L1_error)
 
-    /* "aerobench/highlevel/f16_model.pyx":14
+    /* "aerobench/f16_model.pyx":14
  *                             np.ndarray[np.float64_t, ndim=1] u_ref):
  *     """Call the C controlled_f16 implementation and return numpy outputs."""
  *     if x_f16.size != 16:             # <<<<<<<<<<<<<<
@@ -18926,7 +18926,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
 */
   }
 
-  /* "aerobench/highlevel/f16_model.pyx":16
+  /* "aerobench/f16_model.pyx":16
  *     if x_f16.size != 16:
  *         raise ValueError("x_f16 must have length 16")
  *     if u_ref.size != 4:             # <<<<<<<<<<<<<<
@@ -18936,7 +18936,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_t_1 = (__pyx_f_5numpy_7ndarray_4size_size(((PyArrayObject *)__pyx_v_u_ref)) != 4);
   if (unlikely(__pyx_t_1)) {
 
-    /* "aerobench/highlevel/f16_model.pyx":17
+    /* "aerobench/f16_model.pyx":17
  *         raise ValueError("x_f16 must have length 16")
  *     if u_ref.size != 4:
  *         raise ValueError("u_ref must have length 4")             # <<<<<<<<<<<<<<
@@ -18956,7 +18956,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __PYX_ERR(0, 17, __pyx_L1_error)
 
-    /* "aerobench/highlevel/f16_model.pyx":16
+    /* "aerobench/f16_model.pyx":16
  *     if x_f16.size != 16:
  *         raise ValueError("x_f16 must have length 16")
  *     if u_ref.size != 4:             # <<<<<<<<<<<<<<
@@ -18965,7 +18965,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
 */
   }
 
-  /* "aerobench/highlevel/f16_model.pyx":19
+  /* "aerobench/f16_model.pyx":19
  *         raise ValueError("u_ref must have length 4")
  * 
  *     cdef np.ndarray[np.float64_t, ndim=1] x_arr = np.ascontiguousarray(x_f16, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -19020,7 +19020,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_v_x_arr = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "aerobench/highlevel/f16_model.pyx":20
+  /* "aerobench/f16_model.pyx":20
  * 
  *     cdef np.ndarray[np.float64_t, ndim=1] x_arr = np.ascontiguousarray(x_f16, dtype=np.float64)
  *     cdef np.ndarray[np.float64_t, ndim=1] u_arr = np.ascontiguousarray(u_ref, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -19075,7 +19075,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_v_u_arr = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "aerobench/highlevel/f16_model.pyx":21
+  /* "aerobench/f16_model.pyx":21
  *     cdef np.ndarray[np.float64_t, ndim=1] x_arr = np.ascontiguousarray(x_f16, dtype=np.float64)
  *     cdef np.ndarray[np.float64_t, ndim=1] u_arr = np.ascontiguousarray(u_ref, dtype=np.float64)
  *     cdef np.ndarray[np.float64_t, ndim=1] xd_arr = np.zeros(16, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -19130,7 +19130,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_v_xd_arr = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "aerobench/highlevel/f16_model.pyx":22
+  /* "aerobench/f16_model.pyx":22
  *     cdef np.ndarray[np.float64_t, ndim=1] u_arr = np.ascontiguousarray(u_ref, dtype=np.float64)
  *     cdef np.ndarray[np.float64_t, ndim=1] xd_arr = np.zeros(16, dtype=np.float64)
  *     cdef np.ndarray[np.float64_t, ndim=1] u_rad_arr = np.zeros(7, dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -19185,7 +19185,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_v_u_rad_arr = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "aerobench/highlevel/f16_model.pyx":24
+  /* "aerobench/f16_model.pyx":24
  *     cdef np.ndarray[np.float64_t, ndim=1] u_rad_arr = np.zeros(7, dtype=np.float64)
  * 
  *     cdef double[::1] x_view = x_arr             # <<<<<<<<<<<<<<
@@ -19197,7 +19197,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "aerobench/highlevel/f16_model.pyx":25
+  /* "aerobench/f16_model.pyx":25
  * 
  *     cdef double[::1] x_view = x_arr
  *     cdef double[::1] u_view = u_arr             # <<<<<<<<<<<<<<
@@ -19209,7 +19209,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "aerobench/highlevel/f16_model.pyx":26
+  /* "aerobench/f16_model.pyx":26
  *     cdef double[::1] x_view = x_arr
  *     cdef double[::1] u_view = u_arr
  *     cdef double[::1] xd_view = xd_arr             # <<<<<<<<<<<<<<
@@ -19221,7 +19221,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "aerobench/highlevel/f16_model.pyx":27
+  /* "aerobench/f16_model.pyx":27
  *     cdef double[::1] u_view = u_arr
  *     cdef double[::1] xd_view = xd_arr
  *     cdef double[::1] u_rad_view = u_rad_arr             # <<<<<<<<<<<<<<
@@ -19233,7 +19233,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "aerobench/highlevel/f16_model.pyx":33
+  /* "aerobench/f16_model.pyx":33
  *     cdef double Ny_r
  * 
  *     controlled_f16(&x_view[0], &u_view[0], &xd_view[0], &u_rad_view[0], &Nz, &ps, &Ny_r)             # <<<<<<<<<<<<<<
@@ -19282,7 +19282,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   }
   controlled_f16((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x_view.data) + __pyx_t_9)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_u_view.data) + __pyx_t_11)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_xd_view.data) + __pyx_t_12)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_u_rad_view.data) + __pyx_t_13)) )))), (&__pyx_v_Nz), (&__pyx_v_ps), (&__pyx_v_Ny_r));
 
-  /* "aerobench/highlevel/f16_model.pyx":35
+  /* "aerobench/f16_model.pyx":35
  *     controlled_f16(&x_view[0], &u_view[0], &xd_view[0], &u_rad_view[0], &Nz, &ps, &Ny_r)
  * 
  *     return xd_arr, u_rad_arr, Nz, ps, Ny_r             # <<<<<<<<<<<<<<
@@ -19315,7 +19315,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
   __pyx_t_7 = 0;
   goto __pyx_L0;
 
-  /* "aerobench/highlevel/f16_model.pyx":11
+  /* "aerobench/f16_model.pyx":11
  * 
  * 
  * def controlled_f16_wrapper(np.ndarray[np.float64_t, ndim=1] x_f16,             # <<<<<<<<<<<<<<
@@ -19342,7 +19342,7 @@ static PyObject *__pyx_pf_9aerobench_9highlevel_9f16_model_controlled_f16_wrappe
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_x_f16.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_xd_arr.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("aerobench.highlevel.f16_model.controlled_f16_wrapper", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("aerobench.f16_model.controlled_f16_wrapper", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -19492,7 +19492,7 @@ static PyType_Slot __pyx_type___pyx_array_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_array_spec = {
-  "aerobench.highlevel.f16_model.array",
+  "aerobench.f16_model.array",
   sizeof(struct __pyx_array_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_SEQUENCE,
@@ -19526,7 +19526,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "aerobench.highlevel.f16_model.""array", /*tp_name*/
+  "aerobench.f16_model.""array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -19671,7 +19671,7 @@ static PyType_Slot __pyx_type___pyx_MemviewEnum_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
-  "aerobench.highlevel.f16_model.Enum",
+  "aerobench.f16_model.Enum",
   sizeof(struct __pyx_MemviewEnum_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -19681,7 +19681,7 @@ static PyType_Spec __pyx_type___pyx_MemviewEnum_spec = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "aerobench.highlevel.f16_model.""Enum", /*tp_name*/
+  "aerobench.f16_model.""Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -19948,7 +19948,7 @@ static PyType_Slot __pyx_type___pyx_memoryview_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryview_spec = {
-  "aerobench.highlevel.f16_model.memoryview",
+  "aerobench.f16_model.memoryview",
   sizeof(struct __pyx_memoryview_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC,
@@ -19982,7 +19982,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "aerobench.highlevel.f16_model.""memoryview", /*tp_name*/
+  "aerobench.f16_model.""memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -20125,7 +20125,7 @@ static PyType_Slot __pyx_type___pyx_memoryviewslice_slots[] = {
   {0, 0},
 };
 static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
-  "aerobench.highlevel.f16_model._memoryviewslice",
+  "aerobench.f16_model._memoryviewslice",
   sizeof(struct __pyx_memoryviewslice_obj),
   0,
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC|Py_TPFLAGS_SEQUENCE,
@@ -20135,7 +20135,7 @@ static PyType_Spec __pyx_type___pyx_memoryviewslice_spec = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "aerobench.highlevel.f16_model.""_memoryviewslice", /*tp_name*/
+  "aerobench.f16_model.""_memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -20841,13 +20841,13 @@ __Pyx_RefNannySetupContext("PyInit_f16_model", 0);
   if (__Pyx_InitConstants(__pyx_mstate) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   stringtab_initialized = 1;
   if (__Pyx_InitGlobals() < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__pyx_module_is_main_aerobench__highlevel__f16_model) {
+  if (__pyx_module_is_main_aerobench__f16_model) {
     if (PyObject_SetAttr(__pyx_m, __pyx_mstate_global->__pyx_n_u_name_2, __pyx_mstate_global->__pyx_n_u_main) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "aerobench.highlevel.f16_model")) {
-      if (unlikely((PyDict_SetItemString(modules, "aerobench.highlevel.f16_model", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "aerobench.f16_model")) {
+      if (unlikely((PyDict_SetItemString(modules, "aerobench.f16_model", __pyx_m) < 0))) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   /*--- Builtin init code ---*/
@@ -21356,7 +21356,7 @@ __Pyx_RefNannySetupContext("PyInit_f16_model", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Enum, __pyx_t_4) < (0)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "aerobench/highlevel/f16_model.pyx":2
+  /* "aerobench/f16_model.pyx":2
  * # cython: language_level=3
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
@@ -21368,14 +21368,14 @@ __Pyx_RefNannySetupContext("PyInit_f16_model", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_4) < (0)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "aerobench/highlevel/f16_model.pyx":11
+  /* "aerobench/f16_model.pyx":11
  * 
  * 
  * def controlled_f16_wrapper(np.ndarray[np.float64_t, ndim=1] x_f16,             # <<<<<<<<<<<<<<
  *                             np.ndarray[np.float64_t, ndim=1] u_ref):
  *     """Call the C controlled_f16 implementation and return numpy outputs."""
 */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_9highlevel_9f16_model_1controlled_f16_wrapper, 0, __pyx_mstate_global->__pyx_n_u_controlled_f16_wrapper, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_highlevel_f16_model, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_9aerobench_9f16_model_1controlled_f16_wrapper, 0, __pyx_mstate_global->__pyx_n_u_controlled_f16_wrapper, NULL, __pyx_mstate_global->__pyx_n_u_aerobench_f16_model, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_4);
@@ -21383,7 +21383,7 @@ __Pyx_RefNannySetupContext("PyInit_f16_model", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_controlled_f16_wrapper, __pyx_t_4) < (0)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "aerobench/highlevel/f16_model.pyx":1
+  /* "aerobench/f16_model.pyx":1
  * # cython: language_level=3             # <<<<<<<<<<<<<<
  * import numpy as np
  * cimport numpy as np
@@ -21401,7 +21401,7 @@ __Pyx_RefNannySetupContext("PyInit_f16_model", 0);
   __Pyx_XDECREF(__pyx_t_5);
   if (__pyx_m) {
     if (__pyx_mstate->__pyx_d && stringtab_initialized) {
-      __Pyx_AddTraceback("init aerobench.highlevel.f16_model", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init aerobench.f16_model", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     #if !CYTHON_USE_MODULE_STATE
     Py_CLEAR(__pyx_m);
@@ -21415,7 +21415,7 @@ __Pyx_RefNannySetupContext("PyInit_f16_model", 0);
     }
     #endif
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init aerobench.highlevel.f16_model");
+    PyErr_SetString(PyExc_ImportError, "init aerobench.f16_model");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -21523,25 +21523,25 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 8; } index[] = {{2},{68},{35},{54},{37},{60},{24},{52},{26},{34},{29},{33},{45},{22},{15},{179},{37},{30},{32},{1},{1},{1},{1},{1},{8},{5},{6},{38},{15},{23},{25},{7},{6},{2},{6},{35},{9},{30},{50},{39},{34},{8},{21},{20},{32},{22},{24},{30},{37},{25},{5},{8},{4},{2},{20},{8},{15},{3},{29},{15},{17},{18},{4},{1},{9},{17},{18},{22},{5},{8},{5},{15},{6},{9},{5},{5},{7},{6},{7},{8},{12},{2},{10},{5},{13},{5},{8},{8},{7},{4},{10},{4},{8},{4},{7},{2},{5},{3},{4},{3},{2},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{12},{10},{12},{19},{5},{4},{5},{4},{4},{6},{8},{5},{9},{10},{5},{6},{6},{6},{6},{1},{5},{5},{6},{6},{7},{5},{204},{1}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (1407 bytes) */
-const char* const cstring = "BZh91AY&SYz\024[\367\000\000\237\177\377\367\315,\021\377\347\375_\277\243\377\200\277\377\377\360@@@@@@@@@@@@@\000@\000P\005,B{X!R\"\252\263\204\250&B\236\22355?4Jx\247\232(\315G\2442\000\032\00022\003\324\365=&z\247\251\247\215(E@\003@44\320\310\001\240\0314hhh\0004\006\200\000\000\032d$\323Bj0\200)\342M\242\001\243\3111=@\000\000\r\007\250\032h4\034\0004\006\201\240\001\246\231\000\006\2152\0004d\301\001\210\000\001)\250L\200\020\231O&Dd\031\003F\232\r\0004\000\000\000\000\003!\364!\024\235\032\nS\252\241(JQ\t\257C\365Xi\032\233d\254=\024\rG\036S\230\372\013\346~\263\366\365~\337\200\254\365E\335\010xq\247\\W\032\205\225\t#\251\305<\353\320\260^\025[\374t\300'\210\374\252\26291\356\377=\217\004W^;~\275n\271\264\t\320\035W<\204g.\235\307\356\\\342${\232|X\343B(^\332\010qm/\343\244\237\025n\311Z\245=\3023r\235\300\201/\251\366=\032\337\202\264M\256\2358(\334\242\241\202\356\206+xx\266\230\004\362\225\325\225c'\232Y`P\363\013W\3556e\252\207\324\266W\032\224\204\225;q\323\213O\027\273Y\202.\247\014\311A\006-|\261\300^\2749?=\332\302>6 \277\317q\372\014-\300\313V\355\341\315c\267\014\303\247/?\221\265\345\221n\222\262\3138\372\314\312\306\230\3430t\262+m\376u\227v\224Y\276\233\224\231\313\0003gy`/Z\220\333\234\360\335\303\264\375\027\211\236\027N@\216x\253\3005\303\206)R:mC+\026\341\030@pbK\301\020]!\333\005\252E\010\241a\252\360\210,*l\212T\204\224\365\321\271]\317\245\222\255F\337\3178\274y\360\305\355\347j\231?_\342\262l\237X\\\306\357\026\322v\005\006\372\336\004\275\260\351\023l\034\327:0\206\342b<wmN&$)1\0178\\\304\007)J\221\024\33277\r\322\314{F\241Q\200\312\202\000<7\313\211OO>\236\245\216\245\251\205`,i\275# fL\230\370/\013\236\343\352\r\255\277\"\243r\356\270\305\230d3A\026qA\203\260,:\344\240\213\263\214\302\020\262\177)\336\274\317\251\256c\034\210'\026\003\007E\205\220LX\217Y\323\205\004\007\247\007N\034\276~!\317eosv\204o\320\227v\334\272.\331v\350Zx\257'\005Q\215&DY*\023tT\007\275d[\310@$J\275\325l\333\3225\332]\032\324\014\036\264\216\207\n\014\235""\270'#sh\037\320,\230\3476a\302F\262C:dnl\271\tB7\277K@\247\273-\204\2570\273J\312/\223pRP\300j3P\206\244\320\215\007\351Z\027\356\321-\255w\023HF6/\n\363\337\023\245\261\205\364S\254bg\277b\241\352'#<\210\005\014f\025\200\211\t\353\006\034\243\330\316\261\231\3779\362@\304\346$sRBLM\254]Ha3MRc\005H#\027\275&+\2018\345\2660i \232P0\354\201P\"\361\017\265\257\007\277r\225\351\021Gnf\241\366\006\206/\272f\325P\014\022\016:\322\226\230\236\327\231\n\013+*\227G\\\351\314\027L\316\261\254v6\302\244D\215\335K:\260,\"CC\354\206\271\232[\0323\267\035\314\254/\271\022\n}\347x\000\244M\303\375\240\256\214\032a\273\246\366\003\236\315D\200\240\262\304\211-p\240\322bx\227\244\204\204JqD'\032P{\017\265M\247\232\2628`\024\241\254\266\005\205\026\301\266r$\233DA\362'\037\231\3258\035\261\r\341\341!\257\266l\302\201K\334L\016+fq\014\265\202BCUv\202\214\201T\346>M\020\232|\254\216S\221z)\\\231\212\036J\326\355\373]\257(\274\r\366\034]\251\364\205\021b\322w\220-\312\355\255\201\221\210\3302\3100\277\006-4\260j\331;\262\337\301\340m0D\002\203'\022C\263XqjCH\"\211\n\3544SH\016A\227\315\".\233^8\327r2.\275\260h{>\026\rfF\2620uCZ\316.(EtO\266\310r3)Q\203\232\202\032Ne\267Ad\014l\031\211\201R\244\263p\035\263vv{_Y\355\303\013L\271\t\r\031\334I\207\323\312\235\353\024Lb\221{\032\214[p+\310\323r\266q\214qp\356\033\232\310\322\346\2455\232\360\004\275]J\203\207\217\217\376\320,\005\013\351\354\017\360\210\3247\363\342\327A\266\352\357-\275\332a\277\326\246\001S-\344y\213\014\327\032\256\036\354\306\253Qk\024` \024\220\036\000D\236e\253\202\035\275\223\362\035\223:\000 i\341pA\326\244r\036\326,\306\247\322\310\340\021\301\204 D-\021\014\244\033*\213\217'\347\021\224\315\354)\344\344\316x\014\303[I\247w>\377\367{\242\232(\217A\253R\327\327\370xd\341lQ6\366\226L5\243a\325\261\243U[c\207[@\033\207\326`\363\3602\0208\301Z\251G\361w$S\205\t\007\241E\277p";
-    PyObject *data = __Pyx_DecompressString(cstring, 1407, 2);
+    const struct { const unsigned int length: 8; } index[] = {{2},{68},{35},{54},{37},{60},{24},{52},{26},{34},{29},{33},{45},{22},{15},{179},{37},{30},{32},{1},{1},{1},{1},{1},{8},{23},{5},{6},{15},{23},{25},{7},{6},{2},{6},{35},{9},{30},{50},{39},{34},{8},{21},{20},{32},{22},{24},{30},{37},{25},{5},{8},{4},{2},{20},{8},{15},{3},{19},{15},{17},{18},{4},{1},{9},{17},{18},{22},{5},{8},{5},{15},{6},{9},{5},{5},{7},{6},{7},{8},{12},{2},{10},{5},{13},{5},{8},{8},{7},{4},{10},{4},{8},{4},{7},{2},{5},{3},{4},{3},{2},{14},{11},{10},{19},{14},{12},{10},{17},{13},{8},{12},{10},{12},{19},{5},{4},{5},{4},{4},{6},{8},{5},{9},{10},{5},{6},{6},{6},{6},{1},{5},{5},{6},{6},{7},{5},{204},{1}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (1395 bytes) */
+const char* const cstring = "BZh91AY&SY\027\3774\002\000\000\235\377\377\367\315,\021\377\347\375_\277\243\377\200\277\377\377\360@@@@@@@@@@@@@\000@\000P\005\0130\223\330\033nI\n\273\266\tPL\200\232jm2#\024\364\362\221\262\214\207\2504\320\000\006F@i\352zL\365M4\360\325\004\241\001\rS\364E<\206\247\251\241\240hh\000\014\232\000\000\001\241\240\000\003M\002&\215M\023\021\241\251=\2516\223@=G\250\031\000\000\000\001\240\000h8\000h\r\003@\003M2\000\r\032d\000h\311\202\003\020\000\002T\312j\233\3256S\324\r\003\315S \000\003 \003@\000\000\000\001\241\246c\376\204\"\243\2479Rt\352\022\204\245\017\225\347wU\226\222)\266\210\207!y\250\342\312s\037A|\316\334_V\307\317l\2346\037.s\036\332Gq\363\244\317\275d\252\246\314Ik\332\305\303m\264\355\374F\201Y\337\277U\320n\207\320\376{]\347\256\334\265z\265\245\023@\215\001\226\271\334>p\312\314?b\307!\003\332\342\3762\312H\222\326\320C\013q7$\301\375\353K\255\252U\250\0376*\314\003\211uN\261\311\026\353\321B\330\323\242\2321Q\250`\274\001\216\366\327\016\263\000\2731\032\262\254e\333\223L\362\207\030k\335d\373*\241\326F5)\013z\247\305=\321i\341\367VS\017S\202\342P=\216\276Y\0360\341.'\347\273\020\217\215\227\266y\357;A\264\332Y\257z\366\326k=\267\356\023\3350\273\310\330\346\266\271\355\304\262\326\347U\231X\323rB\231y\025\266\357:\314\032\312-l\246\375GAd\006X\310\260\027Z\220\211\372\316\235GKu\340\"9\331X\200\375\267\25385\307\235\346\244y\326\223\013\222s\214\\0/\005\234\207,\252;\200\245H\222$\240\327\200R\n\n\233)U\227U5\311\376\364VW\002\022\230\222\330\377\333\304\202\316YW\337\300M\236\262\021\223\177\034\215\006\3768\307\220\n\014\213p\022\344\023J\235\200\231\263M ?y0\236\033\363\334\023\n\024\230G'\027px\314@\227\023\021\217\245H\322#\267\312'\221\026\205\322\003@\200.S\n\035W\313>5\205\220\266\300\027)\335\002\340\304\030/\356`\026z|\301\247W\201e8r0\311\020\\f\241J0\221\213 (;\360T)da\230P\353v\360\231\253\331mb\210_\241B\260\260\030\262\224\026P\250P\216\353+\005r\003O7^<<|\230\364\256\356\317\210\037\226IfN:=6\323\220qo\300\234V\243*\304\007""\262\254\223G\250r\037\005\271O\001\000\221+\203-,\233\240l\2642\232\324\014Z\262\376k\005s\005\206FR\343\372\005\025\016\210\313V\2418\212\004X#\257\305R\ty\315\265\357\006\273w\\SH\342]\227\303M\023\264I~\302%HC\345\364\227\314\351\260\026w\347v\252T1\321$\310$\010\257H\323\307\212\322\337\202\202T-x\226)\206K\3344&\260\220H\301\007\t\002\014z[\017\251,\346\226j\301\306z\"\004\240\214p\003@\332\366(/b\004\3131(1q\030\345q\212A\004\314\204\034 \230>\301\356\324\305s\254\335F|\361\361ro\322+\326*\206\027\303:\2741H5\327$\264\205r`L\245\305\261\352\352\2330\n\301\032\211F\310\227MG\300\321\306\325\232\n\203\340\021\333c\245\021!2\224d\341D[\014(\244\202\255\310\314\340\025Rh?\331\025\321\212C\247\236p@:l\222\252\004\213.DAJ\002\351D\025\221\244\222\t\004Jb\304&$\236\344\035U\206m:\021\306\360\265D\320\253\315\002\312\2755\215\025L\361\007H\230\3563\\\300\332\317\355\216\t\t\205a\230W\226\271\210\003\024Da\372t\001 \224\030\234\367\2148\300\306\243o\225W\212\356B8\033\226\225\205\350\314I\350\255i\313jl\273\340\006\376d\035\270\362\304\251B\216w()\301\223b\003\003!\264^\341\006\030\241H\233\004\255\225\231\027\227\026q\245\002\220\n\204V\020C\"Xo\326\243\210\021*\242\273L\254K\206 \303f\252E\"\330\016\302\365M\006zSV\366F{\204\277\032^^\327\tTb\362\305)d\371\250\243)\231ef.\203\014c[\3254\205F\025\371K\3048\251X(\234\307Q\246vkaX\356:\013D\"\220\206j\302\210\032\335Uc\256&Qd`\206\242\025\274\027\0026\336\265\230\205(\341\316\023V\326X\311#\034\213=\330\245oJ\246\227\260`\2562\000jWj\223BG%0\275-)\014\212\212B9\025\260\030h\201\241\023\023q\016\2222K\"\204\t!A\223lX9\200\321\025T4\312\345\021/\226t\257rm/\207,!PP\307\235\302\213\221\240o\216\354\034k\264\226\030LM\256\010M!b\240~a\353\n\207\213\223\363\214\312f\366\025q\361\364\036\0030\326\324h\335\350\356\177rt\325E\022g4\351Z\372\377\r\373|\r\206\026\341\320\313\203Z5\3750g\323\253l\234\237\327\347-\032\2436+,B~\350u\305\177\305\334\221N\024$\005\377\315\000\200";
+    PyObject *data = __Pyx_DecompressString(cstring, 1395, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (1255 bytes) */
-const char* const cstring = "x\332}U;o\0347\020\266\002Y1\220 @\220T)\022\312\211s6`\255}\216 \030\211\242\300\321#P\021Y\266\034\245$\270\313\331;\332\\r\305\307\351\326\225K\225*\257T\351R\345\225W^\251R\245~\202\177B\206\334\275\207,#\305\362\270\334\231\341|\337|3\367+y&%\341\242\000e\205V\226\224\0062\340Buf\207\344\036'\205\267\216\244@\204\342\320\007N\230\342DiG\254\024h\376\247\317s0\244'\340\230p\r6~\202~\251-\020\353\214\340`7\231\"Z\311\212d\006\230\003\302HZ;\271.sDX\222i\345D\307ko\361\022R@\241M\225\240W\010\305\254\025\035E\234&\350\314Wb\234\332\"\\\331\0305\201\217\215p,\225\320\030\324I\345F\027\377\347\033a\221c\341\272\304U%\220Vs\356\014S6\302\230\271\324f\350!\220*7\307\335\326<a\242&\2416\332.JW\021\333e\030\332\371\022\223\313\265!Y\345\272Z%\314\030V\355\306\004\264wD\347$\325^qK\356\263>F\271\307\037\354\336\274\253&\337\227\2456\016\370\256\3521)\260J\232\303\303@<\032c\221ZY\213\340=-\274,\000i=$\035\364\232\030\327\351 \327\361\232\365\277#\300\303\000\020S\330\323He,\315f\3142\340\341 E\n\006IF\nCY\361\222X?E\366\267\367WV\237\256FY\030x\215\327[\314.\315$V\016\345\0200y!\035^\026\350\265\t\331\315I\245=Q\200ibYK\264\233wp]P\304\202\013\033\322\212\265`\016qStGm\266\032^E\017\202\367\016\223\026\222\347\327\310\303\224\033\201\261,\003;a\363\300AI\nVE\376P\317o\301\350\031\321\377\250\250\034\014\211j\354\201Aa8(\302\273N\003\250d\243\365\340\017\3069U\201\236\000\226 C\217\373\031\362\376\210a\250\024T\326}\324\025\235\256\204\036\310Gy{\215\206\242\310\244\254\320J\312\2204\226/ai\266>\247\370\020\252\206\264\361\361\361Dh\033\\\330\220\035\304\034;\031\271\037\212\331\211\032\0138C\313B\337\201r\261\201f\335+l\355\302\003\026+\336\002Y\377\235<\276\241@\245\261\3009\363\322\021J\rp\237\001\245\204\373H\207\322j\005\013\336\023L\342\327L(\341(U\276(\253\204f\332@R\240\237\210qH\316\204\254\253*\212 \317y3_0\354\235\217-\032v7,\310<Q\254\200I\367\354i\005\353\365\000\341\3278\272y\026\204>\245\352\332\367\351\251GXy=\311\272\014\225#Au0\233U?\255:\223Rgq:E$\2349""\226|\342k\3359!v3\334\222>\305J\337\014\335^{v\260\271\273\273-\245(\255\260{\0255{o)\335\257\372\370la\377\320=,\331K\310\017\340\310\243t \264_2\353DT\311TU\311TU\311TU\223\214h-ufg\332\211\010\230\255T&t\202\334\343h\021\nl\312,dX\301\320g\224N6\035pA\034\341\025\215\250\300>3,\203\224eoBD\023\204\313\003DzlXY\202\311\260\311P\001<@\240<\364t\\\250\260\264\256%f\214\t\002\326>\016\0140F\233\\\262\216\315\245fnm\025\325\207Rh\006\023\245\271WYH\007\023\261.\000\242\202\343\023\325\201\277a8\206\330S\034\265\224\033=SZ0L\231\342\210\016\36390C\003?^\342o\220\323t\305\246\300\025\216q)\243,1\331\022A\226\272,\221\016\354Q\232u!{c}Q\2775\311\204m\304\027w^\225\"{\203\301\267\325\304\256\027\377r\002\202#\317d}\333\254\213\246\273\272\337\346\016\020\026n;\302\342$\245\024\007^\223)\356\232f\214\373&\215\271\375$R\224b \001\217\r~\203\322:\215\217\361\2412\016\217)\365\024\305\200\342g|\266\tD\305~\360\365V\005\032|\211\212\007\374w\360`\373\375`\034u\335\217&\375\350\335\257]\303\330\264\357\026>,\335\272}\347\235?\3319\375\361\364\305\345\235\257N^\017\026\006__.~~\343\354j\361\311\371\335\213\325\235\021\033\035\217\363\213W\207\027\207\377^~\362\354\227\363'\347\207\303\366pk\2644J\307\013\227\213k\347\351pi\310\206v\364\363\370\263\361\362\325\342\367\003vY/?\014\216.\027\357\236-\177\370\362\326\355oN\227O\333\247;\203\345\301\352\340\350l\351\214\235\271\367\355\367\177\235\267\317\267\206\013\303\357F\355\321\326xa\374\355\370\305\230_\274<\2708xu\265\370\305\311\323\323\337\006\374\354\2473\366\374?\226{z\222";
-    PyObject *data = __Pyx_DecompressString(cstring, 1255, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (1241 bytes) */
+const char* const cstring = "x\332}U=o\0347\020\265\002Y1\220 @\220T)\034\312\211s6`m|\216 \030\211\242\300\261\244@Ed\331r\224\222\340.g\357hq\311\025?\244]U.]\252\274R\245K\225W^y\245J\225\376\t\376\t\031r\367>l\031)\226\307\345\316\014\337\274y3\367+y\"%\341\242\000e\205V\226\224\0062\340B\365f\207\344.'\205\267\216\244@\204\342P\001'Lq\242\264#V\n4\377\323\3479\030r,\340\204p\r6~\202\252\324\026\210uFp\260O\231\"Z\311\232d\006\230\003\302H\3328\271>sDX\222i\345D\317ko\361\022R@\241M\235\240W\010\305\254\025=E\234&\350\314Wb\234\306\"\\\331\032\265\201O\214p,\225\320\0324\240r\243\213\377\363\215i\221\023\341\372\304\325%\220N{\356\014S6\2461si\314\320C Un\216\273\315y\302DCBc\264U\224\256&\266\3170\264\363%\202\313\265!Y\355\372Z%\314\030V\357D\000\332;\242s\222j\257\270%\367X\205Q\356\362\373;\327\357j\310\367e\251\215\003\276\243\216\231\024X%\315\341A \036\215\261H\235\254C\360\236\016^\026\022\351< =\364\232\0307p\220\353x\315\372\3371\301\203\220 B\330\325He,\315\323\2102\344\303A\212\024\014\222\214\024\206\262\342%\261~\212\354m\355\255\254>^\215\2620\360\n\257\267\210.\315$V\016\345\020r\362B:\274,\320k\023\262\223\223Z{\242\000abYK\264\233wp}P\304\202\013\033\322\211\265`\016\363\246\350\216\332\354\264\274\212c\010\336\333LZH\236}@\036Bn\005\306\262\014\354\204\315}\007%)X\035\371C=\237\202\3213\242\377QQ9\030\022\325x\014\006\205\341\240\010\357:\rI%\033\235\373\1770\316)z\003C\327\024T\326\3779\357\256\321@\275L\312\272\212\034\020$\356a\225i)\003J\254W\302\322l}N\342\301\250\311a\343\343\343\211\2626\270\260\001\016DP\275\214\334\013\325\353EQ\205\304B\217B\345@\271\3301\263v\025\266q\341\001\274\025\247@\326\177'\017\257INi\254h\316\274t\204R\003\334g@)\341>\346\257\264Z\301\n\037\013&\361k&\224p\224*_\224uB3m )\320O\3048$gB6e\024E\320\343\274\231/\0306\313\307\026-\235\033\026d\236(V\300\244]v\265\202\365fb\360\0178\272~\026\224=\245\352\203\357\323S\217i\345\315\350\3523\224\212\004\325C4\253~Zf&\245\316\3428\212\231p\346X\362\211\257M\253\204\330\3554K*\212E\277\036\272""\273\366d\377\351\316\316\226\224\242\264\302\356\326\324\354\236R\272WW\370lb\303\320],\331\013\310\367\341\310\243v \364[2k=T\311TV\311TV\023\034\264Q4\2633\305D\334\314\326*\023:A\306q\202\010\0056e\0262\254[h'J'\233\036\270 \211\360\212FT`;\031\226A\312\262\303\020\321\004\271\362\220\030=1\254,\301d\330KXw\036\200S\036Z7.TX\332T\020q\"@\300\212\307\271\000\306h\223K\326\263\271\324\314\255\255\242\346P\000\355\374\2414\367*\013p\020\210u!!*8>Q\023\370\033f`\210=\315\243\021p\253bJ\013\206\220)N\3420\206\00334\360\343%\376\006\021MWl\005\\\341\004\2272\212\021\301\226\230d\251\313\022\351\300&\245Y\037\262C\353\213\346\255\005\023\2661\277\270\363\252\024\331!\006\337R\023\273\343\370\317\02228\362L6\267\315zg\272k\272l\356\000\323\302mOX\034\230\224\342\\k\221\342\256m\301\270oa\314\355'\221\242\000\003\txl\360\033\224\326i|\214\017\225qxL\251\247(\006\224<\343\263M *v\201o\266*\320\340K\3249\340\237\200\007[U\3018\252\271\212&U\364\256\032\3270\035\355\353\205\367K7n\336z\355\337l\237\375p\366\374\352\326Wo^\r\026\006__-~~\355\354\335\342\243\213;\227\253\333#6:\031\347\227/\017.\017\376\275\372\344\331/\027\217.\016\206\335\341\346hi\224\216\027\256\026\327.\322\341\322\220\r\355\350\247\361g\343\345w\213\267\007\354\252Y\276\037\034]-\3369_~\377\345\215\233\337\234-\237u\317\266\007\313\203\325\301\321\371\3229;wo\273o\377\272\350^l\016\027\206\337\215\272\243\315\361\302\370\333\361\3631\277|\261\177\271\377\362\335\342\027o\036\237\3756\340\347?\236\263g\377\001_\000p\373";
+    PyObject *data = __Pyx_DecompressString(cstring, 1241, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (2313 bytes) */
-const char* const bytes = ": All dimensions preceding dimension %d must be indexed and not slicedBuffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndex out of bounds (axis %d)Indirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Step may not be zero (axis %d)Unable to convert item to object.>')?add_note and  at 0xcode/aerobench/highlevel/f16_model.pyxcollections.abc<contiguous and direct><contiguous and indirect>disableenablegc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__numpy._core.multiarray failed to importnumpy._core.umath failed to import object>self.name is not None<strided and direct><strided and direct or indirect><strided and indirect>u_ref must have length 4unable to allocate array data.unable to allocate shape and strides.x_f16 must have length 16ASCIIEllipsisNy_rNz__Pyx_PyDict_NextRefSequenceView.MemoryViewabcaerobench.highlevel.f16_modelallocate_bufferascontiguousarrayasyncio.coroutinesbasec__class____class_getitem__cline_in_tracebackcontrolled_f16_wrappercount__dict__dtypedtype_is_objectencodeenumerateerrorflagsfloat64formatfortran__func____getstate__id__import__index_is_coroutineitemsitemsize__main__memviewmode__module__name__name__ndim__new__npnumpyobjpackpopps__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname____reduce____reduce_cython____reduce_ex__register__set_name__setdefault__setstate____setstate_cython__shapesizestartst""epstopstruct__test__u_arru_rad_arru_rad_viewu_refu_viewunpackupdatevaluesxx_arrx_f16x_viewxd_arrxd_viewzeros\200\001\360\006\000\005\010\200u\210F\220#\220Q\330\010\016\210j\230\001\230\021\330\004\007\200u\210F\220#\220Q\330\010\016\210j\230\001\230\021\340\0042\260\"\3204F\300a\300w\310f\320TV\320VW\330\0042\260\"\3204F\300a\300w\310f\320TV\320VW\330\0043\2602\260V\2701\270D\300\006\300b\310\001\330\0046\260b\270\006\270a\270s\300&\310\002\310!\340\004\036\230a\330\004\036\230a\330\004\037\230q\330\004\"\240!\360\014\000\005\023\220!\2201\220F\230!\2304\230q\240\006\240a\240t\2501\250G\2601\260D\270\001\270\032\3001\300D\310\001\310\024\310Q\310d\320RS\320ST\340\004\013\2108\220;\230d\240$\240aO";
+    #else /* compression: none (2288 bytes) */
+const char* const bytes = ": All dimensions preceding dimension %d must be indexed and not slicedBuffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndex out of bounds (axis %d)Indirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.Out of bounds on buffer access (axis Step may not be zero (axis %d)Unable to convert item to object.>')?add_noteaerobench/f16_model.pyx and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenablegc (got got differing extents in dimension isenableditemsize <= 0 for cython.arrayno default __reduce__ due to non-trivial __cinit__numpy._core.multiarray failed to importnumpy._core.umath failed to import object>self.name is not None<strided and direct><strided and direct or indirect><strided and indirect>u_ref must have length 4unable to allocate array data.unable to allocate shape and strides.x_f16 must have length 16ASCIIEllipsisNy_rNz__Pyx_PyDict_NextRefSequenceView.MemoryViewabcaerobench.f16_modelallocate_bufferascontiguousarrayasyncio.coroutinesbasec__class____class_getitem__cline_in_tracebackcontrolled_f16_wrappercount__dict__dtypedtype_is_objectencodeenumerateerrorflagsfloat64formatfortran__func____getstate__id__import__index_is_coroutineitemsitemsize__main__memviewmode__module__name__name__ndim__new__npnumpyobjpackpopps__pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname____reduce____reduce_cython____reduce_ex__register__set_name__setdefault__setstate____setstate_cython__shapesizestartstepstopstruct__test__u_arr""u_rad_arru_rad_viewu_refu_viewunpackupdatevaluesxx_arrx_f16x_viewxd_arrxd_viewzeros\200\001\360\006\000\005\010\200u\210F\220#\220Q\330\010\016\210j\230\001\230\021\330\004\007\200u\210F\220#\220Q\330\010\016\210j\230\001\230\021\340\0042\260\"\3204F\300a\300w\310f\320TV\320VW\330\0042\260\"\3204F\300a\300w\310f\320TV\320VW\330\0043\2602\260V\2701\270D\300\006\300b\310\001\330\0046\260b\270\006\270a\270s\300&\310\002\310!\340\004\036\230a\330\004\036\230a\330\004\037\230q\330\004\"\240!\360\014\000\005\023\220!\2201\220F\230!\2304\230q\240\006\240a\240t\2501\250G\2601\260D\270\001\270\032\3001\300D\310\001\310\024\310Q\310d\320RS\320ST\340\004\013\2108\220;\230d\240$\240aO";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
@@ -21638,7 +21638,7 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   {
     const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 13, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 11};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_x_f16, __pyx_mstate->__pyx_n_u_u_ref, __pyx_mstate->__pyx_n_u_x_arr, __pyx_mstate->__pyx_n_u_u_arr, __pyx_mstate->__pyx_n_u_xd_arr, __pyx_mstate->__pyx_n_u_u_rad_arr, __pyx_mstate->__pyx_n_u_x_view, __pyx_mstate->__pyx_n_u_u_view, __pyx_mstate->__pyx_n_u_xd_view, __pyx_mstate->__pyx_n_u_u_rad_view, __pyx_mstate->__pyx_n_u_Nz, __pyx_mstate->__pyx_n_u_ps, __pyx_mstate->__pyx_n_u_Ny_r};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_code_aerobench_highlevel_f16_mod, __pyx_mstate->__pyx_n_u_controlled_f16_wrapper, __pyx_mstate->__pyx_kp_b_iso88591_uF_Q_j_uF_Q_j_2_4FawfTVVW_2_4Fa, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_aerobench_f16_model_pyx, __pyx_mstate->__pyx_n_u_controlled_f16_wrapper, __pyx_mstate->__pyx_kp_b_iso88591_uF_Q_j_uF_Q_j_2_4FawfTVVW_2_4Fa, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;

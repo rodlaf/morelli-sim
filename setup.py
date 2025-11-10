@@ -46,15 +46,15 @@ raylib_includes, raylib_lib_dirs, raylib_libs = get_raylib_config()
 
 extensions = [
     Extension(
-        name="code.aerobench.highlevel.f16_model",
-        sources=["code/aerobench/highlevel/f16_model.pyx"],
-        include_dirs=["code/aerobench/highlevel", np.get_include()],
+        name="aerobench.f16_model",
+        sources=["aerobench/f16_model.pyx"],
+        include_dirs=["aerobench", np.get_include()],
         language="c",
     ),
     Extension(
-        name="code.aerobench.visualize.raylib_renderer_cy",
-        sources=["code/aerobench/visualize/raylib_renderer_cy.pyx"],
-        include_dirs=["code/aerobench/visualize"] + raylib_includes,
+        name="aerobench.raylib_renderer_cy",
+        sources=["aerobench/raylib_renderer_cy.pyx"],
+        include_dirs=["aerobench"] + raylib_includes,
         library_dirs=raylib_lib_dirs,
         libraries=raylib_libs,
         language="c",
