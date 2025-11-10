@@ -11,8 +11,7 @@ from math import pi, atan2, sqrt, sin, cos, asin
 import numpy as np
 from numpy import deg2rad, rad2deg
 
-from aerobench.f16_waypoint import F16Waypoint
-from aerobench.util import StateIndex
+from aerobench.f16_waypoint import F16Waypoint, StateIndex
 
 
 class AutopilotAgent:
