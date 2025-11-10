@@ -311,8 +311,8 @@ def main():
     
     # Create environment with continuous waypoint generation
     env = F16Waypoint(
-        step_size=1/120,  # Fine-grained simulation steps
-        time_limit=300.0,  # Longer time limit for continuous task
+        step_size=1/30,  # Fine-grained simulation steps
+        time_limit=100.0,  # Longer time limit for continuous task
         extended_states=True,
         random_seed=None  # Set to int for reproducibility
     )

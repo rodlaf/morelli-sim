@@ -42,18 +42,17 @@ class F16Waypoint:
     ALTITUDE_MAX = 100000.0  # ft
     
     # Waypoint generation parameters
-    WAYPOINT_DISTANCE_MIN = 10000.0  # ft from current position
-    WAYPOINT_DISTANCE_MAX = 30000.0  # ft from current position
+    WAYPOINT_DISTANCE_MIN = 12000.0  # ft from current position
+    WAYPOINT_DISTANCE_MAX = 13000.0  # ft from current position
     WAYPOINT_ALT_MIN = 2000.0  # ft
-    WAYPOINT_ALT_MAX = 8000.0  # ft
+    WAYPOINT_ALT_MAX = 4000.0  # ft
     
     # Waypoint capture radius
     WAYPOINT_CAPTURE_RADIUS = 500.0  # ft
     
     def __init__(self, 
-                 initial_state: np.ndarray = None,
-                 step_size: float = 1/60,
-                 time_limit: float = 200.0,
+                 step_size,
+                 time_limit,
                  extended_states: bool = True,
                  random_seed: int = None):
         """
@@ -73,12 +72,8 @@ class F16Waypoint:
         self.time_limit = time_limit
         self.extended_states = extended_states
         
-        # Generate single random waypoint
-        self.waypoint = self._generate_waypoint()
-        
         # Generate or use provided initial state
-        if initial_state is None:
-            initial_state = self._generate_initial_state()
+        initial_state = self._generate_initial_state()
         
         # State management
         num_vars = len(get_state_names()) + 3  # num integrators
@@ -91,6 +86,7 @@ class F16Waypoint:
         self.state = None
         self.time = None
         self.integrator = None
+        self.waypoint = None  # Will be set in reset()
         
         # History tracking
         self.times = []
@@ -106,36 +102,31 @@ class F16Waypoint:
         self.integrator_class = Euler
         self.wall_time_start = None
     
-    def _generate_waypoint(self, current_pos: np.ndarray = None) -> np.ndarray:
+    def _generate_waypoint(self) -> np.ndarray:
         """
-        Generate a random waypoint at specified distance and altitude.
+        Generate a random waypoint at specified distance from current aircraft position.
         
-        Args:
-            current_pos: Current [east, north, altitude] position (waypoint if just captured)
-            
         Returns:
             New waypoint [east, north, altitude]
         """
-        if current_pos is None:
-            # Initial waypoint - random position
-            current_pos = np.array([0.0, 0.0, 0.0])
+        # Get current aircraft position (or origin if no state yet)
+        if self.state is not None:
+            pos_e = self.state[StateIndex.POSE]
+            pos_n = self.state[StateIndex.POSN]
+        else:
+            pos_e = 0.0
+            pos_n = 0.0
         
         # Random distance and direction (horizontal plane)
         distance = np.random.uniform(self.WAYPOINT_DISTANCE_MIN, self.WAYPOINT_DISTANCE_MAX)
         angle = np.random.uniform(0, 2 * np.pi)
         
-        # Calculate new position
-        delta_east = distance * np.cos(angle)
-        delta_north = distance * np.sin(angle)
-        altitude = np.random.uniform(self.WAYPOINT_ALT_MIN, self.WAYPOINT_ALT_MAX)
+        # Calculate new position relative to current aircraft position
+        waypoint_e = pos_e + distance * np.cos(angle)
+        waypoint_n = pos_n + distance * np.sin(angle)
+        waypoint_alt = np.random.uniform(self.WAYPOINT_ALT_MIN, self.WAYPOINT_ALT_MAX)
         
-        waypoint = np.array([
-            current_pos[0] + delta_east,
-            current_pos[1] + delta_north,
-            altitude
-        ])
-        
-        return waypoint
+        return np.array([waypoint_e, waypoint_n, waypoint_alt])
     
     def _generate_initial_state(self) -> np.ndarray:
         """Generate a reasonable initial state for F-16"""
@@ -204,11 +195,11 @@ class F16Waypoint:
         
     def reset(self, initial_time: float = 0.0) -> Tuple[np.ndarray, Dict[str, Any]]:
         """Reset to initial state and generate new waypoint"""
-        # Generate new random waypoint
-        self.waypoint = self._generate_waypoint()
-        
         self.state = self.initial_state.copy()
         self.time = initial_time
+        
+        # Generate waypoint based on current state (after reset)
+        self.waypoint = self._generate_waypoint()
         
         self.times = [self.time]
         self.states = [self.state.copy()]
@@ -302,10 +293,8 @@ class F16Waypoint:
         ])
         
         if distance < self.WAYPOINT_CAPTURE_RADIUS:
-            # Waypoint reached, generate new one at minimum distance from OLD waypoint
-            old_waypoint = self.waypoint.copy()
-            self.waypoint = self._generate_waypoint(old_waypoint)
-            return False  # Don't terminate, continue with new waypoint
+            # Waypoint reached - episode complete (success termination)
+            return True
         
         return False
     
