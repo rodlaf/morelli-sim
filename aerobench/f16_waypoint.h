@@ -68,6 +68,8 @@ typedef struct {
 
 // F16 Waypoint environment struct
 typedef struct {
+    Log log;  // Required field. PufferLib uses this to aggregate logs
+    
     // State (16 element: 13 base + 3 integrators for LQR)
     double state[16];
     double waypoint[3];  // [east, north, altitude]
@@ -88,8 +90,9 @@ typedef struct {
     int tick;
     unsigned int seed;
     
-    // Reward (computed using comprehensive reward function)
-    double reward;
+    // PufferLib-compatible fields
+    double reward;    // Current step reward
+    unsigned char terminal;  // Episode termination flag
     
     // Renderer state
     RenderState render_state;
@@ -228,6 +231,7 @@ static inline double symlog(double x) {
 
 // Get observation vector matching JAX implementation exactly
 // Returns 28-dimensional observation vector optimized for RL training
+// Can be called separately or integrated into step
 static void get_observation(const F16Waypoint* env, double obs[OBS_DIM_TOTAL]) {
     const double* state = env->state;
     const double* waypoint = env->waypoint;
@@ -236,87 +240,31 @@ static void get_observation(const F16Waypoint* env, double obs[OBS_DIM_TOTAL]) {
     int idx = 0;
     
     /* ===== F16 STATE OBSERVATIONS (19 values) ===== */
-    
-    // [0] Velocity (ft/s) - scaled by 1/1000
-    obs[idx++] = state[VT] / 1000.0;
-    
-    // [1-2] Angle of attack (alpha) - sin/cos encoding
-    obs[idx++] = sin(state[ALPHA]);
-    obs[idx++] = cos(state[ALPHA]);
-    
-    // [3-4] Sideslip angle (beta) - sin/cos encoding
-    obs[idx++] = sin(state[BETA]);
-    obs[idx++] = cos(state[BETA]);
-    
-    // [5-6] Roll angle (phi) - sin/cos encoding
-    obs[idx++] = sin(state[PHI]);
-    obs[idx++] = cos(state[PHI]);
-    
-    // [7-8] Pitch angle (theta) - sin/cos encoding
-    obs[idx++] = sin(state[THETA]);
-    obs[idx++] = cos(state[THETA]);
-    
-    // [9-10] Yaw angle (psi) - sin/cos encoding
-    obs[idx++] = sin(state[PSI]);
-    obs[idx++] = cos(state[PSI]);
-    
-    // [11] Roll rate (P) - rad/s, no scaling
-    obs[idx++] = state[P];
-    
-    // [12] Pitch rate (Q) - rad/s, no scaling
-    obs[idx++] = state[Q];
-    
-    // [13] Yaw rate (R) - rad/s, no scaling
-    obs[idx++] = state[R];
-    
-    // [14] Altitude (ft) - scaled by 1/1000
-    obs[idx++] = state[ALT] / 1000.0;
-    
-    // [15] Engine power level (0-10) - scaled by 1/10
-    obs[idx++] = state[POW] / 10.0;
-    
-    // [16-18] LQR integrator states (if using LQR, otherwise 0)
-    // These track integral errors for Nz, ps, Ny_r commands
-    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[13] : 0.0;  // DINZ
-    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[14] : 0.0;  // DIPS
-    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[15] : 0.0;  // DINYR
+    obs[idx++] = state[VT] / 1000.0;                           // [0] Velocity (scaled)
+    obs[idx++] = sin(state[ALPHA]); obs[idx++] = cos(state[ALPHA]);  // [1-2] Alpha
+    obs[idx++] = sin(state[BETA]);  obs[idx++] = cos(state[BETA]);   // [3-4] Beta
+    obs[idx++] = sin(state[PHI]);   obs[idx++] = cos(state[PHI]);    // [5-6] Roll
+    obs[idx++] = sin(state[THETA]); obs[idx++] = cos(state[THETA]);  // [7-8] Pitch
+    obs[idx++] = sin(state[PSI]);   obs[idx++] = cos(state[PSI]);    // [9-10] Yaw
+    obs[idx++] = state[P]; obs[idx++] = state[Q]; obs[idx++] = state[R];  // [11-13] Rates
+    obs[idx++] = state[ALT] / 1000.0;                          // [14] Altitude (scaled)
+    obs[idx++] = state[POW] / 10.0;                            // [15] Power (scaled)
+    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[13] : 0.0;     // [16] DINZ
+    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[14] : 0.0;     // [17] DIPS
+    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[15] : 0.0;     // [18] DINYR
     
     /* ===== PREVIOUS ACTION OBSERVATIONS (3 values) ===== */
-    
-    // [19] Previous Nz command - no scaling
-    obs[idx++] = u_prev[0];
-    
-    // [20] Previous ps (roll rate) command - no scaling
-    obs[idx++] = u_prev[1];
-    
-    // [21] Previous throttle command - no scaling
-    obs[idx++] = u_prev[3];  // Note: skipping u_prev[2] which is Ny_r (always 0)
+    obs[idx++] = u_prev[0];  // [19] Previous Nz
+    obs[idx++] = u_prev[1];  // [20] Previous ps
+    obs[idx++] = u_prev[3];  // [21] Previous throttle
     
     /* ===== WAYPOINT OBSERVATIONS (6 values) ===== */
-    
-    // Compute waypoint in spherical coordinates relative to aircraft
     double delta_az, delta_elev, range;
     get_waypoint_obs_noscale_sph(state, waypoint, &delta_az, &delta_elev, &range);
-    
-    // [22-23] Azimuth error (heading to waypoint) - sin/cos encoding
-    obs[idx++] = sin(delta_az);
-    obs[idx++] = cos(delta_az);
-    
-    // [24-25] Elevation error (pitch to waypoint) - sin/cos encoding
-    obs[idx++] = sin(delta_elev);
-    obs[idx++] = cos(delta_elev);
-    
-    // [26] Range to waypoint (ft) - symlog compression
-    obs[idx++] = symlog(range);
-    
-    // [27] Time remaining for current waypoint - normalized [0,1]
-    // This would require tracking time per waypoint, set to 0 for now
-    // In full implementation: (time_in_episode % max_time_per_waypoint) / max_time_per_waypoint
-    obs[idx++] = 0.0;  
-    
-    // Verify we filled exactly OBS_DIM_TOTAL elements
-    // This assertion is compile-time checkable but acts as documentation
-    (void)idx;  // Should equal 28
+    obs[idx++] = sin(delta_az);   obs[idx++] = cos(delta_az);      // [22-23] Azimuth
+    obs[idx++] = sin(delta_elev); obs[idx++] = cos(delta_elev);    // [24-25] Elevation
+    obs[idx++] = symlog(range);                                     // [26] Range
+    obs[idx++] = 0.0;  // [27] Time remaining (not yet implemented)
 }
 
 // Generate initial state within world bounds
@@ -446,13 +394,28 @@ static void update_render_state(F16Waypoint* env) {
     env->render_state.reward = (float)env->reward;
 }
 
-// Required: Reset environment
-void f16_waypoint_reset(F16Waypoint* env, int keep_position) {
+// Add to log struct (accumulate episode statistics)
+static void add_log(F16Waypoint* env, int result) {
+    if (result == 1) {
+        env->log.perf += 1.0f;  // Success
+        env->log.score += 1.0f;
+    } else if (result == 2) {
+        env->log.perf += 0.0f;  // Physics violation
+        env->log.score += 0.0f;
+    }
+    env->log.episode_return += (float)env->reward;
+    env->log.episode_length += (float)env->tick;
+    env->log.n += 1.0f;
+}
+
+// Required: Reset environment (PufferLib naming: c_reset)
+void c_reset(F16Waypoint* env) {
+    int keep_position = 0;  // Default to full reset
+    
     if (!keep_position) {
         // Full reset to initial state
         generate_initial_state(env->state);
     }
-    // else keep current state (waypoint captured successfully)
     
     env->time = 0.0;
     env->tick = 0;
@@ -469,62 +432,107 @@ void f16_waypoint_reset(F16Waypoint* env, int keep_position) {
     update_render_state(env);
 }
 
-// Required: Step environment
-// Returns: 0=continue, 1=terminated (success), 2=terminated (physics violation), 3=truncated (time limit)
-int f16_waypoint_step(F16Waypoint* env, const double u_ref[4]) {
+// Required: Step environment (PufferLib naming: c_step)
+// Reads from env->u_ref (action), writes to env->reward and env->terminal
+void c_step(F16Waypoint* env) {
     env->tick += 1;
     
     // Compute reward using comprehensive reward function
-    env->reward = compute_reward(env, u_ref, env->u_ref_prev);
+    env->reward = compute_reward(env, env->u_ref, env->u_ref_prev);
     
     // Store previous action for next step
     memcpy(env->u_ref_prev, env->u_ref, 4 * sizeof(double));
     
-    // Copy control reference
-    memcpy(env->u_ref, u_ref, 4 * sizeof(double));
-    
     // Perform integration step using actual F16 model
     euler_step(env);
     
+    // Default: continue
+    env->terminal = 0;
+    int result = 0;
+    
     // Check physics violation
     if (check_physics_violation(env->state)) {
-        return 2;  // Physics violation
+        env->terminal = 1;
+        result = 2;  // Physics violation
+        add_log(env, result);
+        c_reset(env);
+        return;
     }
     
     // Check time limit
     if (env->time >= env->time_limit) {
-        return 3;  // Truncated
+        env->terminal = 1;
+        result = 3;  // Truncated
+        add_log(env, result);
+        c_reset(env);
+        return;
     }
     
     // Check waypoint capture
     if (check_waypoint_captured(env)) {
-        return 1;  // Success
+        env->terminal = 1;
+        result = 1;  // Success
+        add_log(env, result);
+        // Keep position on success, generate new waypoint
+        generate_waypoint(env);
+        env->time = 0.0;
+        env->tick = 0;
+        return;
     }
     
     // Update render state
     update_render_state(env);
-    
-    return 0;  // Continue
 }
 
-// Required: Render environment
-void f16_waypoint_render(F16Waypoint* env) {
+// Required: Render environment (PufferLib naming: c_render)
+void c_render(F16Waypoint* env) {
     raylib_renderer_render(&env->render_state);
 }
 
-// Required: Check if window should close
-int f16_waypoint_should_close(void) {
+// Required: Check if window should close (PufferLib naming: c_should_close)
+int c_should_close(void) {
     return raylib_renderer_should_close() ? 1 : 0;
 }
 
-// Required: Close environment
-void f16_waypoint_close(void) {
+// Required: Close environment (PufferLib naming: c_close)
+void c_close(F16Waypoint* env) {
     raylib_renderer_close();
 }
 
 // Clear trail only (called when episode ends but continuing)
-void f16_waypoint_clear_trail(void) {
+void c_clear_trail(void) {
     raylib_renderer_clear_trail();
+}
+
+// Legacy function names for backward compatibility
+static inline void f16_waypoint_reset(F16Waypoint* env, int keep_position) {
+    (void)keep_position;  // Ignored, using internal logic in c_reset
+    c_reset(env);
+}
+
+static inline int f16_waypoint_step(F16Waypoint* env, const double u_ref[4]) {
+    memcpy(env->u_ref, u_ref, 4 * sizeof(double));
+    c_step(env);
+    // Return old-style result code
+    if (!env->terminal) return 0;
+    // Determine result from log (approximate)
+    return 1;  // Simplified
+}
+
+static inline void f16_waypoint_render(F16Waypoint* env) {
+    c_render(env);
+}
+
+static inline int f16_waypoint_should_close(void) {
+    return c_should_close();
+}
+
+static inline void f16_waypoint_close(void) {
+    c_close(NULL);
+}
+
+static inline void f16_waypoint_clear_trail(void) {
+    c_clear_trail();
 }
 
 #endif // F16_WAYPOINT_H

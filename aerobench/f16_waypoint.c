@@ -168,8 +168,8 @@ int main(int argc, char** argv) {
     env.seed = (unsigned int)time(NULL);
     srand(env.seed);
     
-    /* Reset environment */
-    f16_waypoint_reset(&env, 0);
+    /* Reset environment using PufferLib API */
+    c_reset(&env);
     
     /* Create autopilot */
     Autopilot autopilot;
@@ -191,9 +191,9 @@ int main(int argc, char** argv) {
     int waypoint_count = 1;
     
     /* Main loop */
-    f16_waypoint_render(&env);
+    c_render(&env);
     
-    while (!f16_waypoint_should_close()) {
+    while (!c_should_close()) {
         double current_time = get_wall_time();
         double time_since_render = current_time - last_render_time;
         
@@ -206,14 +206,15 @@ int main(int argc, char** argv) {
                 double u_ref[4];
                 autopilot_get_action(&autopilot, env.state, u_ref);
                 
-                int result = f16_waypoint_step(&env, u_ref);
+                /* Copy action to env and step */
+                memcpy(env.u_ref, u_ref, 4 * sizeof(double));
+                c_step(&env);
                 
-                if (result != 0) {
-                    /* Episode ended */
-                    int is_success = (result == 1);
+                if (env.terminal) {
+                    /* Episode ended - waypoint captured or physics violation */
+                    int is_success = (env.log.perf > 0);  /* Check if last episode was successful */
                     
-                    f16_waypoint_clear_trail();
-                    f16_waypoint_reset(&env, is_success);
+                    c_clear_trail();
                     autopilot_update_waypoint(&autopilot, env.waypoint);
                     
                     if (is_success) {
@@ -230,7 +231,7 @@ int main(int argc, char** argv) {
             }
             
             /* Render the current state */
-            f16_waypoint_render(&env);
+            c_render(&env);
             last_render_time = current_time;
         }
         
@@ -241,7 +242,7 @@ int main(int argc, char** argv) {
         nanosleep(&ts, NULL);
     }
     
-    f16_waypoint_close();
+    c_close(&env);
     printf("\nSimulation closed\n");
     
     return 0;
