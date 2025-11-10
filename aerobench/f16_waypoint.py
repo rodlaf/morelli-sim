@@ -1,124 +1,151 @@
-"""
-F16 Waypoint Environment - Python wrapper using C implementation
+"""F16 Waypoint Environment - PufferLib-compatible vectorized environment
 
 All simulation logic is in f16_waypoint.h (calls f16_model.h and raylib_renderer.h).
-This is just a thin Gymnasium-compatible Python interface.
+This is a thin PufferLib wrapper over the C binding.
 """
 
+import gymnasium
 import numpy as np
-from typing import Tuple, Dict, Any
-from aerobench import f16_waypoint_cy
+
+import pufferlib
+from aerobench import binding
 
 
-class StateIndex:
-    """State variable indices"""
-    VT = VEL = 0
-    ALPHA = 1
-    BETA = 2
-    PHI = 3
-    THETA = 4
-    PSI = 5
-    P = 6
-    Q = 7
-    R = 8
-    POSN = POS_N = 9
-    POSE = POS_E = 10
-    ALT = H = 11
-    POW = 12
-
-
-class F16Waypoint:
-    """F16 Waypoint environment - thin wrapper over C implementation"""
+class F16Waypoint(pufferlib.PufferEnv):
+    """F16 Waypoint navigation environment with vectorization support"""
     
-    def __init__(self, step_size=1/30, time_limit=100.0, extended_states=True, random_seed=None):
-        """Initialize environment"""
-        self.step_size = step_size
-        self.time_limit = time_limit
-        self.extended_states = extended_states
+    def __init__(self, num_envs=1, render_mode=None, log_interval=128, 
+                 step_size=1/30, time_limit=100.0, buf=None, seed=0):
+        """Initialize F16 Waypoint environment
         
-        # Create C environment via Cython
-        self._c_env = f16_waypoint_cy.F16WaypointEnv(
-            step_size=step_size,
-            time_limit=time_limit,
-            random_seed=random_seed or 0
+        Args:
+            num_envs: Number of parallel environments
+            render_mode: Rendering mode (unused, kept for compatibility)
+            log_interval: Steps between logging episode statistics
+            step_size: Simulation timestep in seconds (default: 1/30)
+            time_limit: Episode time limit in seconds (default: 100.0)
+            buf: Optional pre-allocated buffer (PufferLib internal)
+            seed: Random seed
+        """
+        # Observation: 28D continuous (see OBSERVATION_SPACE.md)
+        # [0-18] F16 state (sin/cos angles, velocities, rates, altitudes)
+        # [19-21] Previous actions (Nz, ps, Ny_r)
+        # [22-27] Waypoint in spherical coordinates
+        self.single_observation_space = gymnasium.spaces.Box(
+            low=-np.inf, high=np.inf, shape=(28,), dtype=np.float32
         )
-    
-    def reset(self, keep_position=False) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """Reset environment"""
-        return self._c_env.reset(keep_position=keep_position)
-    
-    def step(self, u_ref: np.ndarray) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
-        """Step environment"""
-        return self._c_env.step(u_ref)
-    
+        
+        # Action: 4D continuous
+        # [0] Nz: Normal acceleration command (G's)
+        # [1] ps: Roll rate command (rad/s)
+        # [2] Ny_r: Lateral acceleration command (G's)
+        # [3] throttle: Engine throttle (0-1)
+        self.single_action_space = gymnasium.spaces.Box(
+            low=np.array([-2.0, -3.0, -1.0, 0.0], dtype=np.float32),
+            high=np.array([6.0, 3.0, 1.0, 1.0], dtype=np.float32),
+            dtype=np.float32
+        )
+        
+        self.render_mode = render_mode
+        self.num_agents = num_envs
+        self.log_interval = log_interval
+        
+        # Initialize PufferEnv base class (allocates buffers)
+        super().__init__(buf)
+        
+        # Initialize C environments
+        self.c_envs = binding.vec_init(
+            self.observations, self.actions, self.rewards,
+            self.terminals, self.truncations, num_envs, seed,
+            step_size=step_size, time_limit=time_limit
+        )
+ 
+    def reset(self, seed=0):
+        """Reset all environments
+        
+        Args:
+            seed: Random seed for reset
+            
+        Returns:
+            observations: Initial observations for all environments
+            infos: Empty list (populated during steps)
+        """
+        binding.vec_reset(self.c_envs, seed)
+        self.tick = 0
+        return self.observations, []
+
+    def step(self, actions):
+        """Step all environments
+        
+        Args:
+            actions: Action array of shape (num_envs, 4)
+            
+        Returns:
+            observations: Next observations
+            rewards: Rewards for each environment
+            terminals: Terminal flags
+            truncations: Truncation flags
+            infos: List of info dicts (includes logs at log_interval)
+        """
+        self.tick += 1
+
+        self.actions[:] = actions
+        binding.vec_step(self.c_envs)
+
+        info = []
+        if self.tick % self.log_interval == 0:
+            info.append(binding.vec_log(self.c_envs))
+
+        return (self.observations, self.rewards,
+            self.terminals, self.truncations, info)
+
     def render(self):
-        """Render"""
-        self._c_env.render()
-    
-    def should_close_window(self) -> bool:
-        """Check if window should close"""
-        return self._c_env.should_close_window()
-    
-    def close_window(self):
-        """Close window"""
-        self._c_env.close_window()
-    
-    def clear_trail(self):
-        """Clear trail"""
-        self._c_env.clear_trail()
-    
-    @property
-    def state(self):
-        """Get current state"""
-        return self._c_env.state
-    
-    @property
-    def waypoint(self):
-        """Get current waypoint"""
-        return self._c_env.waypoint
-    
-    @property
-    def time(self):
-        """Get current time"""
-        return self._c_env.time
+        """Render environment 0 (for visualization during training)"""
+        binding.vec_render(self.c_envs, 0)
+
+    def close(self):
+        """Close all environments and free resources"""
+        binding.vec_close(self.c_envs)
 
 
 if __name__ == '__main__':
-    """Speed test for F16 Waypoint environment"""
+    """Speed test for vectorized F16 Waypoint environment"""
     import time
     
-    print("F16 Waypoint Speed Test")
-    print("=" * 50)
+    N = 1024  # Number of parallel environments
     
-    # Create environment
-    env = F16Waypoint(step_size=1/30, time_limit=100.0, random_seed=42)
-    state, info = env.reset()
+    print("F16 Waypoint Vectorized Speed Test")
+    print("=" * 50)
+    print(f"Environments: {N}")
+    
+    env = F16Waypoint(num_envs=N, step_size=1/30, time_limit=100.0, seed=42)
+    env.reset()
+    
+    steps = 0
     
     # Pre-generate random actions for consistent testing
     CACHE = 1024
-    actions = np.random.uniform(-1, 1, (CACHE, 4))
-    actions[:, 0] = np.clip(actions[:, 0] * 2 + 1, -1, 4)  # Nz: -1 to 4
-    actions[:, 1] = actions[:, 1] * 0.5  # ps: -0.5 to 0.5
-    actions[:, 2] = actions[:, 2] * 0.1  # Ny_r: -0.1 to 0.1
-    actions[:, 3] = np.clip(actions[:, 3] * 0.5 + 0.5, 0, 1)  # throttle: 0 to 1
+    actions = np.random.uniform(
+        low=[-2.0, -3.0, -1.0, 0.0],
+        high=[6.0, 3.0, 1.0, 1.0],
+        size=(CACHE, N, 4)
+    ).astype(np.float32)
     
-    steps = 0
     i = 0
-    
-    print(f"Running for 5 seconds...")
     start = time.time()
-    while time.time() - start < 5:
-        state, reward, terminated, truncated, info = env.step(actions[i % CACHE])
-        steps += 1
+    print("Running for 10 seconds...")
+    
+    while time.time() - start < 10:
+        env.step(actions[i % CACHE])
+        steps += N
         i += 1
-        
-        if terminated or truncated:
-            state, info = env.reset(keep_position=(info.get('termination_reason') == 'success'))
     
     elapsed = time.time() - start
     sps = int(steps / elapsed)
     
-    print(f"Steps: {steps}")
+    print(f"Total steps: {steps:,}")
     print(f"Time: {elapsed:.2f}s")
-    print(f"F16 Waypoint SPS: {sps}")
+    print(f"F16 Waypoint SPS: {sps:,}")
     print("=" * 50)
+    
+    env.close()

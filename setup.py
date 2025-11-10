@@ -44,8 +44,9 @@ def get_raylib_config():
 
 raylib_includes, raylib_lib_dirs, raylib_libs = get_raylib_config()
 
-# Single extension - f16_waypoint_cy which includes everything
-# It uses f16_waypoint.h which includes f16_model.h and raylib_renderer.h
+# Extensions:
+# 1. f16_waypoint_cy - Cython wrapper for Python interface
+# 2. binding - PufferLib C binding for vectorized training
 extensions = [
     Extension(
         name="aerobench.f16_waypoint_cy",
@@ -55,6 +56,19 @@ extensions = [
         libraries=raylib_libs,
         language="c",
         extra_compile_args=["-std=c99"],  # Ensure C99 support
+    ),
+    Extension(
+        name="aerobench.binding",
+        sources=["aerobench/binding.c"],
+        include_dirs=[
+            ".",  # For env_binding.h in project root
+            "aerobench",
+            np.get_include(),
+        ] + raylib_includes,
+        library_dirs=raylib_lib_dirs,
+        libraries=raylib_libs + ['m'],  # Add math library
+        language="c",
+        extra_compile_args=["-std=c11", "-O3"],  # C11 for better compatibility
     )
 ]
 

@@ -70,6 +70,12 @@ typedef struct {
 typedef struct {
     Log log;  // Required field. PufferLib uses this to aggregate logs
     
+    // PufferLib interface (pointers to numpy arrays)
+    void* observations;  // Pointer to observation buffer
+    void* actions;       // Pointer to action buffer
+    void* rewards;       // Pointer to reward buffer
+    void* terminals;     // Pointer to terminal buffer
+    
     // State (16 element: 13 base + 3 integrators for LQR)
     double state[16];
     double waypoint[3];  // [east, north, altitude]
@@ -232,7 +238,8 @@ static inline double symlog(double x) {
 // Get observation vector matching JAX implementation exactly
 // Returns 28-dimensional observation vector optimized for RL training
 // Can be called separately or integrated into step
-static void get_observation(const F16Waypoint* env, double obs[OBS_DIM_TOTAL]) {
+// Note: Uses float for PufferLib compatibility (observations are float32)
+static void get_observation(const F16Waypoint* env, float obs[OBS_DIM_TOTAL]) {
     const double* state = env->state;
     const double* waypoint = env->waypoint;
     const double* u_prev = env->u_ref_prev;
@@ -240,31 +247,31 @@ static void get_observation(const F16Waypoint* env, double obs[OBS_DIM_TOTAL]) {
     int idx = 0;
     
     /* ===== F16 STATE OBSERVATIONS (19 values) ===== */
-    obs[idx++] = state[VT] / 1000.0;                           // [0] Velocity (scaled)
-    obs[idx++] = sin(state[ALPHA]); obs[idx++] = cos(state[ALPHA]);  // [1-2] Alpha
-    obs[idx++] = sin(state[BETA]);  obs[idx++] = cos(state[BETA]);   // [3-4] Beta
-    obs[idx++] = sin(state[PHI]);   obs[idx++] = cos(state[PHI]);    // [5-6] Roll
-    obs[idx++] = sin(state[THETA]); obs[idx++] = cos(state[THETA]);  // [7-8] Pitch
-    obs[idx++] = sin(state[PSI]);   obs[idx++] = cos(state[PSI]);    // [9-10] Yaw
-    obs[idx++] = state[P]; obs[idx++] = state[Q]; obs[idx++] = state[R];  // [11-13] Rates
-    obs[idx++] = state[ALT] / 1000.0;                          // [14] Altitude (scaled)
-    obs[idx++] = state[POW] / 10.0;                            // [15] Power (scaled)
-    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[13] : 0.0;     // [16] DINZ
-    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[14] : 0.0;     // [17] DIPS
-    obs[idx++] = (NUM_STATE_VARS >= 16) ? state[15] : 0.0;     // [18] DINYR
+    obs[idx++] = (float)(state[VT] / 1000.0);                           // [0] Velocity (scaled)
+    obs[idx++] = (float)sin(state[ALPHA]); obs[idx++] = (float)cos(state[ALPHA]);  // [1-2] Alpha
+    obs[idx++] = (float)sin(state[BETA]);  obs[idx++] = (float)cos(state[BETA]);   // [3-4] Beta
+    obs[idx++] = (float)sin(state[PHI]);   obs[idx++] = (float)cos(state[PHI]);    // [5-6] Roll
+    obs[idx++] = (float)sin(state[THETA]); obs[idx++] = (float)cos(state[THETA]);  // [7-8] Pitch
+    obs[idx++] = (float)sin(state[PSI]);   obs[idx++] = (float)cos(state[PSI]);    // [9-10] Yaw
+    obs[idx++] = (float)state[P]; obs[idx++] = (float)state[Q]; obs[idx++] = (float)state[R];  // [11-13] Rates
+    obs[idx++] = (float)(state[ALT] / 1000.0);                          // [14] Altitude (scaled)
+    obs[idx++] = (float)(state[POW] / 10.0);                            // [15] Power (scaled)
+    obs[idx++] = (NUM_STATE_VARS >= 16) ? (float)state[13] : 0.0f;     // [16] DINZ
+    obs[idx++] = (NUM_STATE_VARS >= 16) ? (float)state[14] : 0.0f;     // [17] DIPS
+    obs[idx++] = (NUM_STATE_VARS >= 16) ? (float)state[15] : 0.0f;     // [18] DINYR
     
     /* ===== PREVIOUS ACTION OBSERVATIONS (3 values) ===== */
-    obs[idx++] = u_prev[0];  // [19] Previous Nz
-    obs[idx++] = u_prev[1];  // [20] Previous ps
-    obs[idx++] = u_prev[3];  // [21] Previous throttle
+    obs[idx++] = (float)u_prev[0];  // [19] Previous Nz
+    obs[idx++] = (float)u_prev[1];  // [20] Previous ps
+    obs[idx++] = (float)u_prev[3];  // [21] Previous throttle
     
     /* ===== WAYPOINT OBSERVATIONS (6 values) ===== */
     double delta_az, delta_elev, range;
     get_waypoint_obs_noscale_sph(state, waypoint, &delta_az, &delta_elev, &range);
-    obs[idx++] = sin(delta_az);   obs[idx++] = cos(delta_az);      // [22-23] Azimuth
-    obs[idx++] = sin(delta_elev); obs[idx++] = cos(delta_elev);    // [24-25] Elevation
-    obs[idx++] = symlog(range);                                     // [26] Range
-    obs[idx++] = 0.0;  // [27] Time remaining (not yet implemented)
+    obs[idx++] = (float)sin(delta_az);   obs[idx++] = (float)cos(delta_az);      // [22-23] Azimuth
+    obs[idx++] = (float)sin(delta_elev); obs[idx++] = (float)cos(delta_elev);    // [24-25] Elevation
+    obs[idx++] = (float)symlog(range);                                     // [26] Range
+    obs[idx++] = 0.0f;  // [27] Time remaining (not yet implemented)
 }
 
 // Generate initial state within world bounds
@@ -430,11 +437,25 @@ void c_reset(F16Waypoint* env) {
     
     // Update render state
     update_render_state(env);
+    
+    // Write initial observation to PufferLib buffer
+    if (env->observations) {
+        get_observation(env, (float*)env->observations);
+    }
 }
 
 // Required: Step environment (PufferLib naming: c_step)
-// Reads from env->u_ref (action), writes to env->reward and env->terminal
+// Reads from env->actions buffer, writes to env->rewards, env->terminals, env->observations
 void c_step(F16Waypoint* env) {
+    // Read action from PufferLib buffer
+    if (env->actions) {
+        float* actions = (float*)env->actions;
+        env->u_ref[0] = (double)actions[0];  // Nz
+        env->u_ref[1] = (double)actions[1];  // ps
+        env->u_ref[2] = (double)actions[2];  // Ny_r
+        env->u_ref[3] = (double)actions[3];  // throttle
+    }
+    
     env->tick += 1;
     
     // Compute reward using comprehensive reward function
@@ -455,6 +476,11 @@ void c_step(F16Waypoint* env) {
         env->terminal = 1;
         result = 2;  // Physics violation
         add_log(env, result);
+        
+        // Write reward and terminal to PufferLib buffers before reset
+        if (env->rewards) *((float*)env->rewards) = (float)env->reward;
+        if (env->terminals) *((unsigned char*)env->terminals) = env->terminal;
+        
         c_reset(env);
         return;
     }
@@ -464,6 +490,11 @@ void c_step(F16Waypoint* env) {
         env->terminal = 1;
         result = 3;  // Truncated
         add_log(env, result);
+        
+        // Write reward and terminal to PufferLib buffers before reset
+        if (env->rewards) *((float*)env->rewards) = (float)env->reward;
+        if (env->terminals) *((unsigned char*)env->terminals) = env->terminal;
+        
         c_reset(env);
         return;
     }
@@ -473,15 +504,32 @@ void c_step(F16Waypoint* env) {
         env->terminal = 1;
         result = 1;  // Success
         add_log(env, result);
+        
+        // Write reward and terminal to PufferLib buffers before generating new waypoint
+        if (env->rewards) *((float*)env->rewards) = (float)env->reward;
+        if (env->terminals) *((unsigned char*)env->terminals) = env->terminal;
+        
         // Keep position on success, generate new waypoint
         generate_waypoint(env);
         env->time = 0.0;
         env->tick = 0;
+        
+        // Write new observation after waypoint generation
+        if (env->observations) {
+            get_observation(env, (float*)env->observations);
+        }
         return;
     }
     
     // Update render state
     update_render_state(env);
+    
+    // Write reward, terminal, and observation to PufferLib buffers
+    if (env->rewards) *((float*)env->rewards) = (float)env->reward;
+    if (env->terminals) *((unsigned char*)env->terminals) = env->terminal;
+    if (env->observations) {
+        get_observation(env, (float*)env->observations);
+    }
 }
 
 // Required: Render environment (PufferLib naming: c_render)

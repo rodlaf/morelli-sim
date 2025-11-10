@@ -1,5 +1,6 @@
 # distutils: language = c
 # cython: language_level=3
+# define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
 """
 Cython wrapper for f16_waypoint.h
@@ -33,7 +34,7 @@ cdef extern from "f16_waypoint.h":
     int f16_waypoint_should_close()
     void f16_waypoint_close()
     void f16_waypoint_clear_trail()
-    void get_observation(const F16Waypoint* env, double obs[28])
+    void get_observation(const F16Waypoint* env, float obs[28])
 
 
 
@@ -153,7 +154,7 @@ cdef class F16WaypointEnv:
         - [22-27]: Waypoint info (sin/cos azimuth, sin/cos elevation, symlog range, time)
         """
         cdef int i
-        obs = np.zeros(28, dtype=np.float64)
-        cdef double[::1] obs_view = obs
+        obs = np.zeros(28, dtype=np.float32)
+        cdef float[::1] obs_view = obs
         get_observation(&self.env, &obs_view[0])
         return obs
